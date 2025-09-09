@@ -61,6 +61,7 @@
 body {
   color: #1c365d; /* Use tertiary dark color for default text instead of black */
   font-family: 'Century Gothic', ui-sans-serif, sans-serif;
+  background-color: var(--secondary-blue);
 }
 
 /* Custom primary colors based on company orange #ff801e */

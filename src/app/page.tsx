@@ -1,4 +1,5 @@
 import HeroSection from "@/components/Home/Hero";
+import About from "@/components/Home/About";
 
 export const metadata = {
   title: "LightLives - Empowering Children's Futures",
@@ -10,6 +11,7 @@ export default function Home() {
   return (
     <main>
       <HeroSection />
+      <About />
     </main>
   );
 }
