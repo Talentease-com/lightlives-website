@@ -1,5 +1,6 @@
-import HeroSection from "@/components/Home/Hero";
+import Hero from "@/components/Home/Hero";
 import About from "@/components/Home/About";
+import Impact from "@/components/Home/Impact";
 
 export const metadata = {
   title: "LightLives - Empowering Children's Futures",
@@ -10,8 +11,9 @@ export const metadata = {
 export default function Home() {
   return (
     <main>
-      <HeroSection />
+      <Hero />
       <About />
+      <Impact />
     </main>
   );
 }

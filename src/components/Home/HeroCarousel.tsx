@@ -36,7 +36,7 @@ const HeroCarousel: React.FC<HeroCarouselProps> = ({ items }) => {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 50 }}
             transition={{ duration: 0.6 }}
-            className="bg-white/10 backdrop-blur-sm p-6 rounded-lg border border-white/20"
+            className="bg-white/10 backdrop-blur-sm p-6  border border-white/20"
           >
             <h3 className="text-xl font-semibold mb-3 text-primary-400">
               {items[currentCarousel].title}

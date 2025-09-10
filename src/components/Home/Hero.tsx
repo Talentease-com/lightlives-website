@@ -31,15 +31,15 @@ const HeroSectionSEO = () => {
   return (
     <>
       {/* SEO Meta tags would go in layout.tsx or page.tsx */}
-      <section className="relative h-screen min-h-[700px] overflow-hidden">
+      <section className="relative h-screen min-h-screen overflow-hidden">
         <HeroSlideshow images={backgroundImages} />
 
         {/* Decorative Elements - Behind text, in front of slideshow */}
-        <div className="absolute left-0 top-0 lg:block hidden z-5 h-full w-full overflow-visible">
+        <div className="absolute left-0 top-0 lg:block hidden z-5 h-full w-full">
           {/* Primary colored element (orange) - top/back */}
           <div className="bg-primary absolute -left-32 top-0 w-70 h-full transform -skew-x-12">          </div>
           {/* Tertiary colored element (blue) - bottom/front */}
-          <div className="bg-tertiary absolute -left-24 top-20 w-106 h-full transform -skew-x-12"></div>
+          <div className="bg-tertiary absolute -left-46 top-20 w-130 h-full transform -skew-x-12"></div>
         </div>
 
         {/* <div className="absolute bottom-0 right-0 lg:hidden block z-5 overflow-hidden">

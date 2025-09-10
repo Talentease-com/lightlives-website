@@ -110,7 +110,7 @@ const GlowCard: React.FC<GlowCardProps> = ({
       position: absolute;
       inset: calc(var(--border-size) * -1);
       border: var(--border-size) solid transparent;
-      border-radius: calc(var(--radius) * 1px);
+      // border-radius: calc(var(--radius) * 1px);
       background-attachment: fixed;
       background-size: calc(100% + (2 * var(--border-size))) calc(100% + (2 * var(--border-size)));
       background-repeat: no-repeat;
@@ -144,7 +144,7 @@ const GlowCard: React.FC<GlowCardProps> = ({
       inset: 0;
       will-change: filter;
       opacity: var(--outer, 1);
-      border-radius: calc(var(--radius) * 1px);
+      // border-radius: calc(var(--radius) * 1px);
       border-width: calc(var(--border-size) * 20);
       filter: blur(calc(var(--border-size) * 10));
       background: none;
@@ -168,7 +168,6 @@ const GlowCard: React.FC<GlowCardProps> = ({
         className={`
           ${getSizeClasses()}
           ${!customSize ? 'aspect-[3/4]' : ''}
-          rounded-2xl 
           relative 
           grid 
           grid-rows-[1fr_auto] 

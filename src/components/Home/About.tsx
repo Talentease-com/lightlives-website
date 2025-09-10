@@ -3,13 +3,17 @@ import { GlowCard } from '@/components/ui/spotlight-card';
 
 const About = () => {
   return (
-    <section className="relative z-20 px-4">
-      <div className="max-w-7xl mx-auto -mt-18">
+    <section className="relative z-20">
+      {/* decorative div with a slight rotate (optional) */}
+      <div className="relative overflow-x-clip">
+        {/* <div className="bg-secondary absolute top-9 w-full h-24 transform rotate-[2deg] -z-10 hidden lg:block"></div> */}
+      </div>
+      <div className="max-w-7xl mx-auto -mt-18 px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           {/* Why Card */}
           <GlowCard 
             glowColor="orange" 
-            className="bg-white/20 md:mb-50 backdrop-blur-sm border-primary/20 shadow-lg "
+            className="bg-white/80 md:mb-50 backdrop-blur-sm border-primary/20 shadow-lg "
             customSize={true}
           >
             <div className="h-full flex flex-col">
