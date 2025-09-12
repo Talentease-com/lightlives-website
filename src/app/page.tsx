@@ -1,6 +1,7 @@
 import Hero from "@/components/Home/Hero";
 import About from "@/components/Home/About";
 import Impact from "@/components/Home/Impact";
+import SponsorModal from "@/components/ui/SponsorModal";
 
 export const metadata = {
   title: "LightLives - Empowering Children's Futures",
@@ -11,6 +12,7 @@ export const metadata = {
 export default function Home() {
   return (
     <main>
+      <SponsorModal />
       <Hero />
       <About />
       <Impact />
