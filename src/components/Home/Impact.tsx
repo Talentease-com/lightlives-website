@@ -4,35 +4,24 @@ import Image from 'next/image';
 import AnimatedCounter from './AnimatedCounter';
 import SwooshButton from '../ui/swoosh-button';
 
-const ImpactSection = () => {
-  const stats = [
-    {
-      icon: Users,
-      value: 3.45,
-      format: ` Million+`,
-      label: 'Teacher, Parent, Educator Impact Sessions',
-      description: 'Comprehensive training sessions that empower educators and parents',
-      decimals: 2,
-      usePointer: true
-    },
-    {
-      icon: School,
-      value: 10000,
-      format: `+`,
-      label: 'Schools and Colleges',
-      description: 'Educational institutions partnered with us across the country',
-      decimals: 0,
-    },
-    {
-      icon: Award,
-      value: 100,
-      format: `+`,
-      label: 'Facilitators',
-      description: 'Trained professionals delivering quality education programs',
-      decimals: 0,
-    },
-  ];
+// Define the type for each stat item
+interface ImpactStat {
+  value: number;
+  format: string;
+  label: string;
+  description: string;
+  decimals?: number;
+  usePointer?: boolean;
+  icon: keyof typeof iconMap;
+}
 
+const iconMap = { Users, School, Award };
+
+interface ImpactSectionProps {
+  stats: ImpactStat[];
+}
+
+const ImpactSection: React.FC<ImpactSectionProps> = ({ stats }) => {
   return (
     <section className="py-20 bg-white px-2 sm:px-4 relative overflow-x-clip ">
       {/* Background Design Elements */}
@@ -83,26 +72,18 @@ const ImpactSection = () => {
 
             <div className="space-y-8">
               {stats.map((stat, index) => {
-                const Icon = stat.icon;
+                const Icon = iconMap[stat.icon];
                 return (
-                  <div
-                    key={stat.label}
-                    className={`flex items-start space-x-4 group animate-fade-in-up opacity-0`}
-                    style={{ animationDelay: `${400 + index * 200}ms` }}
-                  >
+                  <div key={stat.label} className={`flex items-start space-x-4 group animate-fade-in-up opacity-0`} style={{ animationDelay: `${400 + index * 200}ms` }}>
                     <div className="bg-primary-100 text-primary p-3 rounded-full group-hover:bg-primary group-hover:text-white transition-all duration-300">
-                      <Icon className="h-6 w-6" />
+                      {Icon ? <Icon className="h-6 w-6" /> : null}
                     </div>
                     <div>
                       <div className="text-3xl font-bold text-tertiary mb-1">
                         <AnimatedCounter value={stat.value} format={stat.format} decimals={stat.decimals} usePointer={stat.usePointer} />
                       </div>
-                      <div className="text-lg font-semibold text-tertiary-700 mb-2">
-                        {stat.label}
-                      </div>
-                      <p className="text-tertiary-500">
-                        {stat.description}
-                      </p>
+                      <div className="text-lg font-semibold text-tertiary-700 mb-2">{stat.label}</div>
+                      <p className="text-tertiary-500">{stat.description}</p>
                     </div>
                   </div>
                 );
@@ -125,20 +106,20 @@ const ImpactSection = () => {
                 className="object-cover hover:scale-110 transition-transform duration-500"
                 sizes="(max-width: 768px) 100vw, 50vw"
               />
-            
-                <svg
+
+              <svg
                 className="absolute top-50 left-1/2 transform -translate-x-1/2"
                 width="620"
                 height="400"
                 viewBox="0 0 620 400"
-                // style={{ transform: 'rotate(45deg)' }}
-                >
+              // style={{ transform: 'rotate(45deg)' }}
+              >
                 <polygon
                   points="500,60 610,190 570,440 0,400 0,220 40,120"
                   fill="#1c365d"
                   strokeWidth="10"
                 />
-                </svg>
+              </svg>
             </div>
             {/* SwooshButton Floating */}
             <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 animate-fade-in-up opacity-0 [animation-delay:800ms]">

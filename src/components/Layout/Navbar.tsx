@@ -89,11 +89,11 @@ const Navbar: React.FC = () => {
       </div>
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-[100px]">
-          {/* Logo - Hidden on lg+ screens when not scrolled, always visible on mobile */}
+          {/* Logo - Hidden on lg+ screens when not scrolled, always visible on mobile, always visible on non-landing pages */}
           <Link href="/" className={`flex items-center transition-opacity duration-300 ${
-            // Show on mobile (< lg) or when scrolled on desktop
-            'lg:opacity-0 lg:pointer-events-none opacity-100' + 
-            (isScrolled ? ' lg:opacity-100 lg:pointer-events-auto' : '')
+            pathname !== '/'
+              ? 'lg:opacity-100 lg:pointer-events-auto opacity-100'
+              : 'lg:opacity-0 lg:pointer-events-none opacity-100' + (isScrolled ? ' lg:opacity-100 lg:pointer-events-auto' : '')
           }`}>
             <div className="w-18 h-18 relative">
               <Image 
@@ -110,16 +110,18 @@ const Navbar: React.FC = () => {
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-4" ref={dropdownRef}>
             {/* Logo positioned above navbar, centered horizontally in orange div */}
-            <div className={`absolute top-16 left-28 transform -translate-x-1/2 transition-opacity duration-300 ${isScrolled ? 'hidden' : 'block'}`}> 
-              <Image
-                src="/light-lives-logo.png"
-                alt="LightLives Logo"
-                width={128}
-                height={128}
-                className="object-contain drop-shadow-xl"
-                priority
-              />
-            </div>
+            {pathname === '/' && (
+              <div className={`absolute top-16 left-28 transform -translate-x-1/2 transition-opacity duration-300 ${isScrolled ? 'hidden' : 'block'}`}> 
+                <Image
+                  src="/light-lives-logo.png"
+                  alt="LightLives Logo"
+                  width={128}
+                  height={128}
+                  className="object-contain drop-shadow-xl"
+                  priority
+                />
+              </div>
+            )}
 
             {navItems.map((item) => (
               <div key={item.label || item.path} className="relative">

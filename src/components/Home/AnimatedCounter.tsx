@@ -18,13 +18,14 @@ const AnimatedCounter: React.FC<AnimatedCounterProps> = ({
   usePointer = false
 }) => {
   const formatFunc = (val: number) => {
-    return `${val}${format}`
+    return `${val}${format}`;
   };
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(Number(value.toFixed(decimals)));
   const [animationDone, setAnimationDone] = useState(false);
 
   useEffect(() => {
     setAnimationDone(false);
+    setCount(0); // Start animation from 0
     const steps = 60;
     const stepDuration = duration / steps;
     let currentStep = 0;
@@ -42,6 +43,7 @@ const AnimatedCounter: React.FC<AnimatedCounterProps> = ({
     return () => clearInterval(timer);
   }, [value, duration, decimals]);
 
+  // If JS is disabled, the fallback will be rendered
   return (
     <>
       {animationDone && usePointer ? (
