@@ -22,6 +22,6 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git remote add fork https://x-access-token:${FORK_PAT}@github.com/<fork-owner>/<fork-repo>.git
+          git remote add fork https://x-access-token:${FORK_PAT}@github.com/talent-ease/lightlives-website-prod.git
           git push fork main --force
           git push fork --tags
