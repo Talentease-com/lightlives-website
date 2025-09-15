@@ -1,8 +1,9 @@
 'use client';
-
+import { createClient } from "@/utils/supabase/client";
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Editor from '@monaco-editor/react';
+import { User } from "@supabase/supabase-js";
 
 interface ImpactItem {
   value: number;
@@ -14,16 +15,25 @@ interface ImpactItem {
   icon: string;
 }
 
+
 export default function AdminPage() {
   const [jsonData, setJsonData] = useState<string>('');
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string>('');
   const [success, setSuccess] = useState<string>('');
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
     loadImpactData();
+    fetchUser();
   }, []);
+
+  const fetchUser = async () => {
+    const supabase = createClient();
+    const { data } = await supabase.auth.getUser();
+    setUser(data.user);
+  };
 
   const loadImpactData = async () => {
     try {
@@ -97,6 +107,22 @@ export default function AdminPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* User Indicator Bar */}
+      <div className="w-full bg-blue-100 dark:bg-blue-900 px-4 py-2 flex justify-between items-center">
+        <span className="text-sm text-blue-900 dark:text-blue-100">
+          {user ? `Logged in as ${user.email}` : "Not logged in"}
+        </span>
+        {user && (
+          <form action="/auth/logout" method="post">
+            <button
+              type="submit"
+              className="inline-flex items-center px-3 py-1 border border-blue-300 text-xs font-medium rounded-md text-blue-700 bg-white hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            >
+              Log out
+            </button>
+          </form>
+        )}
+      </div>
       {/* Header */}
       <div className="bg-white shadow">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
