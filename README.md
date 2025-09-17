@@ -34,3 +34,18 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Website Pages
+
+### Home
+The main landing page for Light Lives website.
+
+### Sponsor Page
+A dedicated page for sponsoring children through donations. Features:
+- One-time, recurring, and UPI payment options
+- Customizable donation amounts
+- Impact statistics
+- Tax benefits information
+- Bank transfer details
+
+To access the sponsor page, navigate to `/sponsor` or use the "Sponsor" link in the Support Us dropdown in the navbar.

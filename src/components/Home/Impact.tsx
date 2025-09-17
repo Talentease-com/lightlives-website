@@ -1,21 +1,9 @@
 import React from 'react';
-import { Users, School, Award } from 'lucide-react';
 import Image from 'next/image';
 import AnimatedCounter from './AnimatedCounter';
 import SwooshButton from '../ui/swoosh-button';
-
+import { ImpactStat, impactIconMap } from '@/lib/utils';
 // Define the type for each stat item
-interface ImpactStat {
-  value: number;
-  format: string;
-  label: string;
-  description: string;
-  decimals?: number;
-  usePointer?: boolean;
-  icon: keyof typeof iconMap;
-}
-
-const iconMap = { Users, School, Award };
 
 interface ImpactSectionProps {
   stats: ImpactStat[];
@@ -72,7 +60,7 @@ const ImpactSection: React.FC<ImpactSectionProps> = ({ stats }) => {
 
             <div className="space-y-8">
               {stats.map((stat, index) => {
-                const Icon = iconMap[stat.icon];
+                const Icon = impactIconMap[stat.icon];
                 return (
                   <div key={stat.label} className={`flex items-start space-x-4 group animate-fade-in-up opacity-0`} style={{ animationDelay: `${400 + index * 200}ms` }}>
                     <div className="bg-primary-100 text-primary p-3 rounded-full group-hover:bg-primary group-hover:text-white transition-all duration-300">

@@ -27,7 +27,7 @@ const Navbar: React.FC = () => {
     {
       label: 'SUPPORT US',
       dropdown: [
-        { path: '/support/donate', label: 'Donate' },
+
         { path: '/support/volunteer', label: 'Volunteer' },
         { path: '/support/events', label: 'Events' },
         { path: '/support/partnerships', label: 'Partnerships' },
