@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.3.0](https://github.com/Talentease-com/lightlives-website/compare/v0.2.0...v0.3.0) (2025-09-18)
+
+
+### Features
+
+* Implement payment processing API with Razorpay integration ([6c11a4b](https://github.com/Talentease-com/lightlives-website/commit/6c11a4bab292386b8d70d5864f263a7b92bb1f5e))
+* Sponsor Page UI ([8651f8c](https://github.com/Talentease-com/lightlives-website/commit/8651f8c6eb41f92fafbda880fc465824210e0657))
+
 ## [0.2.0](https://github.com/Talentease-com/lightlives-website/compare/v0.1.0...v0.2.0) (2025-09-17)
 
 
