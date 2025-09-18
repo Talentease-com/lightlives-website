@@ -3,30 +3,128 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { useForm } from 'react-hook-form';
-import { Heart, CreditCard, Calendar, Smartphone } from 'lucide-react';
+import { Heart, CreditCard, Calendar, Smartphone, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import usePaymentGateway, { type PaymentGatewayHook } from './PaymentGateway';
 
 interface DonationFormProps {
   className?: string;
 }
+
+interface FormData {
+  firstName?: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  address?: string;
+  pan?: string;
+  upiAmount?: number;
+  monthlyContribution?: boolean;
+  privacyPolicy: boolean;
+}
+
+type PaymentStatus = 'idle' | 'processing' | 'success' | 'error';
 
 const DonationForm: React.FC<DonationFormProps> = ({ className = '' }) => {
   const [paymentType, setPaymentType] = useState<'onetime' | 'recurring' | 'upi'>('onetime');
   const [selectedAmount, setSelectedAmount] = useState<number | null>(null);
   const [customAmount, setCustomAmount] = useState('');
   const [showQR, setShowQR] = useState(false);
+  const [paymentStatus, setPaymentStatus] = useState<PaymentStatus>('idle');
+  const [statusMessage, setStatusMessage] = useState('');
+  const [receiptNumber, setReceiptNumber] = useState('');
 
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { register, handleSubmit, formState: { errors }, watch } = useForm<FormData>();
 
   const oneTimeAmounts = [2000, 5000, 10000, 20000, 40000];
   const monthlyAmounts = [500, 1000, 1200, 1500, 2000];
 
-  const onSubmit = (data: Record<string, unknown>) => {
-    console.log('Form submitted:', { ...data, paymentType, amount: selectedAmount || customAmount });
+  // Watch form values for payment gateway
+  const formValues = watch();
+
+  // Get the final amount to be paid
+  const getFinalAmount = (): number => {
+    if (paymentType === 'upi') {
+      return formValues.upiAmount || 1000;
+    }
+    return selectedAmount || parseInt(customAmount) || 0;
+  };
+
+  // Payment gateway integration
+  const paymentGateway: PaymentGatewayHook = usePaymentGateway({
+    amount: getFinalAmount(),
+    currency: 'INR',
+    paymentType,
+    donorInfo: {
+      firstName: formValues.firstName,
+      lastName: formValues.lastName || '',
+      email: formValues.email || '',
+      phone: formValues.phone || '',
+      address: formValues.address,
+      pan: formValues.pan,
+    },
+    monthlyContribution: formValues.monthlyContribution,
+    privacyPolicy: formValues.privacyPolicy || false,
+    onSuccess: (response) => {
+      setPaymentStatus('success');
+      setStatusMessage('Payment successful! Thank you for your generous donation.');
+      setReceiptNumber(String(response.verificationResult.payment.receipt_number || ''));
+      console.log('Payment successful:', response);
+    },
+    onError: (error) => {
+      setPaymentStatus('error');
+      setStatusMessage(`Payment failed: ${error.message}`);
+      console.error('Payment error:', error);
+    },
+    onPaymentStart: () => {
+      setPaymentStatus('processing');
+      setStatusMessage('Processing your payment...');
+    },
+  });
+
+  const onSubmit = async (data: FormData) => {
+    console.log('Form submitted:', { ...data, paymentType, amount: getFinalAmount() });
+    
     if (paymentType === 'upi') {
       setShowQR(true);
-    } else {
-      alert('Thank you for your generous contribution! We will process your donation shortly.');
+      return;
+    }
+
+    // Validate amount
+    const amount = getFinalAmount();
+    if (!amount || amount <= 0) {
+      setPaymentStatus('error');
+      setStatusMessage('Please select or enter a valid amount');
+      return;
+    }
+
+    // Validate required fields
+    if (!data.lastName || !data.email || !data.phone || !data.privacyPolicy) {
+      setPaymentStatus('error');
+      setStatusMessage('Please fill in all required fields');
+      return;
+    }
+
+    // For non-UPI payments, validate additional fields
+    if ((paymentType === 'onetime' || paymentType === 'recurring') && (!data.address || !data.pan)) {
+      setPaymentStatus('error');
+      setStatusMessage('Address and PAN are required for tax certificate generation');
+      return;
+    }
+
+    // For recurring payments, validate monthly contribution agreement
+    if (paymentType === 'recurring' && !data.monthlyContribution) {
+      setPaymentStatus('error');
+      setStatusMessage('Please agree to contribute monthly for recurring donations');
+      return;
+    }
+
+    // Proceed with payment
+    try {
+      await paymentGateway.handlePayment();
+    } catch {
+      setPaymentStatus('error');
+      setStatusMessage('Failed to initiate payment. Please try again.');
     }
   };
 
@@ -123,7 +221,7 @@ const DonationForm: React.FC<DonationFormProps> = ({ className = '' }) => {
                   setCustomAmount(e.target.value);
                   setSelectedAmount(null);
                 }}
-                className="w-full px-4 py-3 border border-tertiary-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-[5px]"
+                className="w-full px-4 py-3 border border-tertiary-300 focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-[5px]"
               />
             </div>
           </div>
@@ -140,7 +238,7 @@ const DonationForm: React.FC<DonationFormProps> = ({ className = '' }) => {
               id="upiAmount"
               defaultValue={1000}
               {...register('upiAmount', { required: 'Amount is required' })}
-              className="w-full px-4 py-3 border border-tertiary-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-[5px]"
+              className="w-full px-4 py-3 border border-tertiary-300 focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-[5px]"
             />
             {errors.upiAmount && (
               <p className="text-red-500 text-sm mt-1">{errors.upiAmount.message as string}</p>
@@ -161,7 +259,7 @@ const DonationForm: React.FC<DonationFormProps> = ({ className = '' }) => {
                 type="text"
                 id="firstName"
                 {...register('firstName', paymentType === 'upi' ? { required: 'First name is required' } : {})}
-                className="w-full px-4 py-3 border border-tertiary-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-[5px]"
+                className="w-full px-4 py-3 border border-tertiary-300 focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-[5px]"
               />
               {errors.firstName && (
                 <p className="text-red-500 text-sm mt-1">{errors.firstName.message as string}</p>
@@ -176,7 +274,7 @@ const DonationForm: React.FC<DonationFormProps> = ({ className = '' }) => {
                 type="text"
                 id="lastName"
                 {...register('lastName', { required: 'Last name is required' })}
-                className="w-full px-4 py-3 border border-tertiary-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-[5px]"
+                className="w-full px-4 py-3 border border-tertiary-300 focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-[5px]"
               />
               {errors.lastName && (
                 <p className="text-red-500 text-sm mt-1">{errors.lastName.message as string}</p>
@@ -198,7 +296,7 @@ const DonationForm: React.FC<DonationFormProps> = ({ className = '' }) => {
                   message: 'Please enter a valid email address'
                 }
               })}
-              className="w-full px-4 py-3 border border-tertiary-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-[5px] "
+              className="w-full px-4 py-3 border border-tertiary-300 focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-[5px] "
             />
             <p className="text-tertiary-500 text-sm mt-1">We will send the purchase receipt to this address.</p>
             {errors.email && (
@@ -214,7 +312,7 @@ const DonationForm: React.FC<DonationFormProps> = ({ className = '' }) => {
               type="tel"
               id="phone"
               {...register('phone', { required: 'Phone number is required' })}
-              className="w-full px-4 py-3 border border-tertiary-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-[5px]"
+              className="w-full px-4 py-3 border border-tertiary-300 focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-[5px]"
             />
             {errors.phone && (
               <p className="text-red-500 text-sm mt-1">{errors.phone.message as string}</p>
@@ -232,7 +330,7 @@ const DonationForm: React.FC<DonationFormProps> = ({ className = '' }) => {
                   id="address"
                   rows={3}
                   {...register('address', { required: 'Address is required' })}
-                  className="w-full px-4 py-3 border border-tertiary-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-[5px]"
+                  className="w-full px-4 py-3 border border-tertiary-300 focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-[5px]"
                 />
                 <p className="text-tertiary-500 text-sm mt-1">Address is required as per Government regulations and to provide 80G certificate</p>
                 {errors.address && (
@@ -254,7 +352,7 @@ const DonationForm: React.FC<DonationFormProps> = ({ className = '' }) => {
                       message: 'Please enter a valid PAN number'
                     }
                   })}
-                  className="w-full px-4 py-3 border border-tertiary-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                  className="w-full px-4 py-3 border border-tertiary-300 focus:ring-2 focus:ring-primary focus:border-transparent"
                   placeholder="ABCDE1234F"
                 />
                 <p className="text-tertiary-500 text-sm mt-1">PAN Number is required as per Government regulations and to provide 80G certificate</p>
@@ -301,30 +399,93 @@ const DonationForm: React.FC<DonationFormProps> = ({ className = '' }) => {
           </div>
         </div>
 
+        {/* Status Display */}
+        {paymentStatus !== 'idle' && (
+          <div className={`p-4 rounded-lg border ${
+            paymentStatus === 'success' ? 'bg-green-50 border-green-200' :
+            paymentStatus === 'error' ? 'bg-red-50 border-red-200' :
+            'bg-blue-50 border-blue-200'
+          }`}>
+            <div className="flex items-center space-x-2">
+              {paymentStatus === 'processing' && <Loader2 className="h-5 w-5 animate-spin text-blue-600" />}
+              {paymentStatus === 'success' && <CheckCircle className="h-5 w-5 text-green-600" />}
+              {paymentStatus === 'error' && <AlertCircle className="h-5 w-5 text-red-600" />}
+              <p className={`text-sm font-medium ${
+                paymentStatus === 'success' ? 'text-green-800' :
+                paymentStatus === 'error' ? 'text-red-800' :
+                'text-blue-800'
+              }`}>
+                {statusMessage}
+              </p>
+            </div>
+            {paymentStatus === 'success' && receiptNumber && (
+              <p className="text-xs text-green-700 mt-2">
+                Receipt Number: {receiptNumber}
+              </p>
+            )}
+          </div>
+        )}
+
         {/* Submit Button */}
         <Button
           type="submit"
+          disabled={paymentGateway.isProcessing || paymentStatus === 'processing'}
           className="w-full bg-primary text-white font-bold py-8 px-6 text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg flex items-center justify-center space-x-2"
           size="xl"
         >
-          <Heart className="h-5 w-5 mr-2" />
-          <span>
-            {paymentType === 'upi' ? 'Generate QR Code' : 
-             paymentType === 'recurring' ? 'Start Monthly Donation' : 
-             'Donate Now'}
-          </span>
+          {paymentGateway.isProcessing || paymentStatus === 'processing' ? (
+            <>
+              <Loader2 className="h-5 w-5 animate-spin mr-2" />
+              <span>Processing...</span>
+            </>
+          ) : (
+            <>
+              <Heart className="h-5 w-5 mr-2" />
+              <span>
+                {paymentType === 'upi' ? 'Generate QR Code' : 
+                 paymentType === 'recurring' ? 'Start Monthly Donation' : 
+                 'Donate Now'}
+              </span>
+            </>
+          )}
         </Button>
 
         {/* UPI QR Code Display */}
         {paymentType === 'upi' && showQR && (
-          <div className="mt-6 p-6 bg-secondary-50 rounded-lg text-center">
-            <h4 className="text-lg font-semibold text-tertiary mb-4">Scan to Pay</h4>
-            <div className="w-48 h-48 bg-white border-2 border-tertiary-300 rounded-lg mx-auto flex items-center justify-center">
-              <p className="text-tertiary-500">QR Code will appear here</p>
+          <div className="mt-6 p-6 bg-secondary-50 text-center border rounded-lg">
+            <h4 className="text-lg font-semibold text-tertiary mb-4">UPI Payment</h4>
+            <div className="space-y-4">
+              <div className="w-48 h-48 bg-white border-2 border-tertiary-300 mx-auto flex items-center justify-center rounded-lg">
+                <p className="text-tertiary-500">QR Code will appear here</p>
+              </div>
+              <div className="text-sm text-tertiary-600">
+                <p className="mb-2">Scan this QR code with any UPI app to complete your donation</p>
+                <p className="font-semibold">Amount: ₹{getFinalAmount().toLocaleString()}</p>
+              </div>
+              <div className="flex flex-col space-y-2">
+                <Button
+                  type="button"
+                  onClick={() => {
+                    setPaymentStatus('success');
+                    setStatusMessage('UPI payment confirmation received. Thank you for your donation!');
+                    setShowQR(false);
+                  }}
+                  className="bg-green-600 hover:bg-green-700 text-white"
+                >
+                  Payment Completed
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => {
+                    setShowQR(false);
+                    setPaymentStatus('idle');
+                  }}
+                >
+                  Cancel Payment
+                </Button>
+              </div>
             </div>
-            <p className="text-sm text-tertiary-600 mt-4">
-              Scan this QR code with any UPI app to complete your donation
-            </p>
           </div>
         )}
       </form>

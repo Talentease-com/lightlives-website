@@ -6,11 +6,17 @@ import HeroCarousel from './HeroCarousel';
 import SwooshButton from '@/components/ui/swoosh-button';
 
 const HeroSectionSEO = () => {
+  // const backgroundImages = [
+  //   'https://images.pexels.com/photos/8926550/pexels-photo-8926550.jpeg',
+  //   'https://images.pexels.com/photos/8926549/pexels-photo-8926549.jpeg',
+  //   'https://images.pexels.com/photos/8926537/pexels-photo-8926537.jpeg',
+  //   'https://images.pexels.com/photos/8926548/pexels-photo-8926548.jpeg',
+  // ];
   const backgroundImages = [
-    'https://images.pexels.com/photos/8926550/pexels-photo-8926550.jpeg',
-    'https://images.pexels.com/photos/8926549/pexels-photo-8926549.jpeg',
-    'https://images.pexels.com/photos/8926537/pexels-photo-8926537.jpeg',
-    'https://images.pexels.com/photos/8926548/pexels-photo-8926548.jpeg',
+    '/images/home0.jpg',
+    '/images/home1.jpg',
+    '/images/home2.jpg',
+    '/images/home3.jpg',
   ];
 
   const carouselItems = [
