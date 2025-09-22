@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.1](https://github.com/Talentease-com/lightlives-website/compare/v0.3.0...v0.3.1) (2025-09-22)
+
+
+### Bug Fixes
+
+* Replace GlowCard with AdaptiveCard component across multiple sections to solve mobile performance issue ([6d5287a](https://github.com/Talentease-com/lightlives-website/commit/6d5287ac20ed78a3b334c6ef807ba8244c32ca60))
+
 ## [0.3.0](https://github.com/Talentease-com/lightlives-website/compare/v0.2.0...v0.3.0) (2025-09-18)
 
 
