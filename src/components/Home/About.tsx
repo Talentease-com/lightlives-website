@@ -1,5 +1,5 @@
 import React from 'react';
-import { GlowCard } from '@/components/ui/spotlight-card';
+import { AdaptiveCard } from '@/components/ui/cards';
 
 const About = () => {
   return (
@@ -11,7 +11,7 @@ const About = () => {
       <div className="max-w-7xl mx-auto -mt-18 px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           {/* Why Card */}
-          <GlowCard 
+          <AdaptiveCard 
             glowColor="orange" 
             className="bg-white/80 md:mb-50 backdrop-blur-sm border-primary/20 shadow-lg "
             customSize={true}
@@ -33,10 +33,10 @@ const About = () => {
                 </ul>
               </div>
             </div>
-          </GlowCard>
+          </AdaptiveCard>
 
           {/* What Card */}
-          <GlowCard 
+          <AdaptiveCard 
             glowColor="blue" 
             className="bg-white/80 md:mt-30 md:mb-30 backdrop-blur-sm border-secondary-600/20 shadow-lg"
             customSize={true}
@@ -62,10 +62,10 @@ const About = () => {
                 </ul>
               </div>
             </div>
-          </GlowCard>
+          </AdaptiveCard>
 
           {/* Who Card */}
-          <GlowCard 
+          <AdaptiveCard 
             glowColor="purple" 
             className="bg-white/80 md:mt-50 md:mb-10 backdrop-blur-sm border-tertiary-600/20 shadow-lg "
             customSize={true}
@@ -91,7 +91,7 @@ const About = () => {
                 </ul>
               </div>
             </div>
-          </GlowCard>
+          </AdaptiveCard>
         </div>
       </div>
     </section>

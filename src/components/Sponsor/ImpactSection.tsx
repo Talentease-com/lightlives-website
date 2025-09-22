@@ -3,7 +3,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { Users, School, Award, CheckCircle } from 'lucide-react';
-import { GlowCard } from '@/components/ui/spotlight-card';
+import { AdaptiveCard } from '@/components/ui/cards';
 import { PointerHighlight } from '@/components/ui/pointer-highlight';
 import { ImpactStat } from '@/lib/utils';
 import AnimatedCounter from '@/components/Home/AnimatedCounter';
@@ -21,7 +21,7 @@ const ImpactSection: React.FC<ImpactSectionProps> = ({ impactStats, className = 
       transition={{ duration: 0.8 }}
       className={`relative ${className}`}
     >
-      <GlowCard 
+      <AdaptiveCard 
         glowColor="orange" 
         customSize={true}
         className="w-full p-8 "
@@ -97,7 +97,7 @@ const ImpactSection: React.FC<ImpactSectionProps> = ({ impactStats, className = 
             <p>ICICI Bank, MG Road Hyderabad Branch</p>
           </div>
         </div>
-      </GlowCard>
+      </AdaptiveCard>
     </motion.div>
   );
 };

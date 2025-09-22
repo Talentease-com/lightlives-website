@@ -444,7 +444,7 @@ const DonationForm: React.FC<DonationFormProps> = ({ className = '' }) => {
               <span>
                 {paymentType === 'upi' ? 'Generate QR Code' : 
                  paymentType === 'recurring' ? 'Start Monthly Donation' : 
-                 'Donate Now'}
+                 'Sponsor Now'}
               </span>
             </>
           )}
