@@ -3,12 +3,20 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X, ChevronDown } from 'lucide-react';
+import { Menu, ChevronDown, Home, Users, Heart, Phone } from 'lucide-react';
 import Image from 'next/image';
 import SwooshButton from '@/components/ui/swoosh-button';
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from '@/components/ui/drawer';
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 
 const Navbar: React.FC = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
@@ -34,6 +42,18 @@ const Navbar: React.FC = () => {
       ]
     },
     { path: '/contact', label: 'CONTACT US' },
+  ];
+
+  // Flattened navigation items for mobile drawer
+  const mobileNavItems = [
+    { path: '/', label: 'Home', icon: Home, category: 'Navigation' },
+    { path: '/about/our-story', label: 'Our Story', icon: Users, category: 'About Us' },
+    { path: '/about/team', label: 'Our Team', icon: Users, category: 'About Us' },
+    { path: '/about/mission', label: 'Mission & Vision', icon: Users, category: 'About Us' },
+    { path: '/support/volunteer', label: 'Volunteer', icon: Heart, category: 'Support Us' },
+    { path: '/support/events', label: 'Events', icon: Heart, category: 'Support Us' },
+    { path: '/support/partnerships', label: 'Partnerships', icon: Heart, category: 'Support Us' },
+    { path: '/contact', label: 'Contact Us', icon: Phone, category: 'Navigation' },
   ];
 
   // Close dropdown when clicking outside
@@ -183,74 +203,77 @@ const Navbar: React.FC = () => {
           </div>
           
 
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="lg:hidden p-2 rounded-md text-white hover:text-primary-100 hover:bg-primary-600"
-          >
-            {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          </button>
+          {/* Mobile Menu Drawer Trigger */}
+          <Drawer shouldScaleBackground={true} setBackgroundColorOnScale={false}>
+            <DrawerTrigger asChild>
+              <button className="lg:hidden p-2 rounded-md text-white hover:text-primary-100 hover:bg-primary-600 transition-colors duration-200">
+                <Menu className="h-6 w-6" />
+              </button>
+            </DrawerTrigger>
+            <DrawerContent className="bg-primary border-t-4 border-primary-600 h-[50vh]">
+              <DrawerHeader>
+                <VisuallyHidden>
+                  <DrawerTitle>Site Navigation</DrawerTitle>
+                </VisuallyHidden>
+              </DrawerHeader>
+              
+              {/* Navigation Categories */}
+              <div className="px-4 pb-6 flex-1 overflow-y-auto">
+                {['Navigation', 'About Us', 'Support Us'].map((category) => (
+                  <div key={category} className="mb-6">
+                    <h3 className="text-sm font-bold text-white/70 uppercase tracking-wider mb-3 px-2">
+                      {category}
+                    </h3>
+                    <div className="space-y-1">
+                      {mobileNavItems
+                        .filter(item => item.category === category)
+                        .map((item) => {
+                          const IconComponent = item.icon;
+                          return (
+                            <DrawerClose key={item.path} asChild>
+                              <Link
+                                href={item.path}
+                                className={`flex items-center px-3 py-3 rounded-lg text-left transition-all duration-200 group ${
+                                  isActive(item.path)
+                                    ? 'bg-white text-primary shadow-md'
+                                    : 'text-white hover:bg-white/10 hover:text-white active:bg-white/20'
+                                }`}
+                              >
+                                <IconComponent className={`h-5 w-5 mr-3 transition-colors ${
+                                  isActive(item.path) 
+                                    ? 'text-primary' 
+                                    : 'text-white/70 group-hover:text-white'
+                                }`} />
+                                <span className="font-medium">{item.label}</span>
+                                {isActive(item.path) && (
+                                  <div className="ml-auto h-2 w-2 bg-primary rounded-full"></div>
+                                )}
+                              </Link>
+                            </DrawerClose>
+                          );
+                        })}
+                    </div>
+                  </div>
+                ))}
+                
+                {/* Sponsor Button in Drawer */}
+                <div className="mt-6 pt-4 border-t border-white/20">
+                  <DrawerClose asChild>
+                    <div className="px-2">
+                      <SwooshButton 
+                        className="bg-red-800 font-bold w-full text-center" 
+                        href="/sponsor" 
+                        text="SPONSOR NOW" 
+                      />
+                    </div>
+                  </DrawerClose>
+                </div>
+              </div>
+            </DrawerContent>
+          </Drawer>
         </div>
 
-        {/* Mobile Navigation */}
-        {isMenuOpen && (
-          <nav className="lg:hidden py-4 border-t border-primary-300 bg-primary-500">
-            <div className="space-y-2">
-              {navItems.map((item) => (
-                <div key={item.label || item.path}>
-                  {item.dropdown ? (
-                    <div>
-                      <button
-                        onClick={() => handleDropdownToggle(item.label)}
-                        className="flex items-center justify-between w-full px-4 py-3 text-white font-bold hover:text-primary-100 hover:bg-primary-600 transition-colors duration-200 rounded-md"
-                      >
-                        {item.label}
-                        <ChevronDown className={`h-4 w-4 transition-transform ${
-                          activeDropdown === item.label ? 'rotate-180' : ''
-                        }`} />
-                      </button>
-                      {activeDropdown === item.label && (
-                        <div className="ml-4 mt-2 space-y-1 bg-primary-400 rounded-md">
-                          {item.dropdown.map((subItem) => (
-                            <Link
-                              key={subItem.path}
-                              href={subItem.path}
-                              onClick={() => setIsMenuOpen(false)}
-                              className={`block px-4 py-3 text-sm font-bold transition-colors duration-200 rounded-md ${
-                                isActive(subItem.path)
-                                  ? 'text-white bg-primary-600'
-                                  : 'text-white hover:text-primary-100 hover:bg-primary-600'
-                              }`}
-                            >
-                              {subItem.label}
-                            </Link>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  ) : (
-                    <Link
-                      href={item.path}
-                      onClick={() => setIsMenuOpen(false)}
-                      className={`block px-4 py-3 font-bold transition-colors duration-200 rounded-md ${
-                        isActive(item.path)
-                          ? 'text-white bg-primary-600'
-                          : 'text-white hover:text-primary-100 hover:bg-primary-600'
-                      }`}
-                    >
-                      {item.label}
-                    </Link>
-                  )}
-                </div>
-              ))}
-              
-              {/* Mobile Sponsor Button */}
-              <div className="pt-4 border-t border-primary-300">
-                <SwooshButton className="bg-red-800 font-bold" href="/sponsor" text='SPONSOR' />
-              </div>
-            </div>
-          </nav>
-        )}
+
       </div>
     </header>
   );

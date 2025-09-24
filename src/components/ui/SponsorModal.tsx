@@ -50,7 +50,7 @@ export default function SponsorModal() {
               </DialogDescription>
             </DialogHeader>
             <SwooshButton
-              href="/donate"
+              href="/sponsor"
               text="Sponsor And Save Tax"
               className="bg-primary text-white font-bold py-4 px-8 text-lg shadow-xl mt-4"
             />
