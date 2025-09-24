@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://github.com/Talentease-com/lightlives-website/compare/v0.3.1...v0.4.0) (2025-09-24)
+
+
+### Features
+
+* Add GitHub Copilot instructions and enhance Navbar with mobile drawer functionality ([2f05937](https://github.com/Talentease-com/lightlives-website/commit/2f0593792c317f87bda9dc686ea9ec7de6f3b222))
+
 ## [0.3.1](https://github.com/Talentease-com/lightlives-website/compare/v0.3.0...v0.3.1) (2025-09-22)
 
 
