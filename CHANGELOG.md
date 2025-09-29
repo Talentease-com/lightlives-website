@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.0](https://github.com/Talentease-com/lightlives-website/compare/v0.4.0...v0.5.0) (2025-09-29)
+
+
+### Features
+
+* Revamp About section with enhanced layout, new content, and improved card animations ([720ff60](https://github.com/Talentease-com/lightlives-website/commit/720ff601cf86c07f47c06696f4c3dc38ac71c63c))
+
 ## [0.4.0](https://github.com/Talentease-com/lightlives-website/compare/v0.3.1...v0.4.0) (2025-09-24)
 
 
