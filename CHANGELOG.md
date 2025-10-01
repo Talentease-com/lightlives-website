@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.0](https://github.com/Talentease-com/lightlives-website/compare/v0.5.0...v0.6.0) (2025-10-01)
+
+
+### Features
+
+* Add CircularGallery component and enhance Sponsor page with new layout, content, and ScrollToSponsorButton ([2f2401e](https://github.com/Talentease-com/lightlives-website/commit/2f2401e0495f1a118d5caca2583855d8059cd40e))
+
 ## [0.5.0](https://github.com/Talentease-com/lightlives-website/compare/v0.4.0...v0.5.0) (2025-09-29)
 
 
