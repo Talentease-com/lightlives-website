@@ -1,0 +1,9 @@
+{
+  "chat.mcp.serverSampling": {
+    "lightlives-website/.vscode/mcp.json: shadcn": {
+      "allowedModels": [
+        "copilot/auto"
+      ]
+    }
+  }
+}
