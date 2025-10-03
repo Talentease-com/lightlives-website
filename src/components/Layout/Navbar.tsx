@@ -27,18 +27,18 @@ const Navbar: React.FC = () => {
     {
       label: 'ABOUT US',
       dropdown: [
-        { path: '/about/our-story', label: 'Our Story' },
-        { path: '/about/team', label: 'Our Team' },
         { path: '/about/mission', label: 'Mission & Vision' },
+        { path: '/about/team', label: 'Our Team' },
+        { path: '/about/projects', label: 'Projects & Success Stories' },
       ]
     },
+    { path: '/csr', label: 'CSR' },
     {
-      label: 'SUPPORT US',
+      label: 'GET INVOLVED',
       dropdown: [
 
         { path: '/support/volunteer', label: 'Volunteer' },
-        { path: '/support/events', label: 'Events' },
-        { path: '/support/partnerships', label: 'Partnerships' },
+        { path: '/support/join', label: 'Join Us' },
       ]
     },
     { path: '/contact', label: 'CONTACT US' },
@@ -47,12 +47,12 @@ const Navbar: React.FC = () => {
   // Flattened navigation items for mobile drawer
   const mobileNavItems = [
     { path: '/', label: 'Home', icon: Home, category: 'Navigation' },
-    { path: '/about/our-story', label: 'Our Story', icon: Users, category: 'About Us' },
-    { path: '/about/team', label: 'Our Team', icon: Users, category: 'About Us' },
     { path: '/about/mission', label: 'Mission & Vision', icon: Users, category: 'About Us' },
+    { path: '/about/team', label: 'Our Team', icon: Users, category: 'About Us' },
+    { path: '/about/projects', label: 'Projects & Success Stories', icon: Users, category: 'About Us' },
+    { path: '/csr', label: 'CSR', icon: Users, category: 'Navigation' },
     { path: '/support/volunteer', label: 'Volunteer', icon: Heart, category: 'Support Us' },
-    { path: '/support/events', label: 'Events', icon: Heart, category: 'Support Us' },
-    { path: '/support/partnerships', label: 'Partnerships', icon: Heart, category: 'Support Us' },
+    { path: '/support/join', label: 'Join Us', icon: Heart, category: 'Support Us' },
     { path: '/contact', label: 'Contact Us', icon: Phone, category: 'Navigation' },
   ];
 

@@ -1,0 +1,186 @@
+'use client';
+
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+
+interface CareersApplicationFormValues {
+  name: string;
+  email: string;
+  mobile: string;
+  resume: FileList;
+}
+
+type SubmissionState = "idle" | "submitting" | "success" | "error";
+
+const inputBaseStyles =
+  "w-full border border-foreground/20 bg-background/60 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 disabled:cursor-not-allowed disabled:opacity-70";
+
+export function CareersApplicationForm() {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<CareersApplicationFormValues>();
+  const [submissionState, setSubmissionState] = useState<SubmissionState>("idle");
+  const [message, setMessage] = useState<string>("");
+
+  const onSubmit = handleSubmit(async (values) => {
+    try {
+      setSubmissionState("submitting");
+      setMessage("");
+
+      const formData = new FormData();
+      formData.append("name", values.name);
+      formData.append("email", values.email);
+      formData.append("mobile", values.mobile);
+      const resumeFile = values.resume && values.resume[0];
+      if (resumeFile) {
+        formData.append("resume", resumeFile, resumeFile.name);
+      }
+
+      // Placeholder submission: replace with RecruitCRM endpoint integration.
+      await new Promise((resolve) => setTimeout(resolve, 1200));
+      console.info("RecruitCRM payload", Object.fromEntries(formData.entries()));
+
+      setSubmissionState("success");
+      setMessage("Thanks! We\u2019ve received your application and will be in touch soon.");
+      reset();
+    } catch (error) {
+      console.error("Career application submission failed", error);
+      setSubmissionState("error");
+      setMessage("Something went wrong while submitting. Please try again.");
+    } finally {
+      setTimeout(() => {
+        setSubmissionState("idle");
+      }, 2000);
+    }
+  });
+
+  const isSubmitting = submissionState === "submitting";
+
+  return (
+    <form className="space-y-6" onSubmit={onSubmit} noValidate>
+      <div className="space-y-2">
+        <label htmlFor="name" className="text-sm font-medium text-foreground">
+          Full name
+        </label>
+        <input
+          id="name"
+          type="text"
+          autoComplete="name"
+          className={inputBaseStyles}
+          placeholder="Enter your name"
+          {...register("name", { required: "Please enter your name." })}
+        />
+        {errors.name && (
+          <p className="text-sm text-destructive">{errors.name.message}</p>
+        )}
+      </div>
+
+      <div className="space-y-2">
+        <label htmlFor="email" className="text-sm font-medium text-foreground">
+          Email address
+        </label>
+        <input
+          id="email"
+          type="email"
+          autoComplete="email"
+          className={inputBaseStyles}
+          placeholder="your@email.com"
+          {...register("email", {
+            required: "Please enter an email address.",
+            pattern: {
+              value: /[^\s@]+@[^\s@]+\.[^\s@]+/,
+              message: "Please enter a valid email address.",
+            },
+          })}
+        />
+        {errors.email && (
+          <p className="text-sm text-destructive">{errors.email.message}</p>
+        )}
+      </div>
+
+      <div className="space-y-2">
+        <label htmlFor="mobile" className="text-sm font-medium text-foreground">
+          Mobile number
+        </label>
+        <input
+          id="mobile"
+          type="tel"
+          autoComplete="tel"
+          className={inputBaseStyles}
+          placeholder="Include country code if outside India"
+          {...register("mobile", {
+            required: "Please share a contact number.",
+            minLength: {
+              value: 8,
+              message: "Please enter a valid phone number.",
+            },
+          })}
+        />
+        {errors.mobile && (
+          <p className="text-sm text-destructive">{errors.mobile.message}</p>
+        )}
+      </div>
+
+      <div className="space-y-2">
+        <label htmlFor="resume" className="text-sm font-medium text-foreground">
+          Resume / CV
+        </label>
+        <input
+          id="resume"
+          type="file"
+          accept=".pdf,.doc,.docx"
+          className={cn(
+            inputBaseStyles,
+            "file:mr-4 file:border-0 file:bg-primary file:px-4 file:py-2 file:text-primary-foreground file:uppercase file:tracking-wide"
+          )}
+          {...register("resume", {
+            validate: (files) => {
+              if (!files || files.length === 0) {
+                return "Please attach your resume.";
+              }
+              const file = files[0];
+              if (file.size > 5 * 1024 * 1024) {
+                return "Please upload a file smaller than 5MB.";
+              }
+              return true;
+            },
+          })}
+        />
+        {errors.resume && (
+          <p className="text-sm text-destructive">{errors.resume.message}</p>
+        )}
+        <p className="text-xs text-muted-foreground">
+          Accepted formats: PDF, DOC, DOCX (max 5MB).
+        </p>
+      </div>
+
+      {message && (
+        <div
+          className={cn(
+            "border px-4 py-3 text-sm",
+            submissionState === "success"
+              ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-400"
+              : submissionState === "error"
+                ? "border-destructive/40 bg-destructive/10 text-destructive"
+                : "border-primary/40 bg-primary/10 text-primary"
+          )}
+        >
+          {message}
+        </div>
+      )}
+
+      <Button
+        type="submit"
+        className="w-full uppercase tracking-wide"
+        disabled={isSubmitting}
+      >
+        {isSubmitting ? "Submitting..." : "Submit Application"}
+      </Button>
+    </form>
+  );
+}
