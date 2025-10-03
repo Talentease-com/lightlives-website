@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.0](https://github.com/Talentease-com/lightlives-website/compare/v0.6.0...v0.7.0) (2025-10-03)
+
+
+### Features
+
+* Add Careers Join page and application form with updated Navbar links ([8af18fb](https://github.com/Talentease-com/lightlives-website/commit/8af18fb23c8b3cf17a998d19953a7cc67f877c54))
+
 ## [0.6.0](https://github.com/Talentease-com/lightlives-website/compare/v0.5.0...v0.6.0) (2025-10-01)
 
 
