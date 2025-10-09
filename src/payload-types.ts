@@ -70,6 +70,7 @@ export interface Config {
     users: User;
     media: Media;
     impacts: Impact;
+    payments: Payment;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -79,6 +80,7 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     impacts: ImpactsSelect<false> | ImpactsSelect<true>;
+    payments: PaymentsSelect<false> | PaymentsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -213,6 +215,58 @@ export interface Impact {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payments".
+ */
+export interface Payment {
+  id: number;
+  razorpayOrderId: string;
+  razorpayPaymentId?: string | null;
+  razorpaySignature?: string | null;
+  /**
+   * Amount in INR (minimum ₹1, maximum ₹10,00,000)
+   */
+  amount: number;
+  currency: 'INR' | 'USD';
+  paymentType: 'onetime' | 'recurring' | 'upi';
+  paymentStatus: 'pending' | 'completed' | 'failed' | 'cancelled';
+  firstName?: string | null;
+  lastName: string;
+  email: string;
+  phone: string;
+  /**
+   * Complete address for 80G certificate generation
+   */
+  address?: string | null;
+  /**
+   * Required for 80G tax exemption certificate (Format: ABCDE1234F)
+   */
+  panNumber?: string | null;
+  isRecurring?: boolean | null;
+  monthlyContributionAgreed?: boolean | null;
+  privacyPolicyAgreed: boolean;
+  /**
+   * Auto-generated receipt number
+   */
+  receiptNumber?: string | null;
+  /**
+   * IP address of the donor
+   */
+  ipAddress?: string | null;
+  /**
+   * Browser user agent string
+   */
+  userAgent?: string | null;
+  /**
+   * 80G tax exemption certificate issued
+   */
+  certificateIssued?: boolean | null;
+  certificateNumber?: string | null;
+  certificateIssuedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -229,6 +283,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'impacts';
         value: number | Impact;
+      } | null)
+    | ({
+        relationTo: 'payments';
+        value: number | Payment;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -328,6 +386,36 @@ export interface ImpactsSelect<T extends boolean = true> {
   displayOrder?: T;
   usePointer?: T;
   isActive?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payments_select".
+ */
+export interface PaymentsSelect<T extends boolean = true> {
+  razorpayOrderId?: T;
+  razorpayPaymentId?: T;
+  razorpaySignature?: T;
+  amount?: T;
+  currency?: T;
+  paymentType?: T;
+  paymentStatus?: T;
+  firstName?: T;
+  lastName?: T;
+  email?: T;
+  phone?: T;
+  address?: T;
+  panNumber?: T;
+  isRecurring?: T;
+  monthlyContributionAgreed?: T;
+  privacyPolicyAgreed?: T;
+  receiptNumber?: T;
+  ipAddress?: T;
+  userAgent?: T;
+  certificateIssued?: T;
+  certificateNumber?: T;
+  certificateIssuedAt?: T;
   updatedAt?: T;
   createdAt?: T;
 }

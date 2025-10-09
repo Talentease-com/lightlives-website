@@ -1,16 +1,16 @@
 # GitHub Copilot Instructions for Light Lives Website
 
 ## Project Overview
-Light Lives is a Next.js 15 charity website featuring a sophisticated donation system with Razorpay payment integration, Supabase authentication, and admin functionality. The project uses Tailwind CSS 4, Framer Motion for animations, and shadcn/ui components.
+Light Lives is a Next.js 15 charity websit1. Use Payload CMS access control for data security featuring a sophisticated donation system with Razorpay payment integration, Payload CMS for content management and authentication, and admin functionality. The project uses Tailwind CSS 4, Framer Motion for animations, and shadcn/ui components.
 
 ## Architecture & Key Patterns
 
 ### Tech Stack
 - **Framework**: Next.js 15 (App Router) with React 19
 - **Styling**: Tailwind CSS 4 with custom CSS variables
-- **Database**: Supabase (PostgreSQL with RLS)
+- **Database**: Payload CMS with Vercel Postgres
 - **Payments**: Razorpay integration with webhook support
-- **Auth**: Supabase Auth with role-based access control
+- **Auth**: Payload CMS built-in authentication with role-based access control
 - **UI**: shadcn/ui components (New York style) + custom components
 - **Animation**: Framer Motion (`motion` package)
 - **Forms**: React Hook Form with validation
@@ -28,7 +28,7 @@ src/
 │   ├── Layout/         # Navigation, Footer
 │   ├── Sponsor/        # Payment forms & gateway
 │   └── ui/             # shadcn/ui + custom UI components
-├── utils/supabase/     # Supabase clients (server, client, middleware)
+├── collections/        # Payload CMS collection schemas
 └── hooks/              # Custom React hooks
 ```
 
@@ -61,10 +61,10 @@ Key payment patterns:
 - Status management: `idle | processing | success | error` states
 
 ### Authentication & Authorization
-- **Middleware**: Only protects `/admin/*` routes (see `src/middleware.ts`)
-- **Admin Access**: User must have `website_admin` in `user_metadata.roles`
-- **Supabase Clients**: Use appropriate client (`server.ts`, `client.ts`, `middleware.ts`)
-- **Layout Protection**: Admin layout redirects unauthorized users
+- **Payload CMS Admin**: Access via `/admin` route with built-in authentication
+- **Admin Access**: Payload CMS users have full admin access to collections and payments
+- **Payment Collection**: Secure payment data storage with role-based access
+- **No Custom Auth**: Payload CMS handles all authentication internally
 
 ## Development Commands
 
@@ -81,14 +81,14 @@ npm run lint
 
 ## Environment Setup
 Copy `example.env.local` to `.env.local` with:
-- Supabase credentials (`NEXT_PUBLIC_SUPABASE_*`)
+- Payload CMS credentials (`PAYLOAD_SECRET`, `POSTGRES_URL`)
 - Razorpay keys (`RAZORPAY_*` + `NEXT_PUBLIC_RAZORPAY_KEY_ID`)
 - Webhook secrets
 
 ## Database Integration
-- **Tables**: Main `payments` table (see `sql/create_payments_table.sql`)
-- **RLS**: Row-level security enabled
-- **Audit**: Track `ip_address`, `user_agent`, timestamps
+- **Collections**: Payments collection with comprehensive schema
+- **Admin Interface**: Built-in Payload CMS admin for payment management
+- **Audit**: Track `ipAddress`, `userAgent`, timestamps
 - **Compliance**: Store PAN, address for 80G tax certificates
 
 ## Key Files to Reference

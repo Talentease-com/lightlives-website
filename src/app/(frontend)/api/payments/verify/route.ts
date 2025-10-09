@@ -1,20 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
+import { getPayload } from "payload";
+import config from "@/payload.config";
 import crypto from "crypto";
 
 export async function POST(request: NextRequest) {
   try {
-    // Use service role client to bypass RLS for server-side operations
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!,
-      {
-        auth: {
-          autoRefreshToken: false,
-          persistSession: false
-        }
-      }
-    );
+    // Get Payload instance
+    const payload = await getPayload({ config });
     
     const body = await request.json();
     
@@ -54,46 +46,37 @@ export async function POST(request: NextRequest) {
                "unknown";
     const userAgent = request.headers.get("user-agent") || "unknown";
 
-    // Insert payment record into database
-    const { data, error } = await supabase
-      .from("payments")
-      .insert({
-        razorpay_order_id,
-        razorpay_payment_id,
-        razorpay_signature,
+    // Insert payment record into Payload CMS
+    const paymentData = await payload.create({
+      collection: 'payments',
+      data: {
+        razorpayOrderId: razorpay_order_id,
+        razorpayPaymentId: razorpay_payment_id,
+        razorpaySignature: razorpay_signature,
         amount: parseFloat(amount),
         currency: currency || "INR",
-        payment_type: paymentType,
-        payment_status: "completed",
-        first_name: firstName,
-        last_name: lastName,
+        paymentType,
+        paymentStatus: "completed",
+        firstName,
+        lastName,
         email,
         phone,
         address: address || null,
-        pan_number: pan || null,
-        is_recurring: paymentType === "recurring",
-        monthly_contribution_agreed: monthlyContribution || false,
-        privacy_policy_agreed: privacyPolicy || false,
-        ip_address: ip,
-        user_agent: userAgent
-      })
-      .select()
-      .single();
-
-    if (error) {
-      console.error("Database error:", error);
-      return NextResponse.json(
-        { error: "Database Error, Failed to save payment record, If money has been deposited, contact support" },
-        { status: 500 }
-      );
-    }
+        panNumber: pan || null,
+        isRecurring: paymentType === "recurring",
+        monthlyContributionAgreed: monthlyContribution || false,
+        privacyPolicyAgreed: privacyPolicy || false,
+        ipAddress: ip,
+        userAgent: userAgent
+      }
+    });
 
     // TODO: Send confirmation email to donor
     // TODO: Generate 80G certificate if applicable
 
     return NextResponse.json({
       success: true,
-      payment: data,
+      payment: paymentData,
       message: "Payment verified and recorded successfully"
     });
 

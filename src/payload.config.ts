@@ -9,6 +9,7 @@ import sharp from 'sharp'
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { Impacts } from './collections/Impacts'
+import { Payments } from './collections/Payments'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -23,7 +24,7 @@ export default buildConfig({
       actions: ['/components/Admin/GoToWebsiteButton.tsx'],
     }
   },
-  collections: [Users, Media, Impacts],
+  collections: [Users, Media, Impacts, Payments],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
-import { SupabaseClient } from "@supabase/supabase-js";
+import { getPayload } from "payload";
+import config from "@/payload.config";
+import type { Payload } from "payload";
 import crypto from "crypto";
 
 interface RazorpayPayment {
@@ -20,17 +21,8 @@ interface RazorpayOrder {
 
 export async function POST(request: NextRequest) {
   try {
-    // Use service role client to bypass RLS for server-side operations
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!,
-      {
-        auth: {
-          autoRefreshToken: false,
-          persistSession: false
-        }
-      }
-    );
+    // Get Payload instance
+    const payload = await getPayload({ config });
     
     const body = await request.text();
     const signature = request.headers.get("x-razorpay-signature");
@@ -71,15 +63,15 @@ export async function POST(request: NextRequest) {
     // Handle different webhook events
     switch (event.event) {
       case "payment.captured":
-        await handlePaymentCaptured(supabase, event.payload.payment.entity);
+        await handlePaymentCaptured(payload, event.payload.payment.entity);
         break;
       
       case "payment.failed":
-        await handlePaymentFailed(supabase, event.payload.payment.entity);
+        await handlePaymentFailed(payload, event.payload.payment.entity);
         break;
       
       case "order.paid":
-        await handleOrderPaid(supabase, event.payload.order.entity);
+        await handleOrderPaid(payload, event.payload.order.entity);
         break;
       
       default:
@@ -97,51 +89,73 @@ export async function POST(request: NextRequest) {
   }
 }
 
-async function handlePaymentCaptured(supabase: SupabaseClient, payment: RazorpayPayment) {
+async function handlePaymentCaptured(payload: Payload, payment: RazorpayPayment) {
   try {
-    const { error } = await supabase
-      .from("payments")
-      .update({
-        payment_status: "completed",
-        razorpay_payment_id: payment.id,
-        updated_at: new Date().toISOString(),
-      })
-      .eq("razorpay_order_id", payment.order_id);
+    // Find payment by razorpay order ID
+    const payments = await payload.find({
+      collection: 'payments',
+      where: {
+        razorpayOrderId: {
+          equals: payment.order_id,
+        },
+      },
+      limit: 1,
+    });
 
-    if (error) {
-      console.error("Error updating payment status:", error);
-    } else {
+    if (payments.docs.length > 0) {
+      await payload.update({
+        collection: 'payments',
+        id: payments.docs[0].id,
+        data: {
+          paymentStatus: "completed",
+          razorpayPaymentId: payment.id,
+        },
+      });
+      
       console.log(`Payment captured for order: ${payment.order_id}`);
       // TODO: Send confirmation email
       // TODO: Generate 80G certificate
+    } else {
+      console.error(`Payment record not found for order: ${payment.order_id}`);
     }
   } catch (error) {
     console.error("Error handling payment.captured:", error);
   }
 }
 
-async function handlePaymentFailed(supabase: SupabaseClient, payment: RazorpayPayment) {
+async function handlePaymentFailed(payload: Payload, payment: RazorpayPayment) {
   try {
-    const { error } = await supabase
-      .from("payments")
-      .update({
-        payment_status: "failed",
-        updated_at: new Date().toISOString(),
-      })
-      .eq("razorpay_order_id", payment.order_id);
+    // Find payment by razorpay order ID
+    const payments = await payload.find({
+      collection: 'payments',
+      where: {
+        razorpayOrderId: {
+          equals: payment.order_id,
+        },
+      },
+      limit: 1,
+    });
 
-    if (error) {
-      console.error("Error updating payment status:", error);
-    } else {
+    if (payments.docs.length > 0) {
+      await payload.update({
+        collection: 'payments',
+        id: payments.docs[0].id,
+        data: {
+          paymentStatus: "failed",
+        },
+      });
+      
       console.log(`Payment failed for order: ${payment.order_id}`);
       // TODO: Send failure notification email
+    } else {
+      console.error(`Payment record not found for order: ${payment.order_id}`);
     }
   } catch (error) {
     console.error("Error handling payment.failed:", error);
   }
 }
 
-async function handleOrderPaid(supabase: SupabaseClient, order: RazorpayOrder) {
+async function handleOrderPaid(payload: Payload, order: RazorpayOrder) {
   try {
     console.log(`Order paid: ${order.id}`);
     // Additional order-level processing if needed

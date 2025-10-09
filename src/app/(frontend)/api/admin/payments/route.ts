@@ -1,46 +1,36 @@
-import { createClient } from "@supabase/supabase-js";
+import { getPayload } from "payload";
+import config from "@/payload.config";
 import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
-    // Use service role client to bypass RLS for admin operations
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!,
-      {
-        auth: {
-          autoRefreshToken: false,
-          persistSession: false
-        }
-      }
-    );
+    // Get Payload instance
+    const payload = await getPayload({ config });
     
     // Get payment statistics
-    const { data: payments, error } = await supabase
-      .from("payments")
-      .select("*")
-      .order("created_at", { ascending: false })
-      .limit(100);
+    const paymentsResult = await payload.find({
+      collection: 'payments',
+      limit: 100,
+      sort: '-createdAt',
+    });
 
-    if (error) {
-      throw error;
-    }
+    const payments = paymentsResult.docs;
 
     // Calculate statistics
-    const totalDonations = payments?.reduce((sum, payment) => 
-      payment.payment_status === 'completed' ? sum + (payment.amount || 0) : sum, 0) || 0;
+    const totalDonations = payments?.reduce((sum: number, payment) => 
+      payment.paymentStatus === 'completed' ? sum + (payment.amount || 0) : sum, 0) || 0;
     
-    const totalCount = payments?.filter(p => p.payment_status === 'completed').length || 0;
+    const totalCount = payments?.filter(p => p.paymentStatus === 'completed').length || 0;
     
     const recentDonations = payments?.filter(p => {
-      const paymentDate = new Date(p.created_at);
+      const paymentDate = new Date(p.createdAt);
       const thirtyDaysAgo = new Date();
       thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-      return paymentDate >= thirtyDaysAgo && p.payment_status === 'completed';
+      return paymentDate >= thirtyDaysAgo && p.paymentStatus === 'completed';
     }) || [];
 
     const recurringDonors = payments?.filter(p => 
-      p.payment_type === 'recurring' && p.payment_status === 'completed').length || 0;
+      p.paymentType === 'recurring' && p.paymentStatus === 'completed').length || 0;
 
     return NextResponse.json({
       statistics: {

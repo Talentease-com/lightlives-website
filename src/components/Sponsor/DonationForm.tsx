@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { Heart, CreditCard, Calendar, Smartphone, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import usePaymentGateway, { type PaymentGatewayHook } from './PaymentGateway';
+import { validatePhone, validateEmail, validateName, validatePAN, validateAmount, validateAddress } from '@/lib/validationUtils';
 
 interface DonationFormProps {
   className?: string;
@@ -215,11 +216,28 @@ const DonationForm: React.FC<DonationFormProps> = ({ className = '' }) => {
             <div className="mt-3">
               <input
                 type="number"
-                placeholder="Enter custom amount"
+                min="1"
+                max="1000000"
+                step="1"
+                placeholder="Enter custom amount (₹1 - ₹10,00,000)"
                 value={customAmount}
                 onChange={(e) => {
-                  setCustomAmount(e.target.value);
+                  const value = e.target.value;
+                  setCustomAmount(value);
                   setSelectedAmount(null);
+                  
+                  // Validate amount in real-time
+                  if (value) {
+                    const numValue = parseFloat(value);
+                    const validation = validateAmount(numValue);
+                    if (validation !== true) {
+                      setPaymentStatus('error');
+                      setStatusMessage(validation);
+                    } else {
+                      setPaymentStatus('idle');
+                      setStatusMessage('');
+                    }
+                  }
                 }}
                 className="w-full px-4 py-3 border border-tertiary-300 focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-[5px]"
               />
@@ -236,9 +254,19 @@ const DonationForm: React.FC<DonationFormProps> = ({ className = '' }) => {
             <input
               type="number"
               id="upiAmount"
+              min="1"
+              max="1000000"
+              step="1"
               defaultValue={1000}
-              {...register('upiAmount', { required: 'Amount is required' })}
+              {...register('upiAmount', { 
+                required: 'Amount is required',
+                validate: (value) => {
+                  const result = validateAmount(value || 0)
+                  return result === true ? true : result
+                }
+              })}
               className="w-full px-4 py-3 border border-tertiary-300 focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-[5px]"
+              placeholder="Enter amount (₹1 - ₹10,00,000)"
             />
             {errors.upiAmount && (
               <p className="text-red-500 text-sm mt-1">{errors.upiAmount.message as string}</p>
@@ -258,7 +286,13 @@ const DonationForm: React.FC<DonationFormProps> = ({ className = '' }) => {
               <input
                 type="text"
                 id="firstName"
-                {...register('firstName', paymentType === 'upi' ? { required: 'First name is required' } : {})}
+                {...register('firstName', {
+                  ...(paymentType === 'upi' ? { required: 'First name is required' } : {}),
+                  validate: (value) => {
+                    const result = validateName(value || '', paymentType === 'upi')
+                    return result === true ? true : result
+                  }
+                })}
                 className="w-full px-4 py-3 border border-tertiary-300 focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-[5px]"
               />
               {errors.firstName && (
@@ -273,7 +307,13 @@ const DonationForm: React.FC<DonationFormProps> = ({ className = '' }) => {
               <input
                 type="text"
                 id="lastName"
-                {...register('lastName', { required: 'Last name is required' })}
+                {...register('lastName', { 
+                  required: 'Last name is required',
+                  validate: (value) => {
+                    const result = validateName(value || '', true)
+                    return result === true ? true : result
+                  }
+                })}
                 className="w-full px-4 py-3 border border-tertiary-300 focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-[5px]"
               />
               {errors.lastName && (
@@ -291,9 +331,9 @@ const DonationForm: React.FC<DonationFormProps> = ({ className = '' }) => {
               id="email"
               {...register('email', { 
                 required: 'Email is required',
-                pattern: {
-                  value: /^\S+@\S+$/i,
-                  message: 'Please enter a valid email address'
+                validate: (value) => {
+                  const result = validateEmail(value || '')
+                  return result === true ? true : result
                 }
               })}
               className="w-full px-4 py-3 border border-tertiary-300 focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-[5px] "
@@ -311,8 +351,15 @@ const DonationForm: React.FC<DonationFormProps> = ({ className = '' }) => {
             <input
               type="tel"
               id="phone"
-              {...register('phone', { required: 'Phone number is required' })}
+              {...register('phone', { 
+                required: 'Phone number is required',
+                validate: (value) => {
+                  const result = validatePhone(value || '')
+                  return result === true ? true : result
+                }
+              })}
               className="w-full px-4 py-3 border border-tertiary-300 focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-[5px]"
+              placeholder="+91XXXXXXXXXX or XXXXXXXXXX"
             />
             {errors.phone && (
               <p className="text-red-500 text-sm mt-1">{errors.phone.message as string}</p>
@@ -329,8 +376,15 @@ const DonationForm: React.FC<DonationFormProps> = ({ className = '' }) => {
                 <textarea
                   id="address"
                   rows={3}
-                  {...register('address', { required: 'Address is required' })}
+                  {...register('address', { 
+                    required: 'Address is required',
+                    validate: (value) => {
+                      const result = validateAddress(value || '', true)
+                      return result === true ? true : result
+                    }
+                  })}
                   className="w-full px-4 py-3 border border-tertiary-300 focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-[5px]"
+                  placeholder="Enter your complete address"
                 />
                 <p className="text-tertiary-500 text-sm mt-1">Address is required as per Government regulations and to provide 80G certificate</p>
                 {errors.address && (
@@ -347,13 +401,17 @@ const DonationForm: React.FC<DonationFormProps> = ({ className = '' }) => {
                   id="pan"
                   {...register('pan', { 
                     required: 'PAN number is required',
-                    pattern: {
-                      value: /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/,
-                      message: 'Please enter a valid PAN number'
+                    validate: (value) => {
+                      if (!value || value.trim().length === 0) {
+                        return 'PAN number is required'
+                      }
+                      const result = validatePAN(value || '')
+                      return result === true ? true : result
                     }
                   })}
-                  className="w-full px-4 py-3 border border-tertiary-300 focus:ring-2 focus:ring-primary focus:border-transparent"
+                  className="w-full px-4 py-3 border border-tertiary-300 focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-[5px]"
                   placeholder="ABCDE1234F"
+                  style={{ textTransform: 'uppercase' }}
                 />
                 <p className="text-tertiary-500 text-sm mt-1">PAN Number is required as per Government regulations and to provide 80G certificate</p>
                 {errors.pan && (
