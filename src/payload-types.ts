@@ -69,6 +69,7 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
+    impacts: Impact;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -77,6 +78,7 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    impacts: ImpactsSelect<false> | ImpactsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -158,6 +160,59 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "impacts".
+ */
+export interface Impact {
+  id: number;
+  /**
+   * Internal title for this impact statistic
+   */
+  title: string;
+  /**
+   * The main impact number (e.g., 4.31, 177000, 160)
+   */
+  val: number;
+  /**
+   * Unit or modifier for the primary value (e.g., "million *", "*")
+   */
+  suffix?: string | null;
+  /**
+   * Number of decimal places to display for the primary value (e.g., 0, 1, 2)
+   */
+  decimals?: number | null;
+  /**
+   * Main description of the impact (e.g., "Impact sessions in total")
+   */
+  desc: string;
+  /**
+   * Light Lives specific number (e.g., 145000, 11000, 27)
+   */
+  val2: number;
+  /**
+   * Light Lives specific description (e.g., "delivered by Light Lives")
+   */
+  desc2: string;
+  /**
+   * Number of decimal places to display for the secondary value
+   */
+  decimals2?: number | null;
+  /**
+   * Order in which this impact should be displayed (lower numbers first)
+   */
+  displayOrder?: number | null;
+  /**
+   * Whether this impact should use a pointer animation
+   */
+  usePointer?: boolean | null;
+  /**
+   * Whether this impact should be displayed on the website
+   */
+  isActive?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -170,6 +225,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'impacts';
+        value: number | Impact;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -252,6 +311,25 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "impacts_select".
+ */
+export interface ImpactsSelect<T extends boolean = true> {
+  title?: T;
+  val?: T;
+  suffix?: T;
+  decimals?: T;
+  desc?: T;
+  val2?: T;
+  desc2?: T;
+  decimals2?: T;
+  displayOrder?: T;
+  usePointer?: T;
+  isActive?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

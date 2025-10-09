@@ -2,7 +2,7 @@ import Hero from "@/components/Home/Hero";
 import About from "@/components/Home/About";
 import Impact from "@/components/Home/Impact";
 import SponsorModal from "@/components/ui/SponsorModal";
-import { getImpactData } from "@/lib/utils";
+import { getImpactData } from "@/lib/payload/fetch";
 
 
 export const metadata = {
@@ -11,8 +11,11 @@ export const metadata = {
   keywords: "child education, life skills, mentorship, youth development, values, morals, faith, leadership, LightLives, non-profit, NGO, India",
 }
 
+// Enable static generation
+export const dynamic = 'force-static'
+
 export default async function Home() {
-  // Get impact stats directly from Supabase
+  // Get impact stats from Payload CMS
   const stats = await getImpactData();
   
   return (

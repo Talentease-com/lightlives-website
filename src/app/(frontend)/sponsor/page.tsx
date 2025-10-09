@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Metadata } from 'next';
-import { getImpactData } from '@/lib/utils';
+import { getImpactData } from '@/lib/payload/fetch';
 import { ImpactSection, DonationForm } from '@/components/Sponsor';
 import { CircularGallery } from '@/components/ui/circular-gallery';
 import ScrollToSponsorButton from '@/components/Sponsor/ScrollToSponsorButton';
@@ -33,6 +33,10 @@ export const metadata: Metadata = {
     images: ['/images/slider_1.jpg'],
   },
 };
+
+// Enable static generation
+export const dynamic = 'force-static'
+// export const revalidate = 3600 // Revalidate every hour
 
 const Sponsor = async () => {
   const impactStats = await getImpactData();

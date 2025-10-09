@@ -14,9 +14,11 @@
   },
   "dependencies": {
     "@monaco-editor/react": "^4.7.0",
+    "@payloadcms/admin-bar": "^3.59.1",
     "@payloadcms/db-vercel-postgres": "^3.59.1",
     "@payloadcms/next": "^3.59.1",
     "@payloadcms/richtext-lexical": "^3.59.1",
+    "@payloadcms/ui": "^3.59.1",
     "@radix-ui/react-dialog": "^1.1.15",
     "@radix-ui/react-slot": "^1.2.3",
     "@radix-ui/react-visually-hidden": "^1.2.3",
