@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build --turbopack",
+    "build": "next build",
     "start": "next start",
     "lint": "eslint",
     "payload": "cross-env PAYLOAD_CONFIG_PATH=src/payload.config.ts payload",
@@ -38,6 +38,7 @@
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-hook-form": "^7.62.0",
+    "sharp": "^0.34.4",
     "tailwind-merge": "^3.3.1",
     "vaul": "^1.1.2"
   },
