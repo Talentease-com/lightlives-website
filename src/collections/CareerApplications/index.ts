@@ -1,6 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { emailCareersAfterChange } from './hooks/emailCareersAfterChange'
-import { deleteResumeBeforeDelete } from './hooks/deleteResumeBeforeDelete'
+import { deleteResumeAfterDelete } from './hooks/deleteResumeAfterDelete'
 
 export const CareerApplications: CollectionConfig = {
   slug: 'career-applications',
@@ -98,7 +98,7 @@ export const CareerApplications: CollectionConfig = {
   ],
   hooks: {
     afterChange: [emailCareersAfterChange],
-    beforeDelete: [deleteResumeBeforeDelete]
+    afterDelete: [deleteResumeAfterDelete]
   },
   timestamps: true
 }

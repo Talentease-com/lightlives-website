@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build --turbopack",
+    "build": "next build",
     "start": "next start",
     "lint": "eslint",
     "payload": "cross-env PAYLOAD_CONFIG_PATH=src/payload.config.ts payload",
@@ -19,6 +19,7 @@
     "@payloadcms/email-resend": "^3.59.1",
     "@payloadcms/next": "^3.59.1",
     "@payloadcms/richtext-lexical": "^3.59.1",
+    "@payloadcms/storage-s3": "^3.59.1",
     "@payloadcms/ui": "^3.59.1",
     "@radix-ui/react-dialog": "^1.1.15",
     "@radix-ui/react-slot": "^1.2.3",
