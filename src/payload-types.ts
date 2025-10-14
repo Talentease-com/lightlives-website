@@ -71,6 +71,8 @@ export interface Config {
     media: Media;
     impacts: Impact;
     payments: Payment;
+    'career-applications': CareerApplication;
+    'contact-submissions': ContactSubmission;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -81,6 +83,8 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     impacts: ImpactsSelect<false> | ImpactsSelect<true>;
     payments: PaymentsSelect<false> | PaymentsSelect<true>;
+    'career-applications': CareerApplicationsSelect<false> | CareerApplicationsSelect<true>;
+    'contact-submissions': ContactSubmissionsSelect<false> | ContactSubmissionsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -88,8 +92,12 @@ export interface Config {
   db: {
     defaultIDType: number;
   };
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    'email-settings': EmailSetting;
+  };
+  globalsSelect: {
+    'email-settings': EmailSettingsSelect<false> | EmailSettingsSelect<true>;
+  };
   locale: null;
   user: User & {
     collection: 'users';
@@ -267,6 +275,108 @@ export interface Payment {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "career-applications".
+ */
+export interface CareerApplication {
+  id: number;
+  /**
+   * Full name of the applicant
+   */
+  name: string;
+  /**
+   * Email address for communication
+   */
+  email: string;
+  /**
+   * Mobile number with country code
+   */
+  mobile: string;
+  /**
+   * Resume/CV file (PDF, DOC, DOCX)
+   */
+  resume: number | Media;
+  /**
+   * Current status of the application
+   */
+  applicationStatus: 'new' | 'reviewing' | 'interview' | 'accepted' | 'rejected';
+  /**
+   * Internal notes about the applicant
+   */
+  notes?: string | null;
+  /**
+   * IP address when application was submitted
+   */
+  ipAddress?: string | null;
+  /**
+   * Browser user agent string
+   */
+  userAgent?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-submissions".
+ */
+export interface ContactSubmission {
+  id: number;
+  /**
+   * First name of the person contacting us
+   */
+  firstName: string;
+  /**
+   * Last name of the person contacting us
+   */
+  lastName: string;
+  /**
+   * Full name (auto-generated)
+   */
+  name?: string | null;
+  /**
+   * Email address for communication
+   */
+  email: string;
+  /**
+   * Phone number (optional)
+   */
+  phone?: string | null;
+  /**
+   * Subject of the inquiry
+   */
+  subject: 'sponsorship' | 'partnership' | 'volunteer' | 'programs' | 'csr' | 'other';
+  /**
+   * Message content
+   */
+  message: string;
+  /**
+   * Current status of the inquiry
+   */
+  status: 'new' | 'in-progress' | 'responded' | 'closed';
+  /**
+   * Priority level of the inquiry
+   */
+  priority: 'low' | 'normal' | 'high' | 'urgent';
+  /**
+   * Team member assigned to handle this inquiry
+   */
+  assignedTo?: (number | null) | User;
+  /**
+   * Internal notes about the inquiry
+   */
+  notes?: string | null;
+  /**
+   * IP address when submission was made
+   */
+  ipAddress?: string | null;
+  /**
+   * Browser user agent string
+   */
+  userAgent?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -287,6 +397,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'payments';
         value: number | Payment;
+      } | null)
+    | ({
+        relationTo: 'career-applications';
+        value: number | CareerApplication;
+      } | null)
+    | ({
+        relationTo: 'contact-submissions';
+        value: number | ContactSubmission;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -421,6 +539,43 @@ export interface PaymentsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "career-applications_select".
+ */
+export interface CareerApplicationsSelect<T extends boolean = true> {
+  name?: T;
+  email?: T;
+  mobile?: T;
+  resume?: T;
+  applicationStatus?: T;
+  notes?: T;
+  ipAddress?: T;
+  userAgent?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-submissions_select".
+ */
+export interface ContactSubmissionsSelect<T extends boolean = true> {
+  firstName?: T;
+  lastName?: T;
+  name?: T;
+  email?: T;
+  phone?: T;
+  subject?: T;
+  message?: T;
+  status?: T;
+  priority?: T;
+  assignedTo?: T;
+  notes?: T;
+  ipAddress?: T;
+  userAgent?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents_select".
  */
 export interface PayloadLockedDocumentsSelect<T extends boolean = true> {
@@ -450,6 +605,197 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * Manage email configurations for automated notifications
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "email-settings".
+ */
+export interface EmailSetting {
+  id: number;
+  /**
+   * Configure emails sent when users submit the contact form
+   */
+  contactEmails: {
+    /**
+     * Turn on/off email notifications for contact form submissions
+     */
+    enabled?: boolean | null;
+    /**
+     * Primary email address to receive contact form notifications
+     */
+    adminEmail: string;
+    /**
+     * Additional email addresses to CC on contact form notifications
+     */
+    ccEmails?:
+      | {
+          email: string;
+          id?: string | null;
+        }[]
+      | null;
+    /**
+     * Send automatic confirmation email to users who submit the contact form
+     */
+    autoReplyEnabled?: boolean | null;
+    /**
+     * Subject line for the auto-reply email
+     */
+    autoReplySubject?: string | null;
+    /**
+     * How long users can expect to wait for a response
+     */
+    responseTime?: string | null;
+    /**
+     * Additional message to include in the auto-reply email
+     */
+    customMessage?: string | null;
+  };
+  /**
+   * Configure emails sent when users submit job applications
+   */
+  careerEmails: {
+    /**
+     * Turn on/off email notifications for career applications
+     */
+    enabled?: boolean | null;
+    /**
+     * Primary email address to receive career application notifications
+     */
+    hrEmail: string;
+    /**
+     * Additional email addresses to CC on career application notifications
+     */
+    ccEmails?:
+      | {
+          email: string;
+          id?: string | null;
+        }[]
+      | null;
+    /**
+     * Send automatic confirmation email to job applicants
+     */
+    applicantAutoReply?: boolean | null;
+    /**
+     * Subject line for the applicant confirmation email
+     */
+    applicantSubject?: string | null;
+    /**
+     * How long applicants can expect to wait for a response
+     */
+    reviewTime?: string | null;
+    /**
+     * Additional message to include in the applicant confirmation email
+     */
+    customApplicantMessage?: string | null;
+  };
+  /**
+   * General organization information used in email templates
+   */
+  organization: {
+    /**
+     * Full name of the organization
+     */
+    name: string;
+    /**
+     * Physical address of the organization
+     */
+    address?: string | null;
+    /**
+     * Primary phone number for the organization
+     */
+    phone?: string | null;
+    /**
+     * Default email address for replies
+     */
+    replyToEmail?: string | null;
+    /**
+     * Main website URL
+     */
+    websiteUrl?: string | null;
+  };
+  /**
+   * Customize the appearance and branding of email templates
+   */
+  styling?: {
+    /**
+     * Primary brand color (hex code)
+     */
+    primaryColor?: string | null;
+    /**
+     * Secondary brand color (hex code)
+     */
+    secondaryColor?: string | null;
+    /**
+     * URL to organization logo for email headers (optional)
+     */
+    logoUrl?: string | null;
+    /**
+     * Custom text to display in email footers
+     */
+    footerText?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "email-settings_select".
+ */
+export interface EmailSettingsSelect<T extends boolean = true> {
+  contactEmails?:
+    | T
+    | {
+        enabled?: T;
+        adminEmail?: T;
+        ccEmails?:
+          | T
+          | {
+              email?: T;
+              id?: T;
+            };
+        autoReplyEnabled?: T;
+        autoReplySubject?: T;
+        responseTime?: T;
+        customMessage?: T;
+      };
+  careerEmails?:
+    | T
+    | {
+        enabled?: T;
+        hrEmail?: T;
+        ccEmails?:
+          | T
+          | {
+              email?: T;
+              id?: T;
+            };
+        applicantAutoReply?: T;
+        applicantSubject?: T;
+        reviewTime?: T;
+        customApplicantMessage?: T;
+      };
+  organization?:
+    | T
+    | {
+        name?: T;
+        address?: T;
+        phone?: T;
+        replyToEmail?: T;
+        websiteUrl?: T;
+      };
+  styling?:
+    | T
+    | {
+        primaryColor?: T;
+        secondaryColor?: T;
+        logoUrl?: T;
+        footerText?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

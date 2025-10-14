@@ -92,7 +92,7 @@ const Navbar: React.FC = () => {
     <header className="bg-primary sticky top-0 z-50">
       <div className="bg-tertiary text-secondary py-2">
         <div className="container mx-auto px-4">
-          <div className="flex flex-wrap justify-between items-center text-lg">
+          <div className="flex flex-wrap justify-between items-center text-xl">
             <div />
             <div className="flex items-center space-x-4">
               <Link href="/news" className="relative flex items-center group">
@@ -149,7 +149,7 @@ const Navbar: React.FC = () => {
                   <div className="group">
                     <button 
                       onClick={() => handleDropdownToggle(item.label)}
-                      className="flex items-center px-4 py-2 text-white font-bold text-sm hover:text-primary-100 transition-colors duration-200 relative"
+                      className="flex items-center px-4 py-2 text-white font-bold text-base hover:text-primary-100 transition-colors duration-200 relative"
                     >
                       {item.label}
                       <ChevronDown className="ml-1 h-4 w-4" />
@@ -163,7 +163,7 @@ const Navbar: React.FC = () => {
                             <Link
                               key={subItem.path}
                               href={subItem.path}
-                              className={`block px-4 py-3 text-sm font-bold transition-colors duration-200 ${
+                              className={`block px-4 py-3 text-base font-bold transition-colors duration-200 ${
                                 isActive(subItem.path)
                                   ? 'text-primary bg-primary-50 border-r-4 border-primary'
                                   : 'text-gray-700 hover:text-primary hover:bg-primary-50'
@@ -179,7 +179,7 @@ const Navbar: React.FC = () => {
                 ) : (
                   <Link
                     href={item.path}
-                    className={`relative px-4 py-2 text-white font-bold text-sm transition-colors duration-200 group ${
+                    className={`relative px-4 py-2 text-white font-bold text-base transition-colors duration-200 group ${
                       isActive(item.path)
                         ? 'text-white'
                         : 'hover:text-primary-100'

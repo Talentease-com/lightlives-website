@@ -17,6 +17,9 @@ importers:
       '@payloadcms/db-vercel-postgres':
         specifier: ^3.59.1
         version: 3.59.1(@types/pg@8.11.6)(payload@3.59.1(bufferutil@4.0.9)(graphql@16.11.0)(typescript@5.9.3)(utf-8-validate@6.0.5))
+      '@payloadcms/email-resend':
+        specifier: ^3.59.1
+        version: 3.59.1(payload@3.59.1(bufferutil@4.0.9)(graphql@16.11.0)(typescript@5.9.3)(utf-8-validate@6.0.5))
       '@payloadcms/next':
         specifier: ^3.59.1
         version: 3.59.1(@types/react@19.2.2)(graphql@16.11.0)(monaco-editor@0.54.0)(next@15.4.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4))(payload@3.59.1(bufferutil@4.0.9)(graphql@16.11.0)(typescript@5.9.3)(utf-8-validate@6.0.5))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.9.3)
@@ -1115,6 +1118,12 @@ packages:
 
   '@payloadcms/drizzle@3.59.1':
     resolution: {integrity: sha512-2n25PQfbFJ7uIlQxLilf8lrdbIGJ9p56ZNtViHl57DCq8SYGcB7Rz+5MSNdGwMnK28oYMAObJ4bBI5JG9DhR/g==}
+    peerDependencies:
+      payload: 3.59.1
+
+  '@payloadcms/email-resend@3.59.1':
+    resolution: {integrity: sha512-2D6XjDK3dwNZYYV4qaxYvcrvboaPrF6Saj0TAWz5++SP0nsPZ3bND6xFSZxetR6iakFVV42rmqqUvqu6V0SF0Q==}
+    engines: {node: ^18.20.2 || >=20.9.0}
     peerDependencies:
       payload: 3.59.1
 
@@ -4874,6 +4883,10 @@ snapshots:
       - prisma
       - sql.js
       - sqlite3
+
+  '@payloadcms/email-resend@3.59.1(payload@3.59.1(bufferutil@4.0.9)(graphql@16.11.0)(typescript@5.9.3)(utf-8-validate@6.0.5))':
+    dependencies:
+      payload: 3.59.1(bufferutil@4.0.9)(graphql@16.11.0)(typescript@5.9.3)(utf-8-validate@6.0.5)
 
   '@payloadcms/graphql@3.59.1(graphql@16.11.0)(payload@3.59.1(bufferutil@4.0.9)(graphql@16.11.0)(typescript@5.9.3)(utf-8-validate@6.0.5))(typescript@5.9.3)':
     dependencies:
