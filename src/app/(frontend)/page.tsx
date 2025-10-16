@@ -3,6 +3,9 @@ import About from "@/components/Home/About";
 import Impact from "@/components/Home/Impact";
 import SponsorModal from "@/components/ui/SponsorModal";
 import { getImpactData } from "@/lib/payload/fetch";
+import VideoGallery from "@/components/Home/VideoGallery";
+import Testimonials from "@/components/Home/Testimonials";
+import SponsorCTA from "@/components/SponsorCTA";
 
 
 export const metadata = {
@@ -24,6 +27,9 @@ export default async function Home() {
       <Hero />
       <About />
       <Impact stats={stats} />
+      <VideoGallery />
+      <Testimonials />
+      <SponsorCTA />
     </main>
   );
 }

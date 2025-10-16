@@ -1,17 +1,14 @@
-import React from 'react';
+'use client';
+
+import React, { useState } from 'react';
 import { Play } from 'lucide-react';
-import Image from 'next/image';
 import HeroSlideshow from './HeroSlideshow';
 import HeroCarousel from './HeroCarousel';
 import SwooshButton from '@/components/ui/swoosh-button';
+import VideoLightbox from '@/components/ui/video-lightbox';
 
 const HeroSectionSEO = () => {
-  // const backgroundImages = [
-  //   'https://images.pexels.com/photos/8926550/pexels-photo-8926550.jpeg',
-  //   'https://images.pexels.com/photos/8926549/pexels-photo-8926549.jpeg',
-  //   'https://images.pexels.com/photos/8926537/pexels-photo-8926537.jpeg',
-  //   'https://images.pexels.com/photos/8926548/pexels-photo-8926548.jpeg',
-  // ];
+  const [isVideoOpen, setIsVideoOpen] = useState(false);
   const backgroundImages = [
     '/images/home0.jpg',
     '/images/home1.jpg',
@@ -48,11 +45,6 @@ const HeroSectionSEO = () => {
           <div className="bg-tertiary absolute -left-46 top-20 w-130 h-full transform -skew-x-12"></div>
         </div>
 
-        {/* <div className="absolute bottom-0 right-0 lg:hidden block z-5 overflow-hidden">
-          <div className="bg-tertiary w-48 h-64 transform skew-x-12 -mr-16"></div>
-          <div className="bg-primary w-40 h-48 transform skew-x-12 -mt-40 -mr-8"></div>
-        </div> */}
-
 
         {/* Content */}
         <div className="relative z-10 h-full flex items-center justify-center pb-12 pt-10">
@@ -87,28 +79,29 @@ const HeroSectionSEO = () => {
               </div>
 
               {/* Right Column - Video Preview */}
-              <div className="hidden lg:flex justify-center">
-                <div className="relative group cursor-pointer animate-fade-in opacity-0 [animation-delay:400ms]">
-                  <div className="w-80 h-80 rounded-full overflow-hidden shadow-2xl">
-                    <Image
-                      src="https://images.pexels.com/photos/8926551/pexels-photo-8926551.jpeg"
-                      alt="Children in classroom"
-                      fill
-                      className="object-cover group-hover:scale-110 transition-transform duration-500"
-                      sizes="320px"
-                      priority
-                    />
-                  </div>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="bg-white/90 hover:bg-white text-primary w-16 h-16 rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-all duration-300">
-                      <Play className="h-8 w-8 ml-1" />
-                    </div>
+              <div className="hidden lg:flex justify-center items-center">
+                <div 
+                  className="group cursor-pointer animate-fade-in opacity-0 [animation-delay:400ms]"
+                  onClick={() => setIsVideoOpen(true)}
+                >
+                  <div className="bg-secondary/70 hover:bg-white text-primary w-24 h-24 rounded-full flex items-center justify-center shadow-2xl group-hover:scale-110 transition-all duration-300">
+                    <Play className="h-12 w-12 ml-2" fill="currentColor" />
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+
+        {/* Video Lightbox */}
+        <VideoLightbox
+          isOpen={isVideoOpen}
+          onClose={() => setIsVideoOpen(false)}
+          videoUrl=""
+          title="LightLives - Empowering Young Minds"
+          description="Watch how we're transforming lives through education and mentorship"
+          showNavigation={false}
+        />
 
         {/* Structured Data for SEO */}
         <script

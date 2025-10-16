@@ -5,6 +5,8 @@ import { ImpactSection, DonationForm } from '@/components/Sponsor';
 import { CircularGallery } from '@/components/ui/circular-gallery';
 import ScrollToSponsorButton from '@/components/Sponsor/ScrollToSponsorButton';
 import { galleryData } from '@/components/Sponsor/gallery-data';
+import SwooshButton from '@/components/ui/swoosh-button';
+import SponsorCTA from '@/components/SponsorCTA';
 
 export const metadata: Metadata = {
   title: 'Sponsor a Child’s Future | Light Lives',
@@ -200,15 +202,9 @@ const Sponsor = async () => {
       </section>
 
       {/* Back to Top CTA */}
-      <section className="py-16 text-center">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-tertiary mb-4">Ready to Make a Difference?</h2>
-          <p className="text-xl text-tertiary-600 mb-8">
-            Your contribution, big or small, creates a ripple of positive change.
-          </p>
+      <SponsorCTA>
           <ScrollToSponsorButton />
-        </div>
-      </section>
+      </SponsorCTA>
     </div>
   );
 };
