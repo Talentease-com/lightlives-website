@@ -2,11 +2,11 @@ import React from 'react';
 import Image from 'next/image';
 import AnimatedCounter from './AnimatedCounter';
 import SwooshButton from '../ui/swoosh-button';
-import { ImpactStat, impactIconMap } from '@/lib/utils';
-// Define the type for each stat item
+import { Users, School, Award } from 'lucide-react';
+import type { Impact } from '@/payload-types';
 
 interface ImpactSectionProps {
-  stats: ImpactStat[];
+  stats: Impact[];
 }
 
 const ImpactSection: React.FC<ImpactSectionProps> = ({ stats }) => {
@@ -60,18 +60,33 @@ const ImpactSection: React.FC<ImpactSectionProps> = ({ stats }) => {
 
             <div className="space-y-8">
               {stats.map((stat, index) => {
-                const Icon = impactIconMap[stat.icon];
+                // Use different icons based on index
+                const icons = [Users, School, Award];
+                const Icon = icons[index % icons.length];
+                
                 return (
-                  <div key={stat.label} className={`flex items-start space-x-4 group animate-fade-in-up opacity-0`} style={{ animationDelay: `${400 + index * 200}ms` }}>
+                  <div key={stat.id} className={`flex items-start space-x-4 group animate-fade-in-up opacity-0`} style={{ animationDelay: `${400 + index * 200}ms` }}>
                     <div className="bg-primary-100 text-primary p-3 rounded-full group-hover:bg-primary group-hover:text-white transition-all duration-300">
-                      {Icon ? <Icon className="h-6 w-6" /> : null}
+                      <Icon className="h-6 w-6" />
                     </div>
                     <div>
                       <div className="text-3xl font-bold text-tertiary mb-1">
-                        <AnimatedCounter value={stat.value} format={stat.format} decimals={stat.decimals} usePointer={stat.usePointer} />
+                        <AnimatedCounter 
+                          value={stat.val} 
+                          format={stat.suffix || ''} 
+                          usePointer={stat.usePointer || false}
+                          decimals={stat.decimals || 0}
+                        />
                       </div>
-                      <div className="text-lg font-semibold text-tertiary-700 mb-2">{stat.label}</div>
-                      <p className="text-tertiary-500">{stat.description}</p>
+                      <div className="text-lg font-semibold text-tertiary-700 mb-2">{stat.desc}</div>
+                      <p className="text-tertiary-500">
+                        <span className="font-medium">
+                          {stat.val2.toLocaleString('en-IN', {
+                            minimumFractionDigits: stat.decimals2 || 0,
+                            maximumFractionDigits: stat.decimals2 || 0
+                          })}
+                        </span> {stat.desc2}
+                      </p>
                     </div>
                   </div>
                 );
@@ -79,7 +94,7 @@ const ImpactSection: React.FC<ImpactSectionProps> = ({ stats }) => {
             </div>
 
             <div className="mt-12 animate-fade-in-up opacity-0 [animation-delay:1000ms]">
-              <SwooshButton href='/about' className='bg-tertiary font-bold py-8 px-4 sm:px-8 text-lg' text='Learn More About Our Mission & Team' />
+              <SwooshButton href='/about/mission' className='bg-tertiary font-bold py-8 px-4 sm:px-8 text-lg' text='Learn More About Our Mission & Team' />
             </div>
           </div>
 
@@ -114,6 +129,13 @@ const ImpactSection: React.FC<ImpactSectionProps> = ({ stats }) => {
               <SwooshButton href="/sponsor" className="bg-primary text-white font-bold py-8 px-8 text-lg shadow-xl" text="See Our Projects" />
             </div>
           </div>
+        </div>
+        
+        {/* Fine print */}
+        <div className="text-center mt-16 animate-fade-in-up opacity-0 [animation-delay:1200ms]">
+          <p className="text-tertiary-500 text-xs italic">
+            *Delivered in collaboration with our partner organisation TalentEase (started in 2013)
+          </p>
         </div>
       </div>
     </section>

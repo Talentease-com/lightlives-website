@@ -8,6 +8,7 @@ interface AnimatedCounterProps {
   duration?: number;
   decimals?: number;
   usePointer?: boolean;
+  locale?: string;
 }
 
 const AnimatedCounter: React.FC<AnimatedCounterProps> = ({
@@ -15,10 +16,16 @@ const AnimatedCounter: React.FC<AnimatedCounterProps> = ({
   format = "+",
   duration = 2000,
   decimals = 0,
-  usePointer = false
+  usePointer = false,
+  locale = 'en-IN'
 }) => {
   const formatFunc = (val: number) => {
-    return `${val}${format}`;
+    // Use toLocaleString for proper number formatting with decimals
+    const formattedNumber = val.toLocaleString(locale, {
+      minimumFractionDigits: decimals,
+      maximumFractionDigits: decimals
+    });
+    return `${formattedNumber}${format}`;
   };
   const [count, setCount] = useState(Number(value.toFixed(decimals)));
   const [animationDone, setAnimationDone] = useState(false);

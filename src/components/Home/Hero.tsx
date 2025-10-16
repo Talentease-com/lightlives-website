@@ -55,18 +55,22 @@ const HeroSectionSEO = () => {
 
 
         {/* Content */}
-        <div className="relative z-10 h-full flex items-center justify-center pb-18">
+        <div className="relative z-10 h-full flex items-center justify-center pb-12 pt-10">
           <div className="container mx-auto px-4 w-full">
+            <h1 className="text-white text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold leading-tight mb-4 animate-fade-in-up opacity-0">
+              What&apos;s the best investment of your social-impact money?
+            </h1>
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               {/* Left Column - Tagline and Carousel */}
               <div className="text-white">
-                <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 animate-fade-in-up opacity-0">
-                  Lighting Up
-                  <span className="text-primary"> Lives</span>
-                </h1>
-                
-                <p className="text-xl md:text-2xl xl:text-3xl mb-8 text-gray-200 animate-fade-in-up opacity-0 [animation-delay:200ms]">
-                  Empowering children with essential life skills and values for a brighter tomorrow.
+
+
+                <h2 className="text-xl md:text-2xl lg:text-3xl xl:text-4xl font-semibold mb-6 text-primary animate-fade-in-up opacity-0 [animation-delay:100ms]">
+                  Making the shift from just charity to building lives. At scale.
+                </h2>
+
+                <p className="text-lg md:text-xl lg:text-2xl mb-8 text-gray-200 animate-fade-in-up opacity-0 [animation-delay:200ms]">
+                  Empowering children and young adults with essential life skills and values for professional and personal success.
                 </p>
 
                 <HeroCarousel items={carouselItems} />

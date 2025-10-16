@@ -5,11 +5,11 @@ import { motion } from 'motion/react';
 import { Users, School, Award, CheckCircle } from 'lucide-react';
 import { AdaptiveCard } from '@/components/ui/cards';
 import { PointerHighlight } from '@/components/ui/pointer-highlight';
-import { ImpactStat } from '@/lib/utils';
+import type { Impact } from '@/payload-types';
 import AnimatedCounter from '@/components/Home/AnimatedCounter';
 
 interface ImpactSectionProps {
-  impactStats: ImpactStat[];
+  impactStats: Impact[];
   className?: string;
 }
 
@@ -37,22 +37,35 @@ const ImpactSection: React.FC<ImpactSectionProps> = ({ impactStats, className = 
         </p>
 
         <div className="space-y-6 mb-8">
-          {impactStats.map((stat) => {
-            const Icon = stat.icon === 'Users' ? Users : stat.icon === 'School' ? School : Award;
+          {impactStats.map((stat, index) => {
+            // Use different icons based on index or you could add an icon field to the CMS
+            const icons = [Users, School, Award];
+            const Icon = icons[index % icons.length];
+            
             return (
-              <div key={stat.label} className="flex items-start space-x-4 group hover:scale-105 transition-all">
+              <div key={stat.id} className="flex items-start space-x-4 group hover:scale-105 transition-all">
                 <div className="bg-primary-100 text-primary p-3 rounded-full group-hover:bg-primary group-hover:text-white transition-all duration-300">
                   <Icon className="h-6 w-6" />
                 </div>
                 <div>
                   <div className="text-2xl font-bold text-tertiary mb-1">
-                    <AnimatedCounter value={stat.value} format={stat.format} decimals={stat.decimals} usePointer={stat.usePointer} />
+                    <AnimatedCounter 
+                      value={stat.val} 
+                      format={stat.suffix || ''} 
+                      usePointer={stat.usePointer || false}
+                      decimals={stat.decimals || 0}
+                    />
                   </div>
                   <div className="text-lg font-semibold text-tertiary-700 mb-1">
-                    {stat.label}
+                    {stat.desc}
                   </div>
-                  <p className="text-tertiary-500">
-                    {stat.description}
+                  <p className="text-tertiary-500 text-sm">
+                    <span className="font-medium">
+                      {stat.val2.toLocaleString('en-IN', {
+                        minimumFractionDigits: stat.decimals2 || 0,
+                        maximumFractionDigits: stat.decimals2 || 0
+                      })}
+                    </span> {stat.desc2}
                   </p>
                 </div>
               </div>
@@ -97,6 +110,10 @@ const ImpactSection: React.FC<ImpactSectionProps> = ({ impactStats, className = 
             <p>ICICI Bank, MG Road Hyderabad Branch</p>
           </div>
         </div>
+
+        <p className="text-tertiary-500 text-xs mt-4 italic">
+          *Delivered in collaboration with our partner organisation TalentEase (started in 2013)
+        </p>
       </AdaptiveCard>
     </motion.div>
   );

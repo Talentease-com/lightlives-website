@@ -41,21 +41,34 @@ export function CareersApplicationForm() {
         formData.append("resume", resumeFile, resumeFile.name);
       }
 
-      // Placeholder submission: replace with RecruitCRM endpoint integration.
-      await new Promise((resolve) => setTimeout(resolve, 1200));
-      console.info("RecruitCRM payload", Object.fromEntries(formData.entries()));
+      // Submit to Payload CMS API
+      const response = await fetch('/api/careers/apply', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Submission failed');
+      }
 
       setSubmissionState("success");
-      setMessage("Thanks! We\u2019ve received your application and will be in touch soon.");
+      setMessage(result.message || "Thanks! We've received your application and will be in touch within 5-7 business days.");
       reset();
     } catch (error) {
       console.error("Career application submission failed", error);
       setSubmissionState("error");
-      setMessage("Something went wrong while submitting. Please try again.");
+      
+      if (error instanceof Error) {
+        setMessage(error.message);
+      } else {
+        setMessage("Something went wrong while submitting. Please try again.");
+      }
     } finally {
       setTimeout(() => {
         setSubmissionState("idle");
-      }, 2000);
+      }, 5000); // Show message for longer since it's more important
     }
   });
 

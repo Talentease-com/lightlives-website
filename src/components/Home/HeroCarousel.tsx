@@ -38,10 +38,10 @@ const HeroCarousel: React.FC<HeroCarouselProps> = ({ items }) => {
             transition={{ duration: 0.6 }}
             className="bg-white/10 backdrop-blur-sm p-6  border border-white/20"
           >
-            <h3 className="text-xl font-semibold mb-3 text-primary-400">
+            <h3 className="text-2xl md:text-3xl font-semibold mb-3 text-primary-400">
               {items[currentCarousel].title}
             </h3>
-            <p className="text-gray-100">
+            <p className="text-lg md:text-xl text-gray-100">
               {items[currentCarousel].description}
             </p>
           </motion.div>
@@ -49,7 +49,7 @@ const HeroCarousel: React.FC<HeroCarouselProps> = ({ items }) => {
       </div>
 
       {/* Carousel Indicators */}
-      <div className="flex space-x-2 mt-16 sm:mt-12 md:mt-8 lg:mt-12 ml-2">
+      <div className="flex space-x-2 mt-22 sm:mt-16 md:mt-16 lg:mt-24 xl:mt-18 ml-2">
         {items.map((_, index) => (
           <button
             key={index}
