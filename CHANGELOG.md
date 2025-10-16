@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.8.0](https://github.com/Talentease-com/lightlives-website/compare/v0.7.0...v0.8.0) (2025-10-16)
+
+
+### Features
+
+* Add Mission & Vision page and background overlay SVG ([fc827ab](https://github.com/Talentease-com/lightlives-website/commit/fc827abc8f00c6f6aac396eac79163e3694bb516))
+* fully migrate from supabase to payloadcms. migrate payments to payload ([3cda8f2](https://github.com/Talentease-com/lightlives-website/commit/3cda8f22e6d4fbaffa8acd39ac0f25de15ca84bb))
+* Implement email settings management and notification system ([9600f0f](https://github.com/Talentease-com/lightlives-website/commit/9600f0f381001165f93300b5d0d06d7a03f08cd2))
+* Implement S3 storage integration and resume deletion hooks ([f4065e6](https://github.com/Talentease-com/lightlives-website/commit/f4065e60680705180a6915c4e936107b6cbdeacc))
+* Integrate Payload CMS for impacts data and add AdminBar component ([adaa5ed](https://github.com/Talentease-com/lightlives-website/commit/adaa5edfc6757b61b2d1eae0a8facc0f9d1919d9))
+
+
+### Bug Fixes
+
+* sharp failure on vercel ([e32e730](https://github.com/Talentease-com/lightlives-website/commit/e32e7301d7143b49d4c779fb3658a96aa23f6930))
+
 ## [0.7.0](https://github.com/Talentease-com/lightlives-website/compare/v0.6.0...v0.7.0) (2025-10-03)
 
 
