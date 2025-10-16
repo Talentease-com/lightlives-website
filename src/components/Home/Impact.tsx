@@ -94,7 +94,7 @@ const ImpactSection: React.FC<ImpactSectionProps> = ({ stats }) => {
             </div>
 
             <div className="mt-12 animate-fade-in-up opacity-0 [animation-delay:1000ms]">
-              <SwooshButton href='/about' className='bg-tertiary font-bold py-8 px-4 sm:px-8 text-lg' text='Learn More About Our Mission & Team' />
+              <SwooshButton href='/about/mission' className='bg-tertiary font-bold py-8 px-4 sm:px-8 text-lg' text='Learn More About Our Mission & Team' />
             </div>
           </div>
 
