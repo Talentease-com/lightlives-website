@@ -13,8 +13,18 @@ import { Impacts } from './collections/Impacts'
 import { Payments } from './collections/Payments'
 import { CareerApplications } from './collections/CareerApplications'
 import { ContactSubmissions } from './collections/ContactSubmissions'
+import { NewsletterSubscribers } from './collections/NewsletterSubscribers'
+import { TeamCarouselImages } from './collections/TeamCarouselImages'
+import { LeadershipTeam } from './collections/LeadershipTeam'
+import { AdvisoryBoard } from './collections/AdvisoryBoard'
 import { EmailSettings } from './globals/EmailSettings'
-import { s3Storage } from '@payloadcms/storage-s3';
+import { SocialSettings } from './globals/SocialSettings'
+import { FooterLinks } from './globals/FooterLinks'
+import { s3Storage } from '@payloadcms/storage-s3'
+import {
+  withCollectionLogging,
+  withGlobalLogging,
+} from './lib/payload/hooks/logging'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -27,10 +37,25 @@ export default buildConfig({
     },
     components: {
       actions: ['/components/Admin/GoToWebsiteButton.tsx'],
-    }
+    },
   },
-  collections: [Users, Media, Impacts, Payments, CareerApplications, ContactSubmissions],
-  globals: [EmailSettings],
+  collections: [
+    withCollectionLogging(Users),
+    withCollectionLogging(Media),
+    withCollectionLogging(Impacts),
+    withCollectionLogging(Payments),
+    withCollectionLogging(CareerApplications),
+    withCollectionLogging(ContactSubmissions),
+    withCollectionLogging(NewsletterSubscribers),
+    withCollectionLogging(TeamCarouselImages),
+    withCollectionLogging(LeadershipTeam),
+    withCollectionLogging(AdvisoryBoard),
+  ],
+  globals: [
+    withGlobalLogging(EmailSettings),
+    withGlobalLogging(SocialSettings),
+    withGlobalLogging(FooterLinks),
+  ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

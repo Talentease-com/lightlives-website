@@ -24,3 +24,72 @@ export const getImpactData = cache(async () => {
     return [];
   }
 });
+
+// Fetch team carousel images
+export const getTeamCarouselImages = cache(async () => {
+  try {
+    const payload = await getPayload({ config: configPromise })
+
+    const images = await payload.find({
+      collection: 'team-carousel-images',
+      where: {
+        isActive: {
+          equals: true
+        }
+      },
+      sort: 'displayOrder',
+      limit: 100,
+    })
+
+    return images.docs
+  } catch (error) {
+    console.error('Error fetching team carousel images from Payload:', error);
+    return [];
+  }
+});
+
+// Fetch leadership team members
+export const getLeadershipTeam = cache(async () => {
+  try {
+    const payload = await getPayload({ config: configPromise })
+
+    const leaders = await payload.find({
+      collection: 'leadership-team',
+      where: {
+        isActive: {
+          equals: true
+        }
+      },
+      sort: 'displayOrder',
+      limit: 20,
+    })
+
+    return leaders.docs
+  } catch (error) {
+    console.error('Error fetching leadership team from Payload:', error);
+    return [];
+  }
+});
+
+// Fetch advisory board members
+export const getAdvisoryBoard = cache(async () => {
+  try {
+    const payload = await getPayload({ config: configPromise })
+
+    const advisors = await payload.find({
+      collection: 'advisory-board',
+      where: {
+        isActive: {
+          equals: true
+        }
+      },
+      sort: 'displayOrder',
+      limit: 20,
+    })
+
+    return advisors.docs
+  } catch (error) {
+    console.error('Error fetching advisory board from Payload:', error);
+    return [];
+  }
+});

@@ -73,6 +73,10 @@ export interface Config {
     payments: Payment;
     'career-applications': CareerApplication;
     'contact-submissions': ContactSubmission;
+    'newsletter-subscribers': NewsletterSubscriber;
+    'team-carousel-images': TeamCarouselImage;
+    'leadership-team': LeadershipTeam;
+    'advisory-board': AdvisoryBoard;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -85,6 +89,10 @@ export interface Config {
     payments: PaymentsSelect<false> | PaymentsSelect<true>;
     'career-applications': CareerApplicationsSelect<false> | CareerApplicationsSelect<true>;
     'contact-submissions': ContactSubmissionsSelect<false> | ContactSubmissionsSelect<true>;
+    'newsletter-subscribers': NewsletterSubscribersSelect<false> | NewsletterSubscribersSelect<true>;
+    'team-carousel-images': TeamCarouselImagesSelect<false> | TeamCarouselImagesSelect<true>;
+    'leadership-team': LeadershipTeamSelect<false> | LeadershipTeamSelect<true>;
+    'advisory-board': AdvisoryBoardSelect<false> | AdvisoryBoardSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -94,9 +102,13 @@ export interface Config {
   };
   globals: {
     'email-settings': EmailSetting;
+    'social-settings': SocialSetting;
+    'footer-links': FooterLink;
   };
   globalsSelect: {
     'email-settings': EmailSettingsSelect<false> | EmailSettingsSelect<true>;
+    'social-settings': SocialSettingsSelect<false> | SocialSettingsSelect<true>;
+    'footer-links': FooterLinksSelect<false> | FooterLinksSelect<true>;
   };
   locale: null;
   user: User & {
@@ -377,6 +389,117 @@ export interface ContactSubmission {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "newsletter-subscribers".
+ */
+export interface NewsletterSubscriber {
+  id: number;
+  /**
+   * Email address of the subscriber
+   */
+  email: string;
+  /**
+   * Subscription status
+   */
+  status: 'active' | 'unsubscribed';
+  /**
+   * Date when the user subscribed
+   */
+  subscribedAt?: string | null;
+  /**
+   * Date when the user unsubscribed
+   */
+  unsubscribedAt?: string | null;
+  /**
+   * IP address when subscription was made
+   */
+  ipAddress?: string | null;
+  /**
+   * Browser user agent string
+   */
+  userAgent?: string | null;
+  /**
+   * Source of the subscription
+   */
+  source?: ('footer' | 'contact' | 'popup' | 'manual') | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "team-carousel-images".
+ */
+export interface TeamCarouselImage {
+  id: number;
+  image: number | Media;
+  /**
+   * Describe the image for accessibility
+   */
+  alt: string;
+  /**
+   * Lower numbers appear first in the carousel
+   */
+  displayOrder: number;
+  /**
+   * Uncheck to hide this image from the carousel
+   */
+  isActive?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "leadership-team".
+ */
+export interface LeadershipTeam {
+  id: number;
+  name: string;
+  /**
+   * e.g., Chief Executive Officer, Director of Operations
+   */
+  jobRole: string;
+  /**
+   * Square image recommended (1:1 aspect ratio)
+   */
+  profileImage: number | Media;
+  /**
+   * Lower numbers appear first in the grid
+   */
+  displayOrder: number;
+  /**
+   * Uncheck to hide this member from the team page
+   */
+  isActive?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "advisory-board".
+ */
+export interface AdvisoryBoard {
+  id: number;
+  name: string;
+  /**
+   * Square image recommended (1:1 aspect ratio)
+   */
+  profileImage: number | Media;
+  /**
+   * Full paragraph about the advisory board member
+   */
+  bio: string;
+  /**
+   * Lower numbers appear first on the page
+   */
+  displayOrder: number;
+  /**
+   * Uncheck to hide this member from the team page
+   */
+  isActive?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -405,6 +528,22 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'contact-submissions';
         value: number | ContactSubmission;
+      } | null)
+    | ({
+        relationTo: 'newsletter-subscribers';
+        value: number | NewsletterSubscriber;
+      } | null)
+    | ({
+        relationTo: 'team-carousel-images';
+        value: number | TeamCarouselImage;
+      } | null)
+    | ({
+        relationTo: 'leadership-team';
+        value: number | LeadershipTeam;
+      } | null)
+    | ({
+        relationTo: 'advisory-board';
+        value: number | AdvisoryBoard;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -576,6 +715,59 @@ export interface ContactSubmissionsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "newsletter-subscribers_select".
+ */
+export interface NewsletterSubscribersSelect<T extends boolean = true> {
+  email?: T;
+  status?: T;
+  subscribedAt?: T;
+  unsubscribedAt?: T;
+  ipAddress?: T;
+  userAgent?: T;
+  source?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "team-carousel-images_select".
+ */
+export interface TeamCarouselImagesSelect<T extends boolean = true> {
+  image?: T;
+  alt?: T;
+  displayOrder?: T;
+  isActive?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "leadership-team_select".
+ */
+export interface LeadershipTeamSelect<T extends boolean = true> {
+  name?: T;
+  jobRole?: T;
+  profileImage?: T;
+  displayOrder?: T;
+  isActive?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "advisory-board_select".
+ */
+export interface AdvisoryBoardSelect<T extends boolean = true> {
+  name?: T;
+  profileImage?: T;
+  bio?: T;
+  displayOrder?: T;
+  isActive?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents_select".
  */
 export interface PayloadLockedDocumentsSelect<T extends boolean = true> {
@@ -740,6 +932,247 @@ export interface EmailSetting {
   createdAt?: string | null;
 }
 /**
+ * Manage social media links and contact information displayed in the footer
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "social-settings".
+ */
+export interface SocialSetting {
+  id: number;
+  /**
+   * Primary contact details displayed in the footer
+   */
+  contact?: {
+    /**
+     * Primary contact phone number
+     */
+    phone?: string | null;
+    /**
+     * Primary contact email address
+     */
+    email?: string | null;
+    /**
+     * Organization physical address
+     */
+    address?: string | null;
+  };
+  /**
+   * Social media profile URLs
+   */
+  socialMedia?: {
+    /**
+     * Full URL to Facebook page
+     */
+    facebook?: string | null;
+    /**
+     * Full URL to Twitter/X profile
+     */
+    twitter?: string | null;
+    /**
+     * Full URL to Instagram profile
+     */
+    instagram?: string | null;
+    /**
+     * Full URL to LinkedIn page
+     */
+    linkedin?: string | null;
+    /**
+     * Full URL to YouTube channel
+     */
+    youtube?: string | null;
+  };
+  /**
+   * Additional content displayed in the footer
+   */
+  footer?: {
+    /**
+     * Brief description of the organization displayed in the footer
+     */
+    description?: string | null;
+    /**
+     * Official NGO registration number
+     */
+    registrationNumber?: string | null;
+    /**
+     * Copyright year (defaults to current year)
+     */
+    copyrightYear?: number | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * Manage footer navigation links organized by categories
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer-links".
+ */
+export interface FooterLink {
+  id: number;
+  /**
+   * Links for the "Quick Links" section in the footer
+   */
+  quickLinks?:
+    | {
+        /**
+         * Display text for the link
+         */
+        label: string;
+        /**
+         * Choose whether this links to a page, document, or external URL
+         */
+        linkType: 'page' | 'document' | 'external';
+        /**
+         * Internal page path (e.g., /about/mission)
+         */
+        pagePath?: string | null;
+        /**
+         * Upload a PDF or document file
+         */
+        document?: (number | null) | Media;
+        /**
+         * Full external URL (e.g., https://example.com)
+         */
+        externalUrl?: string | null;
+        /**
+         * Open link in a new tab (recommended for external links and documents)
+         */
+        openInNewTab?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Links for the "Legal" section in the footer (certificates, compliance docs)
+   */
+  legalLinks?:
+    | {
+        /**
+         * Display text for the link
+         */
+        label: string;
+        /**
+         * Choose whether this links to a page, document, or external URL
+         */
+        linkType: 'page' | 'document' | 'external';
+        /**
+         * Internal page path
+         */
+        pagePath?: string | null;
+        /**
+         * Upload a PDF or document file (recommended for certificates)
+         */
+        document?: (number | null) | Media;
+        /**
+         * Full external URL
+         */
+        externalUrl?: string | null;
+        /**
+         * Open link in a new tab (recommended for documents)
+         */
+        openInNewTab?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Links for the "Get Involved" section in the footer
+   */
+  getInvolvedLinks?:
+    | {
+        /**
+         * Display text for the link
+         */
+        label: string;
+        /**
+         * Choose whether this links to a page, document, or external URL
+         */
+        linkType: 'page' | 'document' | 'external';
+        /**
+         * Internal page path (e.g., /sponsor)
+         */
+        pagePath?: string | null;
+        /**
+         * Upload a PDF or document file
+         */
+        document?: (number | null) | Media;
+        /**
+         * Full external URL (e.g., https://donate.example.com)
+         */
+        externalUrl?: string | null;
+        /**
+         * Open link in a new tab (recommended for external links)
+         */
+        openInNewTab?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Optional additional links for the "Stay Connected" section (social media and newsletter are handled separately)
+   */
+  stayConnectedLinks?:
+    | {
+        /**
+         * Display text for the link
+         */
+        label: string;
+        /**
+         * Choose whether this links to a page, document, or external URL
+         */
+        linkType: 'page' | 'document' | 'external';
+        /**
+         * Internal page path
+         */
+        pagePath?: string | null;
+        /**
+         * Upload a PDF or document file
+         */
+        document?: (number | null) | Media;
+        /**
+         * Full external URL
+         */
+        externalUrl?: string | null;
+        /**
+         * Open link in a new tab
+         */
+        openInNewTab?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Links displayed in the bottom copyright bar (e.g., Privacy Policy, Terms)
+   */
+  policyLinks?:
+    | {
+        /**
+         * Display text for the link
+         */
+        label: string;
+        /**
+         * Choose whether this links to a page, document, or external URL
+         */
+        linkType: 'page' | 'document' | 'external';
+        /**
+         * Internal page path (e.g., /privacy)
+         */
+        pagePath?: string | null;
+        /**
+         * Upload a PDF or document file
+         */
+        document?: (number | null) | Media;
+        /**
+         * Full external URL
+         */
+        externalUrl?: string | null;
+        /**
+         * Open link in a new tab
+         */
+        openInNewTab?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "email-settings_select".
  */
@@ -792,6 +1225,102 @@ export interface EmailSettingsSelect<T extends boolean = true> {
         secondaryColor?: T;
         logoUrl?: T;
         footerText?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "social-settings_select".
+ */
+export interface SocialSettingsSelect<T extends boolean = true> {
+  contact?:
+    | T
+    | {
+        phone?: T;
+        email?: T;
+        address?: T;
+      };
+  socialMedia?:
+    | T
+    | {
+        facebook?: T;
+        twitter?: T;
+        instagram?: T;
+        linkedin?: T;
+        youtube?: T;
+      };
+  footer?:
+    | T
+    | {
+        description?: T;
+        registrationNumber?: T;
+        copyrightYear?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer-links_select".
+ */
+export interface FooterLinksSelect<T extends boolean = true> {
+  quickLinks?:
+    | T
+    | {
+        label?: T;
+        linkType?: T;
+        pagePath?: T;
+        document?: T;
+        externalUrl?: T;
+        openInNewTab?: T;
+        id?: T;
+      };
+  legalLinks?:
+    | T
+    | {
+        label?: T;
+        linkType?: T;
+        pagePath?: T;
+        document?: T;
+        externalUrl?: T;
+        openInNewTab?: T;
+        id?: T;
+      };
+  getInvolvedLinks?:
+    | T
+    | {
+        label?: T;
+        linkType?: T;
+        pagePath?: T;
+        document?: T;
+        externalUrl?: T;
+        openInNewTab?: T;
+        id?: T;
+      };
+  stayConnectedLinks?:
+    | T
+    | {
+        label?: T;
+        linkType?: T;
+        pagePath?: T;
+        document?: T;
+        externalUrl?: T;
+        openInNewTab?: T;
+        id?: T;
+      };
+  policyLinks?:
+    | T
+    | {
+        label?: T;
+        linkType?: T;
+        pagePath?: T;
+        document?: T;
+        externalUrl?: T;
+        openInNewTab?: T;
+        id?: T;
       };
   updatedAt?: T;
   createdAt?: T;

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Layout/Navbar";
+import Footer from "@/components/Layout/Footer";
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { AdminBar } from '@/components/Layout/AdminBar'
 
@@ -36,9 +37,11 @@ export default function RootLayout({
         {children}
         <SpeedInsights />
       </main>
+      <Footer />
       </body>
     </html>
   );
 }
+// ! AdminBar will ping the server on every page load to check auth status. Might deplete serverless function limits on Vercel if left in place on high traffic pages.
 
 
