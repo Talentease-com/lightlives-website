@@ -21,6 +21,7 @@ export const metadata: Metadata = {
 };
 
 export default async function TeamPage() {
+  console.log('Page rendering: TeamPage');
   // Fetch all team data in parallel
   const [carouselImages, leadershipTeam, advisoryBoard] = await Promise.all([
     getTeamCarouselImages(),

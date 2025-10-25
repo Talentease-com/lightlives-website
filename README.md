@@ -37,6 +37,19 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 
+## Documentation
+
+### Implementation Guides
+- **[Payment Integration](PAYMENT_INTEGRATION.md)** - Razorpay setup, payment flow, and webhook handling
+- **[Form Validation](FORM_VALIDATION.md)** - Centralized validation utilities
+- **[Footer Revalidation](FOOTER_REVALIDATION.md)** - Cache invalidation patterns
+- **[Payload Logging](PAYLOAD_LOGGING.md)** - CRUD operation logging
+- **[Email Settings](EMAIL_SETTINGS_IMPLEMENTATION.md)** - Email configuration and setup
+- **[Teams Page](TEAMS_PAGE_IMPLEMENTATION.md)** - Team member display implementation
+
+### Infrastructure & DevOps
+- **[Cloudflare R2 Custom Domain Setup](CLOUDFLARE_R2_CUSTOM_DOMAIN_SETUP.md)** - Configure CDN for media files to avoid serverless limits
+
 ## Website Pages
 
 ### Home

@@ -75,7 +75,15 @@ export default buildConfig({
   plugins: [
      s3Storage({
       collections: {
-        media: true, // Apply storage to 'media' collection
+        media: {
+          prefix: '', // Organize files in /media folder
+          // Generate public R2 URL using custom domain
+          generateFileURL: ({ filename, prefix }) => {
+            const baseUrl = process.env.R2_PUBLIC_URL || 'https://cdn.lightlives.org'
+            const path = prefix ? `${prefix}/${filename}` : filename
+            return `${baseUrl}/${path}`
+          },
+        },
       },
       bucket: process.env.S3_BUCKET || '',
       config: {

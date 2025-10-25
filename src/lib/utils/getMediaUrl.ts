@@ -1,38 +1,47 @@
-import type { Media } from '@/payload-types';
+import type { Media } from '@/payload-types'
 
 /**
- * Extracts the URL from a Payload CMS Media field which can be:
- * - A direct URL string
- * - A numeric ID reference
- * - A populated Media object
+ * Extracts media URL from Payload CMS Media field.
+ * Handles string URLs, Media IDs, and Media objects.
  * 
- * @param media - The media field value (string | number | Media)
- * @param fallback - Optional fallback URL if media is invalid (default: '')
- * @returns The media URL or fallback
+ * **Performance**: Returns R2 direct URLs when available to avoid serverless invocations.
+ * Falls back to `/api/media/file/[filename]` for legacy uploads.
+ * 
+ * @param media - Media field value (string | number | Media | null/undefined)
+ * @param fallback - Fallback URL if media is invalid (default: '')
+ * @returns Resolved media URL
  */
 export function getMediaUrl(
   media: string | number | Media | null | undefined,
   fallback: string = ''
 ): string {
-  // Handle null/undefined
-  if (!media) {
-    return fallback;
-  }
+  if (!media) return fallback
 
-  // Handle direct URL string
+  // Case 1: Direct URL string
   if (typeof media === 'string') {
-    return media;
+    return media
   }
 
-  // Handle numeric ID - construct API URL
+  // Case 2: Media ID (legacy - avoid if possible, triggers serverless)
   if (typeof media === 'number') {
-    return `/api/media/${media}`;
+    console.warn(`⚠️ Media ID ${media} will trigger serverless function. Consider using R2 direct URLs.`)
+    return `/api/media/file/${media}`
   }
 
-  // Handle Media object
+  // Case 3: Media object with R2 URL (preferred - no serverless invocation)
   if (typeof media === 'object' && media !== null) {
-    return media.url || fallback;
+    // Prefer R2 direct URL if available (bypasses serverless)
+    if ('url' in media && media.url) {
+      console.log(`✅ Using R2 URL for media ID ${media.id}: ${media.url}`)
+      return media.url
+    }
+    
+    // Fallback to filename (triggers serverless - not ideal for production)
+    if ('filename' in media && media.filename) {
+      console.warn(`⚠️ Using filename ${media.filename} will trigger serverless. Configure R2 public URLs.`)
+      return `/api/media/file/${encodeURIComponent(media.filename)}`
+    }
   }
 
-  return fallback;
+  return fallback
 }

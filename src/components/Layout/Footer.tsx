@@ -25,12 +25,8 @@ async function getSocialSettings(): Promise<SocialSetting | null> {
     })
     return settings
   } catch (error) {
-    // Use Payload logger if available, else throw for error boundary
-    if (error && typeof error === 'object' && 'payload' in error && error.payload?.logger) {
-      error.payload.logger.error({ msg: 'Error fetching social settings', error })
-      return null
-    }
-    throw error
+    console.error('Error fetching social settings:', error)
+    return null
   }
 }
 
