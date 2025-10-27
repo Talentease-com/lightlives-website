@@ -77,6 +77,8 @@ export interface Config {
     'team-carousel-images': TeamCarouselImage;
     'leadership-team': LeadershipTeam;
     'advisory-board': AdvisoryBoard;
+    'csr-inquiries': CsrInquiry;
+    partners: Partner;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -93,6 +95,8 @@ export interface Config {
     'team-carousel-images': TeamCarouselImagesSelect<false> | TeamCarouselImagesSelect<true>;
     'leadership-team': LeadershipTeamSelect<false> | LeadershipTeamSelect<true>;
     'advisory-board': AdvisoryBoardSelect<false> | AdvisoryBoardSelect<true>;
+    'csr-inquiries': CsrInquiriesSelect<false> | CsrInquiriesSelect<true>;
+    partners: PartnersSelect<false> | PartnersSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -501,6 +505,126 @@ export interface AdvisoryBoard {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "csr-inquiries".
+ */
+export interface CsrInquiry {
+  id: number;
+  /**
+   * Name of the company/organization
+   */
+  companyName: string;
+  /**
+   * First name of the contact person
+   */
+  contactFirstName: string;
+  /**
+   * Last name of the contact person
+   */
+  contactLastName: string;
+  /**
+   * Full name of contact person (auto-generated)
+   */
+  contactName?: string | null;
+  /**
+   * Email address for communication
+   */
+  email: string;
+  /**
+   * Phone number (optional)
+   */
+  phone?: string | null;
+  /**
+   * City/Location (optional)
+   */
+  location?: string | null;
+  /**
+   * Partnership interests (can select multiple)
+   */
+  interests: ('donations' | 'sponsorships' | 'volunteering')[];
+  /**
+   * Approximate CSR budget (optional)
+   */
+  budgetBand?: ('under-10l' | '10l-50l' | '50l-2cr' | 'above-2cr' | 'undisclosed') | null;
+  /**
+   * Message content
+   */
+  message: string;
+  /**
+   * Current status of the inquiry
+   */
+  status: 'new' | 'in-progress' | 'responded' | 'closed';
+  /**
+   * Priority level of the inquiry
+   */
+  priority: 'low' | 'normal' | 'high' | 'urgent';
+  /**
+   * Team member assigned to handle this inquiry
+   */
+  assignedTo?: (number | null) | User;
+  /**
+   * Internal notes about the inquiry
+   */
+  notes?: string | null;
+  /**
+   * IP address when submission was made
+   */
+  ipAddress?: string | null;
+  /**
+   * Browser user agent string
+   */
+  userAgent?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "partners".
+ */
+export interface Partner {
+  id: number;
+  /**
+   * Name of the partner organization
+   */
+  name: string;
+  /**
+   * Industry sector of the partner
+   */
+  industry:
+    | 'technology'
+    | 'healthcare'
+    | 'education'
+    | 'finance'
+    | 'manufacturing'
+    | 'social-development'
+    | 'community-empowerment'
+    | 'retail'
+    | 'energy'
+    | 'other';
+  /**
+   * Partner logo (recommended size: 400x250px)
+   */
+  logo: number | Media;
+  /**
+   * Whether to display this partner on the website
+   */
+  isActive?: boolean | null;
+  /**
+   * Order in which partners are displayed (lower numbers first)
+   */
+  displayOrder?: number | null;
+  /**
+   * Optional description about the partnership
+   */
+  description?: string | null;
+  /**
+   * When the partnership began (optional)
+   */
+  partnershipStartDate?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -545,6 +669,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'advisory-board';
         value: number | AdvisoryBoard;
+      } | null)
+    | ({
+        relationTo: 'csr-inquiries';
+        value: number | CsrInquiry;
+      } | null)
+    | ({
+        relationTo: 'partners';
+        value: number | Partner;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -765,6 +897,45 @@ export interface AdvisoryBoardSelect<T extends boolean = true> {
   bio?: T;
   displayOrder?: T;
   isActive?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "csr-inquiries_select".
+ */
+export interface CsrInquiriesSelect<T extends boolean = true> {
+  companyName?: T;
+  contactFirstName?: T;
+  contactLastName?: T;
+  contactName?: T;
+  email?: T;
+  phone?: T;
+  location?: T;
+  interests?: T;
+  budgetBand?: T;
+  message?: T;
+  status?: T;
+  priority?: T;
+  assignedTo?: T;
+  notes?: T;
+  ipAddress?: T;
+  userAgent?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "partners_select".
+ */
+export interface PartnersSelect<T extends boolean = true> {
+  name?: T;
+  industry?: T;
+  logo?: T;
+  isActive?: T;
+  displayOrder?: T;
+  description?: T;
+  partnershipStartDate?: T;
   updatedAt?: T;
   createdAt?: T;
 }

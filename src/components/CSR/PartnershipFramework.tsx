@@ -11,7 +11,6 @@ import {
   Users, 
   BarChart3, 
   Handshake, 
-  Clock, 
   CheckSquare, 
   Package, 
   ArrowRight, 
@@ -150,14 +149,14 @@ const PartnershipFramework = () => {
             viewport={{ once: true }}
           >
             <h2 className="text-3xl md:text-4xl font-bold text-tertiary mb-4">
-              Our Partnership Framework
+              Join Us in Shaping Leaders, Creating Impact
             </h2>
             <p className="text-xl text-tertiary-600 max-w-3xl mx-auto mb-8">
-              A structured 5-10 year engagement model that transforms CSR from charity to strategic community investment.
+              Partner with us in building a legacy of strong, ethical leaders. Your CSR funding will not only support our Leadership Skills and Values Program but will contribute to a more resilient and empowered society.
             </p>
-            <div className="inline-flex items-center space-x-2 bg-primary/10 text-primary px-4 py-2 rounded-none border border-primary/20">
-              <Clock className="h-4 w-4" />
-              <span className="text-sm font-medium">Marathon Partnerships, Not Sprint Donations</span>
+            <div className="inline-flex items-center space-x-2 bg-secondary/20 text-tertiary px-6 py-3 rounded-none border-2 border-secondary">
+              <Target className="h-5 w-5 text-secondary" />
+              <span className="text-lg font-bold">Our immediate funding goal is INR 10 crore (1.25 million US dollars)</span>
             </div>
           </motion.div>
         </div>
@@ -303,7 +302,7 @@ const PartnershipFramework = () => {
         </div>
 
         {/* Call to Action */}
-        <motion.div
+        {/* <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -331,7 +330,7 @@ const PartnershipFramework = () => {
               <span>Download Framework Guide</span>
             </button>
           </div>
-        </motion.div>
+        </motion.div> */}
       </div>
     </section>
   );

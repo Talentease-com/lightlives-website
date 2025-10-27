@@ -6,6 +6,11 @@ export const emailCareersAfterChange: CollectionAfterChangeHook = async ({
   req, // the full request object
   operation // 'create' | 'update'
 }) => {
+  // Only send emails for newly created applications
+  if (operation !== 'create') {
+    return doc
+  }
+
   // Use the centralized email helper
   await sendNotificationEmails(
     req.payload,
@@ -15,8 +20,7 @@ export const emailCareersAfterChange: CollectionAfterChangeHook = async ({
       email: doc.email,
       mobile: doc.mobile,
       id: doc.id,
-    },
-    operation
+    }
   )
 
   return doc

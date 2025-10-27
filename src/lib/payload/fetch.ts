@@ -93,3 +93,26 @@ export const getAdvisoryBoard = cache(async () => {
     return [];
   }
 });
+
+// Fetch CSR partners
+export const getCSRPartners = cache(async () => {
+  try {
+    const payload = await getPayload({ config: configPromise })
+
+    const partners = await payload.find({
+      collection: 'partners',
+      where: {
+        isActive: {
+          equals: true
+        }
+      },
+      sort: 'displayOrder',
+      limit: 50,
+    })
+
+    return partners.docs
+  } catch (error) {
+    console.error('Error fetching CSR partners from Payload:', error);
+    return [];
+  }
+});

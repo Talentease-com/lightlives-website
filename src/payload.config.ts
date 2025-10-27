@@ -17,6 +17,8 @@ import { NewsletterSubscribers } from './collections/NewsletterSubscribers'
 import { TeamCarouselImages } from './collections/TeamCarouselImages'
 import { LeadershipTeam } from './collections/LeadershipTeam'
 import { AdvisoryBoard } from './collections/AdvisoryBoard'
+import { CSRInquiries } from './collections/CSR/CSRInquiries'
+import { Partners } from './collections/CSR/Partners'
 import { EmailSettings } from './globals/EmailSettings'
 import { SocialSettings } from './globals/SocialSettings'
 import { FooterLinks } from './globals/FooterLinks'
@@ -50,6 +52,8 @@ export default buildConfig({
     withCollectionLogging(TeamCarouselImages),
     withCollectionLogging(LeadershipTeam),
     withCollectionLogging(AdvisoryBoard),
+    withCollectionLogging(CSRInquiries),
+    withCollectionLogging(Partners),
   ],
   globals: [
     withGlobalLogging(EmailSettings),

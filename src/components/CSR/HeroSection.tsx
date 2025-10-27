@@ -68,39 +68,41 @@ const HeroSection: React.FC<HeroSectionProps> = ({ impactStats }) => {
             {/* Badge */}
             <div className="inline-flex items-center space-x-2 bg-primary/10 text-tertiary px-4 py-2 rounded-none border border-primary/20">
               <Award className="h-4 w-4" />
-              <span className="text-sm font-medium">Strategic CSR Partnership</span>
+              <span className="text-sm font-medium">CSR Partnership Opportunity</span>
             </div>
 
             {/* Main Headline */}
             <div className="space-y-4">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-tertiary leading-tight">
-                Beyond Handouts to
+                When you invest your
                 <span className="block text-transparent bg-primary bg-clip-text font-bold">
-                  Empowerment
+                  CSR money
                 </span>
               </h1>
-              <p className="text-xl md:text-2xl text-tertiary-600 leading-relaxed">
-                Transform your CSR from temporary relief to lasting change. Partner with LightLives for
-                <span className=" font-semibold"> marathon partnerships, not sprint donations.</span>
+              <p className="text-lg md:text-xl text-tertiary-600 leading-relaxed">
+                You&apos;re possibly looking for a few things:
               </p>
             </div>
 
             {/* Value Propositions */}
             <div className="space-y-4">
               {[
-                "Fixing root causes, not symptoms",
-                "Marathon partnerships, not sprint donations",
-                "Your CSR investment in nation building"
+                "To go beyond handouts and invest in empowering beneficiaries to help themselves",
+                "To not just work on symptoms but fix root causes with long term solutions",
+                "To work with organisations that maximise the impact of your CSR money and not waste it on irrelevant stuff or frills",
+                "To invest in initiatives that create a tangible, measurable impact",
+                "To not just do 'helicopter' CSR but to make it an integral part of the company culture by giving employees an opportunity to participate and make a difference",
+                "To ensure that your CSR efforts in some way support the big goal of nation building"
               ].map((proposition, index) => (
                 <motion.div
                   key={index}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.6, delay: 0.2 + index * 0.1 }}
-                  className="flex items-center space-x-3"
+                  className="flex items-start space-x-3"
                 >
-                  <div className="w-2 h-2 bg-secondary rounded-none"></div>
-                  <span className="text-tertiary-600 font-medium">{proposition}</span>
+                  <div className="w-2 h-2 bg-secondary rounded-none mt-2 flex-shrink-0"></div>
+                  <span className="text-tertiary-600">{proposition}</span>
                 </motion.div>
               ))}
             </div>
@@ -166,6 +168,46 @@ const HeroSection: React.FC<HeroSectionProps> = ({ impactStats }) => {
             <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-primary/20 rounded-none blur-xl"></div>
           </motion.div>
         </div>
+
+        {/* Why LightLives Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.6 }}
+          className="mt-20 space-y-8"
+        >
+          <div className="text-center mb-8">
+            <h2 className="text-3xl md:text-4xl font-bold text-tertiary mb-4">
+              That&apos;s why LightLives could be your
+              <span className="block text-transparent bg-primary bg-clip-text font-bold">
+                preferred CSR partner
+              </span>
+            </h2>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            {[
+              "We work with children and young adults from low-income backgrounds to give them the skills and values they will need to not just be professionally successful but live meaningful personal lives",
+              "The root cause of some of our biggest problems is usually a lack of committed, value-driven leaders. We work on preparing young people to be leaders and changemakers",
+              "Your money is directed to maximising the impact to the beneficiaries - no crazy overheads or wasteful expenditure",
+              "We have a rigorous measurement process that baselines when we start our program and measures the impact of our interventions",
+              "We encourage your employees to volunteer and be part of our programs",
+              "We are running a marathon not a sprint - our typical engagements last for 5-10 years to ensure long term capability building that will support the community and the nation"
+            ].map((point, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className="flex items-start space-x-3 p-4 bg-white border border-tertiary-200 rounded-none hover:shadow-lg transition-all duration-300"
+              >
+                <CheckCircle className="h-5 w-5 text-secondary mt-0.5 flex-shrink-0" />
+                <span className="text-tertiary-600">{point}</span>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
 
         {/* Impact Statistics */}
         <motion.div

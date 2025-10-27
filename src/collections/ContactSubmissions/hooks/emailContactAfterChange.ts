@@ -6,6 +6,11 @@ export const emailContactAfterChange: CollectionAfterChangeHook = async ({
   req, // the original request
   operation, // 'create'
 }) => {
+  // Only send emails for newly created submissions
+  if (operation !== 'create') {
+    return doc
+  }
+
   // Use the centralized email helper
   await sendNotificationEmails(
     req.payload,
@@ -18,8 +23,7 @@ export const emailContactAfterChange: CollectionAfterChangeHook = async ({
       subject: doc.subject,
       message: doc.message,
       id: doc.id,
-    },
-    operation
+    }
   )
 
   return doc
