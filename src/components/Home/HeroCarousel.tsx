@@ -54,7 +54,7 @@ const HeroCarousel: React.FC<HeroCarouselProps> = ({ items }) => {
           <button
             key={index}
             onClick={() => setCurrentCarousel(index)}
-            className={`w-3 h-3 rounded-full transition-all duration-300 ${
+            className={`w-3 h-3 rounded-none transition-all duration-300 ${
               currentCarousel === index
                 ? 'bg-secondary w-8'
                 : 'bg-white/40 hover:bg-white/60'

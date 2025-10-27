@@ -18,16 +18,16 @@ const HeroSectionSEO = () => {
 
   const carouselItems = [
     {
-      title: 'Empowering Young Minds',
-      description: 'We provide children with essential life skills and values that shape their future, building confidence and character through innovative learning programs.',
+      title: 'Start Early',
+      description: 'Our work with children and young adults means a \'prepare\' job now rather than a \'repair\' job later',
     },
     {
-      title: 'Building Tomorrow\'s Leaders',
-      description: 'Our comprehensive approach focuses on developing critical thinking, emotional intelligence, and social skills that prepare children for success.',
+      title: 'Empower rather than handouts',
+      description: 'With skills and values we give underprivileged young people the power to help themselves and become leaders for change',
     },
     {
-      title: 'Creating Lasting Impact',
-      description: 'Through dedicated mentorship and community support, we create sustainable change that transforms lives and strengthens communities.',
+      title: 'A marathon vs A sprint',
+      description: 'We believe lasting change comes from a continuous accompaniment of young people. Our multi-year program aims for lasting impact. Attitudes. Habits. Skills. Values.',
     },
   ];
 
@@ -56,10 +56,10 @@ const HeroSectionSEO = () => {
               {/* Left Column - Tagline and Carousel */}
               <div className="text-white">
 
-
+{/* 
                 <h2 className="text-xl md:text-2xl lg:text-3xl xl:text-4xl font-semibold mb-6 text-primary animate-fade-in-up opacity-0 [animation-delay:100ms]">
                   Making the shift from just charity to building lives. At scale.
-                </h2>
+                </h2> */}
 
                 <p className="text-lg md:text-xl lg:text-2xl mb-8 text-gray-200 animate-fade-in-up opacity-0 [animation-delay:200ms]">
                   Empowering children and young adults with essential life skills and values for professional and personal success.
