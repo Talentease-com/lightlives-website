@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.9.0](https://github.com/Talentease-com/lightlives-website/compare/v0.8.0...v0.9.0) (2025-10-27)
+
+
+### Features
+
+* Add CSR components including HeroSection, PartnershipFramework, and PartnerLogos with animations and responsive design ([b3f3b22](https://github.com/Talentease-com/lightlives-website/commit/b3f3b2270e705861a85116f40850e431a3ccf2d5))
+* Add SocialSettings global config for managing footer social media links and contact information ([2743b24](https://github.com/Talentease-com/lightlives-website/commit/2743b2448f37c5fd06781ed31178b3edc2b31791))
+* Implement a CDN for lightlives instead of using api calls for media ([1df4a30](https://github.com/Talentease-com/lightlives-website/commit/1df4a3013af6542c851e59ce9212915d09afe03e))
+* Mission and Vision + Landing Page componenets: Video Gallery and Testimonials ([550b228](https://github.com/Talentease-com/lightlives-website/commit/550b228d99b33ce18f78d19a056b6cb68be4c89d))
+* Update HeroSection and PartnerLogos components for CSR messaging and partner display ([058b0ab](https://github.com/Talentease-com/lightlives-website/commit/058b0ab1c518c62a4669aab0d9db2b82642cb0b7))
+
 ## [0.8.0](https://github.com/Talentease-com/lightlives-website/compare/v0.7.0...v0.8.0) (2025-10-16)
 
 
