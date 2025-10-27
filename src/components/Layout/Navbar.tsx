@@ -29,7 +29,7 @@ const Navbar: React.FC = () => {
       dropdown: [
         { path: '/about/mission', label: 'Mission & Vision' },
         { path: '/about/team', label: 'Our Team' },
-        { path: '/about/projects', label: 'Projects & Success Stories' },
+        { path: '/about/programs', label: 'Programs' },
       ]
     },
     { path: '/csr', label: 'CSR' },
@@ -49,7 +49,7 @@ const Navbar: React.FC = () => {
     { path: '/', label: 'Home', icon: Home, category: 'Navigation' },
     { path: '/about/mission', label: 'Mission & Vision', icon: Users, category: 'About Us' },
     { path: '/about/team', label: 'Our Team', icon: Users, category: 'About Us' },
-    { path: '/about/projects', label: 'Projects & Success Stories', icon: Users, category: 'About Us' },
+    { path: '/about/programs', label: 'Programs', icon: Users, category: 'About Us' },
     { path: '/csr', label: 'CSR', icon: Users, category: 'Navigation' },
     { path: '/support/volunteer', label: 'Volunteer', icon: Heart, category: 'Support Us' },
     { path: '/support/join', label: 'Join Us', icon: Heart, category: 'Support Us' },

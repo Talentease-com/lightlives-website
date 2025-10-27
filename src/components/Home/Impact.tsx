@@ -126,7 +126,7 @@ const ImpactSection: React.FC<ImpactSectionProps> = ({ stats }) => {
             </div>
             {/* SwooshButton Floating */}
             <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 animate-fade-in-up opacity-0 [animation-delay:800ms]">
-              <SwooshButton href="/sponsor" className="bg-primary text-white font-bold py-8 px-8 text-lg shadow-xl" text="See Our Projects" />
+              <SwooshButton href="/mission" className="bg-primary text-white font-bold py-8 px-8 text-lg shadow-xl" text="Our Mission" />
             </div>
           </div>
         </div>
