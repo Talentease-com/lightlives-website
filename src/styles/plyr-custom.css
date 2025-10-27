@@ -1,0 +1,216 @@
+/* Plyr Custom Styles - Light Lives Design Language */
+
+/* Override Plyr default styles to match brand */
+:root {
+  --plyr-color-main: hsl(var(--primary));
+  --plyr-video-background: #000;
+  --plyr-menu-background: rgba(0, 0, 0, 0.9);
+  --plyr-menu-color: #fff;
+  --plyr-badge-background: hsl(var(--primary));
+  --plyr-badge-text-color: #fff;
+  --plyr-tab-focus-color: hsl(var(--secondary));
+  --plyr-font-family: inherit;
+  --plyr-font-size-base: 16px;
+  --plyr-font-size-small: 14px;
+  --plyr-font-size-large: 18px;
+  --plyr-font-weight-regular: 400;
+  --plyr-font-weight-bold: 600;
+  --plyr-line-height: 1.7;
+  --plyr-audio-controls-background: hsl(var(--tertiary));
+  --plyr-audio-control-color: #fff;
+  --plyr-audio-control-color-hover: hsl(var(--primary));
+  --plyr-video-controls-background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.7));
+  --plyr-video-control-color: #fff;
+  --plyr-video-control-color-hover: hsl(var(--primary));
+  --plyr-video-control-background-hover: rgba(255, 255, 255, 0.1);
+  --plyr-range-fill-background: hsl(var(--primary));
+  --plyr-range-thumb-height: 18px;
+  --plyr-range-thumb-background: hsl(var(--primary));
+  --plyr-range-thumb-shadow: 0 1px 4px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(35, 41, 47, 0.2);
+  --plyr-range-thumb-active-shadow-width: 4px;
+  --plyr-range-track-height: 6px;
+  --plyr-range-track-background: rgba(255, 255, 255, 0.25);
+  --plyr-tooltip-background: rgba(0, 0, 0, 0.9);
+  --plyr-tooltip-color: #fff;
+  --plyr-tooltip-padding: 8px 12px;
+  --plyr-tooltip-arrow-size: 6px;
+  --plyr-tooltip-radius: 0px; /* No border radius */
+}
+
+/* Remove all border radius to match brand guidelines */
+.plyr,
+.plyr__control,
+.plyr__menu,
+.plyr__menu__container,
+.plyr__tooltip,
+.plyr--video,
+.plyr--audio,
+.plyr__volume,
+.plyr__progress,
+.plyr__progress__container,
+.plyr__menu__container [role='menu'] {
+  border-radius: 0 !important;
+}
+
+/* Big play button styling */
+.plyr__control--overlaid {
+  background: rgba(255, 255, 255, 0.1) !important;
+  backdrop-filter: blur(10px);
+  border: 2px solid hsl(var(--primary));
+  border-radius: 0 !important;
+  transition: all 0.3s ease;
+}
+
+.plyr__control--overlaid:hover {
+  background: hsl(var(--primary)) !important;
+  transform: scale(1.1);
+}
+
+.plyr__control--overlaid svg {
+  fill: hsl(var(--primary));
+}
+
+.plyr__control--overlaid:hover svg {
+  fill: white;
+}
+
+/* Control bar glassmorphism effect */
+.plyr__controls {
+  background: rgba(0, 0, 0, 0.7) !important;
+  backdrop-filter: blur(5px);
+  padding: 12px 16px !important;
+}
+
+/* Progress bar */
+.plyr__progress__container {
+  flex: 1;
+}
+
+.plyr__progress input[type='range'] {
+  color: hsl(var(--primary));
+}
+
+.plyr__progress input[type='range']::-webkit-slider-thumb {
+  background: hsl(var(--primary));
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.plyr__progress input[type='range']::-moz-range-thumb {
+  background: hsl(var(--primary));
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Volume slider */
+.plyr__volume input[type='range'] {
+  color: hsl(var(--primary));
+}
+
+/* Control buttons hover */
+.plyr__control:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+}
+
+.plyr__control svg {
+  transition: all 0.2s ease;
+}
+
+.plyr__control:hover svg {
+  fill: hsl(var(--primary));
+}
+
+/* Menu styling */
+.plyr__menu__container {
+  background: rgba(0, 0, 0, 0.95) !important;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.plyr__menu__container [role='menu'] {
+  padding: 8px;
+}
+
+.plyr__menu__container [role='menuitem'] {
+  padding: 10px 16px;
+  border-radius: 0 !important;
+  transition: all 0.2s ease;
+}
+
+.plyr__menu__container [role='menuitem']:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+.plyr__menu__container [role='menuitem'][aria-checked='true']::before {
+  background: hsl(var(--primary));
+}
+
+/* Settings button badge */
+.plyr__menu__container .plyr__control[data-plyr='settings'] span {
+  background: hsl(var(--primary));
+  color: white;
+}
+
+/* Time display */
+.plyr__time {
+  color: rgba(255, 255, 255, 0.9);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Loading spinner */
+.plyr--loading .plyr__control--overlaid {
+  display: none;
+}
+
+/* Fullscreen adjustments */
+.plyr--fullscreen {
+  background: #000;
+}
+
+/* Captions styling */
+.plyr__captions {
+  font-size: 1.2em;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.plyr__caption {
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(5px);
+  padding: 8px 16px;
+  border-radius: 0 !important;
+}
+
+/* Poster image */
+.plyr__poster {
+  background-size: cover;
+  background-position: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .plyr__controls {
+    padding: 8px 12px !important;
+  }
+  
+  .plyr__control--overlaid {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .plyr__menu__container {
+    font-size: 14px;
+  }
+}
+
+/* Focus states for accessibility */
+.plyr__control:focus-visible {
+  outline: 2px solid hsl(var(--primary));
+  outline-offset: 2px;
+}
+
+/* Quality badge */
+.plyr__menu__container .plyr__control--forward {
+  background: hsl(var(--tertiary));
+}
+
+.plyr__menu__container .plyr__control--backward {
+  background: hsl(var(--secondary));
+}

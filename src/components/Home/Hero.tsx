@@ -67,18 +67,27 @@ const HeroSectionSEO = () => {
 
                 <HeroCarousel items={carouselItems} />
 
-                {/* CTA Button */}
-                {/* <div className="animate-fade-in-up opacity-0 [animation-delay:600ms] mt-6">
-                  <button className="group bg-orange-500 hover:bg-orange-600 text-white font-bold py-4 px-8 rounded-full text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-xl flex items-center space-x-2">
-                    <span>Sponsor a Child</span>
-                    <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                {/* CTA Buttons - Mobile: Video + Sponsor, Desktop: Just Sponsor */}
+                <div className="flex flex-col sm:flex-row gap-4 mt-6 items-center lg:items-start">
+                  {/* Video Button - Shows on Mobile, Hidden on Desktop */}
+                  <button
+                    onClick={() => setIsVideoOpen(true)}
+                    className="lg:hidden group cursor-pointer animate-fade-in-up opacity-0 [animation-delay:500ms] flex items-center gap-3 bg-white/10 hover:bg-white/20 backdrop-blur-sm px-6 py-3 transition-all duration-300 border border-primary/50 hover:border-primary"
+                  >
+                    <div className="bg-secondary/70 group-hover:bg-primary text-primary group-hover:text-white w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300">
+                      <Play className="h-6 w-6 ml-1" fill="currentColor" />
+                    </div>
+                    <span className="text-white font-semibold">Watch Our Story</span>
                   </button>
-                </div> */}
 
-                <SwooshButton href='/sponsor' className='bg-red-800 mt-6 font-bold' text='Sponsor a Child' />
+                  {/* Sponsor Button */}
+                  <div className="animate-fade-in-up opacity-0 [animation-delay:600ms]">
+                    <SwooshButton href='/sponsor' className='bg-red-800 font-bold' text='Sponsor a Child' />
+                  </div>
+                </div>
               </div>
 
-              {/* Right Column - Video Preview */}
+              {/* Right Column - Video Preview (Desktop Only) */}
               <div className="hidden lg:flex justify-center items-center">
                 <div 
                   className="group cursor-pointer animate-fade-in opacity-0 [animation-delay:400ms]"
@@ -97,7 +106,7 @@ const HeroSectionSEO = () => {
         <VideoLightbox
           isOpen={isVideoOpen}
           onClose={() => setIsVideoOpen(false)}
-          videoUrl=""
+          videoUrl="https://cdn.lightlives.org/static-videos/LightLives_Landing_Optimized_576p25.mp4"
           title="LightLives - Empowering Young Minds"
           description="Watch how we're transforming lives through education and mentorship"
           showNavigation={false}

@@ -3,6 +3,12 @@
 import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight, Play } from 'lucide-react';
+import dynamic from 'next/dynamic';
+import 'plyr-react/plyr.css';
+import '@/styles/plyr-custom.css';
+
+// Dynamically import Plyr to avoid SSR issues
+const Plyr = dynamic(() => import('plyr-react'), { ssr: false });
 
 interface VideoLightboxProps {
   isOpen: boolean;
@@ -29,6 +35,32 @@ const VideoLightbox: React.FC<VideoLightboxProps> = ({
   onNext,
   showNavigation = false,
 }) => {
+  // Detect if URL is YouTube, Vimeo, or direct video
+  const getVideoType = (url: string) => {
+    if (url.includes('youtube.com') || url.includes('youtu.be')) {
+      return 'youtube';
+    }
+    if (url.includes('vimeo.com')) {
+      return 'vimeo';
+    }
+    return 'video'; // Direct video file
+  };
+
+  // Extract video ID for embeds
+  const getVideoId = (url: string, type: string) => {
+    if (type === 'youtube') {
+      const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+      const match = url.match(regExp);
+      return match && match[2].length === 11 ? match[2] : '';
+    }
+    if (type === 'vimeo') {
+      const regExp = /vimeo.*\/(\d+)/i;
+      const match = url.match(regExp);
+      return match ? match[1] : '';
+    }
+    return url; // Return full URL for direct videos
+  };
+
   // Keyboard navigation
   useEffect(() => {
     if (!isOpen) return;
@@ -92,14 +124,76 @@ const VideoLightbox: React.FC<VideoLightboxProps> = ({
             <div className="bg-black aspect-video flex items-center justify-center rounded-none overflow-hidden">
               {videoUrl ? (
                 <div className="w-full h-full">
-                  {/* Placeholder for actual video player implementation */}
-                  <iframe
-                    src={videoUrl}
-                    className="w-full h-full"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                    title={title}
-                  />
+                  {(() => {
+                    const videoType = getVideoType(videoUrl);
+                    const videoId = getVideoId(videoUrl, videoType);
+
+                    if (videoType === 'youtube' || videoType === 'vimeo') {
+                      // Embed player for YouTube/Vimeo
+                      return (
+                        <Plyr
+                          source={{
+                            type: 'video',
+                            sources: [
+                              {
+                                src: videoId,
+                                provider: videoType as 'youtube' | 'vimeo',
+                              },
+                            ],
+                          }}
+                          options={{
+                            autoplay: true,
+                            controls: [
+                              'play-large',
+                              'play',
+                              'progress',
+                              'current-time',
+                              'mute',
+                              'volume',
+                              'settings',
+                              'fullscreen',
+                            ],
+                            settings: ['quality', 'speed'],
+                            quality: {
+                              default: 720,
+                              options: [4320, 2880, 2160, 1440, 1080, 720, 576, 480, 360, 240],
+                            },
+                          }}
+                        />
+                      );
+                    } else {
+                      // Direct video file (R2/CDN)
+                      return (
+                        <Plyr
+                          source={{
+                            type: 'video',
+                            sources: [
+                              {
+                                src: videoUrl,
+                                type: 'video/mp4',
+                              },
+                            ],
+                          }}
+                          options={{
+                            autoplay: true,
+                            controls: [
+                              'play-large',
+                              'play',
+                              'progress',
+                              'current-time',
+                              'mute',
+                              'volume',
+                              'settings',
+                              'pip',
+                              'fullscreen',
+                            ],
+                            settings: ['speed'],
+                            speed: { selected: 1, options: [0.5, 0.75, 1, 1.25, 1.5, 2] },
+                          }}
+                        />
+                      );
+                    }
+                  })()}
                 </div>
               ) : (
                 <div className="text-center text-white">
