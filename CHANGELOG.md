@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.10.0](https://github.com/Talentease-com/lightlives-website/compare/v0.9.0...v0.10.0) (2025-10-27)
+
+
+### Features
+
+* Add Programs section with components for ProgramsHero, SkillsAndValues, LEADProgram, FrameworkImages, and CharacterStrengths ([ed2c085](https://github.com/Talentease-com/lightlives-website/commit/ed2c085405415a21f04374072d9bf877c7ebe7a5))
+* Add Volunteer page and components including FAQ, Opportunities, and Hero sections with animations ([31e291e](https://github.com/Talentease-com/lightlives-website/commit/31e291e6b93f5de0e5744e762e1f9fe4cfe8ebab))
+* Implement Plyr video player with custom styling and lazy loading support ([e7fc100](https://github.com/Talentease-com/lightlives-website/commit/e7fc100e2e25d4db130b6dd7644f548168733029))
+
+
+### Bug Fixes
+
+* Adjust logo image styling in PartnerLogos component for better responsiveness ([fd61d7d](https://github.com/Talentease-com/lightlives-website/commit/fd61d7dc96360cdf9af3f09ce90f22a0383f7208))
+
 ## [0.9.0](https://github.com/Talentease-com/lightlives-website/compare/v0.8.0...v0.9.0) (2025-10-27)
 
 
