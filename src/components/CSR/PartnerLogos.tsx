@@ -141,7 +141,7 @@ const PartnerLogos: React.FC<PartnerLogosProps> = ({ partners }) => {
                     alt={partnerName}
                     width={400}
                     height={250}
-                    className="object-cover w-full h-full grayscale group-hover:grayscale-0 transition-all duration-300"
+                    className="object-contain max-w-full max-h-full grayscale group-hover:grayscale-0 transition-all duration-300"
                   />
                 )}
                 
