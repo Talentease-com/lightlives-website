@@ -32,7 +32,6 @@ export function getMediaUrl(
   if (typeof media === 'object' && media !== null) {
     // Prefer R2 direct URL if available (bypasses serverless)
     if ('url' in media && media.url) {
-      console.log(`✅ Using R2 URL for media ID ${media.id}: ${media.url}`)
       return media.url
     }
     
