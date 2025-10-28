@@ -19,9 +19,17 @@ import { LeadershipTeam } from './collections/LeadershipTeam'
 import { AdvisoryBoard } from './collections/AdvisoryBoard'
 import { CSRInquiries } from './collections/CSR/CSRInquiries'
 import { Partners } from './collections/CSR/Partners'
+import { HeroCarouselImages } from './collections/HeroCarouselImages'
+import { VideoGallery } from './collections/VideoGallery'
+import { Testimonials } from './collections/Testimonials'
+import { VerticalGallery } from './collections/VerticalGallery'
+import { GeneralGallery } from './collections/GeneralGallery'
+import { OurJourney } from './collections/OurJourney'
 import { EmailSettings } from './globals/EmailSettings'
 import { SocialSettings } from './globals/SocialSettings'
 import { FooterLinks } from './globals/FooterLinks'
+import { PageImages } from './globals/PageImages'
+import { PageVideos } from './globals/PageVideos'
 import { s3Storage } from '@payloadcms/storage-s3'
 import {
   withCollectionLogging,
@@ -54,11 +62,19 @@ export default buildConfig({
     withCollectionLogging(AdvisoryBoard),
     withCollectionLogging(CSRInquiries),
     withCollectionLogging(Partners),
+    withCollectionLogging(HeroCarouselImages),
+    withCollectionLogging(VideoGallery),
+    withCollectionLogging(Testimonials),
+    withCollectionLogging(VerticalGallery),
+    withCollectionLogging(GeneralGallery),
+    withCollectionLogging(OurJourney),
   ],
   globals: [
     withGlobalLogging(EmailSettings),
     withGlobalLogging(SocialSettings),
     withGlobalLogging(FooterLinks),
+    withGlobalLogging(PageImages),
+    withGlobalLogging(PageVideos),
   ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',

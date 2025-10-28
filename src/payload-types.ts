@@ -79,6 +79,12 @@ export interface Config {
     'advisory-board': AdvisoryBoard;
     'csr-inquiries': CsrInquiry;
     partners: Partner;
+    'hero-carousel-images': HeroCarouselImage;
+    'video-gallery': VideoGallery;
+    testimonials: Testimonial;
+    'vertical-gallery': VerticalGallery;
+    'general-gallery': GeneralGallery;
+    'our-journey': OurJourney;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -97,6 +103,12 @@ export interface Config {
     'advisory-board': AdvisoryBoardSelect<false> | AdvisoryBoardSelect<true>;
     'csr-inquiries': CsrInquiriesSelect<false> | CsrInquiriesSelect<true>;
     partners: PartnersSelect<false> | PartnersSelect<true>;
+    'hero-carousel-images': HeroCarouselImagesSelect<false> | HeroCarouselImagesSelect<true>;
+    'video-gallery': VideoGallerySelect<false> | VideoGallerySelect<true>;
+    testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
+    'vertical-gallery': VerticalGallerySelect<false> | VerticalGallerySelect<true>;
+    'general-gallery': GeneralGallerySelect<false> | GeneralGallerySelect<true>;
+    'our-journey': OurJourneySelect<false> | OurJourneySelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -108,11 +120,15 @@ export interface Config {
     'email-settings': EmailSetting;
     'social-settings': SocialSetting;
     'footer-links': FooterLink;
+    'page-images': PageImage;
+    'page-videos': PageVideo;
   };
   globalsSelect: {
     'email-settings': EmailSettingsSelect<false> | EmailSettingsSelect<true>;
     'social-settings': SocialSettingsSelect<false> | SocialSettingsSelect<true>;
     'footer-links': FooterLinksSelect<false> | FooterLinksSelect<true>;
+    'page-images': PageImagesSelect<false> | PageImagesSelect<true>;
+    'page-videos': PageVideosSelect<false> | PageVideosSelect<true>;
   };
   locale: null;
   user: User & {
@@ -625,6 +641,209 @@ export interface Partner {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "hero-carousel-images".
+ */
+export interface HeroCarouselImage {
+  id: number;
+  /**
+   * Recommended size: 1920x1080px (16:9 aspect ratio)
+   */
+  image: number | Media;
+  /**
+   * Describe the image for accessibility and SEO
+   */
+  alt: string;
+  /**
+   * Optional title overlay for the image
+   */
+  title?: string | null;
+  /**
+   * Optional description overlay for the image
+   */
+  description?: string | null;
+  /**
+   * Lower numbers appear first in the slideshow
+   */
+  displayOrder: number;
+  /**
+   * Uncheck to hide this image from the hero slideshow
+   */
+  isActive?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "video-gallery".
+ */
+export interface VideoGallery {
+  id: number;
+  title: string;
+  /**
+   * Brief description of the video content
+   */
+  description: string;
+  category: 'education' | 'impact' | 'community' | 'events';
+  /**
+   * Thumbnail image for the video (16:9 aspect ratio recommended)
+   */
+  thumbnail: number | Media;
+  /**
+   * Self-hosted video file (MP4 format recommended). Leave empty if using videoUrl.
+   */
+  videoFile?: (number | null) | Media;
+  /**
+   * YouTube or Vimeo URL. Leave empty if using videoFile.
+   */
+  videoUrl?: string | null;
+  /**
+   * Video duration (e.g., "3:45")
+   */
+  duration?: string | null;
+  /**
+   * When the video was published
+   */
+  publishedDate?: string | null;
+  /**
+   * Lower numbers appear first in the gallery
+   */
+  displayOrder: number;
+  /**
+   * Uncheck to hide this video from the gallery
+   */
+  isActive?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "testimonials".
+ */
+export interface Testimonial {
+  id: number;
+  name: string;
+  /**
+   * e.g., Parent, Student, Volunteer
+   */
+  role: string;
+  /**
+   * The testimonial text (maximum 500 characters)
+   */
+  quote: string;
+  /**
+   * Square profile image (1:1 aspect ratio recommended)
+   */
+  image: number | Media;
+  category: 'student' | 'parent' | 'volunteer' | 'partner' | 'alumnus';
+  /**
+   * Optional: Organization name or affiliation
+   */
+  organization?: string | null;
+  /**
+   * When the testimonial was given
+   */
+  testimonialDate?: string | null;
+  /**
+   * Lower numbers appear first in the slider
+   */
+  displayOrder: number;
+  /**
+   * Uncheck to hide this testimonial from the website
+   */
+  isActive?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "vertical-gallery".
+ */
+export interface VerticalGallery {
+  id: number;
+  title: string;
+  /**
+   * Brief description of the gallery item
+   */
+  description: string;
+  /**
+   * Image for the gallery (square aspect ratio recommended)
+   */
+  image: number | Media;
+  /**
+   * Optional: e.g., "500+ children educated"
+   */
+  impact?: string | null;
+  /**
+   * Lower numbers appear first in the gallery
+   */
+  displayOrder: number;
+  /**
+   * Uncheck to hide this item from the gallery
+   */
+  isActive?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "general-gallery".
+ */
+export interface GeneralGallery {
+  id: number;
+  /**
+   * Gallery image
+   */
+  image: number | Media;
+  /**
+   * Optional title for the image
+   */
+  title?: string | null;
+  /**
+   * Optional description for the image
+   */
+  description?: string | null;
+  /**
+   * Lower numbers appear first in the gallery
+   */
+  displayOrder: number;
+  /**
+   * Uncheck to hide this item from the gallery
+   */
+  isActive?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "our-journey".
+ */
+export interface OurJourney {
+  id: number;
+  /**
+   * Journey milestone image
+   */
+  image: number | Media;
+  /**
+   * Milestone title
+   */
+  title: string;
+  /**
+   * Milestone description
+   */
+  description: string;
+  /**
+   * Lower numbers appear first in the timeline
+   */
+  displayOrder: number;
+  /**
+   * Uncheck to hide this milestone
+   */
+  isActive?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -677,6 +896,30 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'partners';
         value: number | Partner;
+      } | null)
+    | ({
+        relationTo: 'hero-carousel-images';
+        value: number | HeroCarouselImage;
+      } | null)
+    | ({
+        relationTo: 'video-gallery';
+        value: number | VideoGallery;
+      } | null)
+    | ({
+        relationTo: 'testimonials';
+        value: number | Testimonial;
+      } | null)
+    | ({
+        relationTo: 'vertical-gallery';
+        value: number | VerticalGallery;
+      } | null)
+    | ({
+        relationTo: 'general-gallery';
+        value: number | GeneralGallery;
+      } | null)
+    | ({
+        relationTo: 'our-journey';
+        value: number | OurJourney;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -936,6 +1179,95 @@ export interface PartnersSelect<T extends boolean = true> {
   displayOrder?: T;
   description?: T;
   partnershipStartDate?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "hero-carousel-images_select".
+ */
+export interface HeroCarouselImagesSelect<T extends boolean = true> {
+  image?: T;
+  alt?: T;
+  title?: T;
+  description?: T;
+  displayOrder?: T;
+  isActive?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "video-gallery_select".
+ */
+export interface VideoGallerySelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  category?: T;
+  thumbnail?: T;
+  videoFile?: T;
+  videoUrl?: T;
+  duration?: T;
+  publishedDate?: T;
+  displayOrder?: T;
+  isActive?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "testimonials_select".
+ */
+export interface TestimonialsSelect<T extends boolean = true> {
+  name?: T;
+  role?: T;
+  quote?: T;
+  image?: T;
+  category?: T;
+  organization?: T;
+  testimonialDate?: T;
+  displayOrder?: T;
+  isActive?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "vertical-gallery_select".
+ */
+export interface VerticalGallerySelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  image?: T;
+  impact?: T;
+  displayOrder?: T;
+  isActive?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "general-gallery_select".
+ */
+export interface GeneralGallerySelect<T extends boolean = true> {
+  image?: T;
+  title?: T;
+  description?: T;
+  displayOrder?: T;
+  isActive?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "our-journey_select".
+ */
+export interface OurJourneySelect<T extends boolean = true> {
+  image?: T;
+  title?: T;
+  description?: T;
+  displayOrder?: T;
+  isActive?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1347,6 +1679,134 @@ export interface FooterLink {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-images".
+ */
+export interface PageImage {
+  id: number;
+  /**
+   * Hero image for Mission page
+   */
+  missionHero?: (number | null) | Media;
+  missionHeroAlt?: string | null;
+  /**
+   * Vision section image
+   */
+  vision?: (number | null) | Media;
+  visionAlt?: string | null;
+  /**
+   * Conviction section image
+   */
+  conviction?: (number | null) | Media;
+  convictionAlt?: string | null;
+  /**
+   * Mission Impact section image
+   */
+  missionImpact?: (number | null) | Media;
+  missionImpactAlt?: string | null;
+  /**
+   * Hero image for Programs page
+   */
+  programHero?: (number | null) | Media;
+  programHeroAlt?: string | null;
+  /**
+   * First framework image
+   */
+  framework1?: (number | null) | Media;
+  framework1Alt?: string | null;
+  /**
+   * Second framework image
+   */
+  framework2?: (number | null) | Media;
+  framework2Alt?: string | null;
+  /**
+   * Hero image for CSR page
+   */
+  csrHero?: (number | null) | Media;
+  csrHeroAlt?: string | null;
+  /**
+   * Hero image for Volunteer page
+   */
+  volunteerHero?: (number | null) | Media;
+  volunteerHeroAlt?: string | null;
+  /**
+   * Hero image for Join Us page
+   */
+  joinUsHero?: (number | null) | Media;
+  joinUsHeroAlt?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-videos".
+ */
+export interface PageVideo {
+  id: number;
+  /**
+   * Self-hosted video file (MP4 format recommended). Leave empty if using URL.
+   */
+  landingVideoFile?: (number | null) | Media;
+  /**
+   * YouTube or Vimeo URL. Leave empty if using video file.
+   */
+  landingVideoUrl?: string | null;
+  /**
+   * Title displayed in the video lightbox
+   */
+  landingVideoTitle?: string | null;
+  /**
+   * Optional description displayed in the video lightbox
+   */
+  landingVideoDescription?: string | null;
+  /**
+   * Thumbnail image (16:9 aspect ratio recommended)
+   */
+  landingVideoThumbnail?: (number | null) | Media;
+  /**
+   * Self-hosted video file (MP4 format recommended). Leave empty if using URL.
+   */
+  impactVideoFile?: (number | null) | Media;
+  /**
+   * YouTube or Vimeo URL. Leave empty if using video file.
+   */
+  impactVideoUrl?: string | null;
+  /**
+   * Title displayed in the video lightbox
+   */
+  impactVideoTitle?: string | null;
+  /**
+   * Optional description displayed in the video lightbox
+   */
+  impactVideoDescription?: string | null;
+  /**
+   * Thumbnail image (16:9 aspect ratio recommended)
+   */
+  impactVideoThumbnail?: (number | null) | Media;
+  /**
+   * Self-hosted video file (MP4 format recommended). Leave empty if using URL.
+   */
+  sponsorVideoFile?: (number | null) | Media;
+  /**
+   * YouTube or Vimeo URL. Leave empty if using video file.
+   */
+  sponsorVideoUrl?: string | null;
+  /**
+   * Title displayed in the video lightbox
+   */
+  sponsorVideoTitle?: string | null;
+  /**
+   * Optional description displayed in the video lightbox
+   */
+  sponsorVideoDescription?: string | null;
+  /**
+   * Thumbnail image (16:9 aspect ratio recommended)
+   */
+  sponsorVideoThumbnail?: (number | null) | Media;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "email-settings_select".
  */
 export interface EmailSettingsSelect<T extends boolean = true> {
@@ -1495,6 +1955,59 @@ export interface FooterLinksSelect<T extends boolean = true> {
         openInNewTab?: T;
         id?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-images_select".
+ */
+export interface PageImagesSelect<T extends boolean = true> {
+  missionHero?: T;
+  missionHeroAlt?: T;
+  vision?: T;
+  visionAlt?: T;
+  conviction?: T;
+  convictionAlt?: T;
+  missionImpact?: T;
+  missionImpactAlt?: T;
+  programHero?: T;
+  programHeroAlt?: T;
+  framework1?: T;
+  framework1Alt?: T;
+  framework2?: T;
+  framework2Alt?: T;
+  csrHero?: T;
+  csrHeroAlt?: T;
+  volunteerHero?: T;
+  volunteerHeroAlt?: T;
+  joinUsHero?: T;
+  joinUsHeroAlt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-videos_select".
+ */
+export interface PageVideosSelect<T extends boolean = true> {
+  landingVideoFile?: T;
+  landingVideoUrl?: T;
+  landingVideoTitle?: T;
+  landingVideoDescription?: T;
+  landingVideoThumbnail?: T;
+  impactVideoFile?: T;
+  impactVideoUrl?: T;
+  impactVideoTitle?: T;
+  impactVideoDescription?: T;
+  impactVideoThumbnail?: T;
+  sponsorVideoFile?: T;
+  sponsorVideoUrl?: T;
+  sponsorVideoTitle?: T;
+  sponsorVideoDescription?: T;
+  sponsorVideoThumbnail?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

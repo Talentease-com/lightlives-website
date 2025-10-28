@@ -116,3 +116,163 @@ export const getCSRPartners = cache(async () => {
     return [];
   }
 });
+
+// Fetch hero carousel images
+export const getHeroCarouselImages = cache(async () => {
+  try {
+    const payload = await getPayload({ config: configPromise })
+
+    const images = await payload.find({
+      collection: 'hero-carousel-images',
+      where: {
+        isActive: {
+          equals: true
+        }
+      },
+      sort: 'displayOrder',
+      limit: 10,
+    })
+
+    return images.docs
+  } catch (error) {
+    console.error('Error fetching hero carousel images from Payload:', error);
+    return [];
+  }
+});
+
+// Fetch video gallery
+export const getVideoGallery = cache(async () => {
+  try {
+    const payload = await getPayload({ config: configPromise })
+
+    const videos = await payload.find({
+      collection: 'video-gallery',
+      where: {
+        isActive: {
+          equals: true
+        }
+      },
+      sort: 'displayOrder',
+      limit: 20,
+    })
+
+    return videos.docs
+  } catch (error) {
+    console.error('Error fetching video gallery from Payload:', error);
+    return [];
+  }
+});
+
+// Fetch testimonials
+export const getTestimonials = cache(async () => {
+  try {
+    const payload = await getPayload({ config: configPromise })
+
+    const testimonials = await payload.find({
+      collection: 'testimonials',
+      where: {
+        isActive: {
+          equals: true
+        }
+      },
+      sort: 'displayOrder',
+      limit: 50,
+    })
+
+    return testimonials.docs
+  } catch (error) {
+    console.error('Error fetching testimonials from Payload:', error);
+    return [];
+  }
+});
+
+// Fetch vertical gallery
+export const getVerticalGallery = cache(async () => {
+  try {
+    const payload = await getPayload({ config: configPromise })
+
+    const gallery = await payload.find({
+      collection: 'vertical-gallery',
+      where: {
+        isActive: {
+          equals: true
+        }
+      },
+      sort: 'displayOrder',
+      limit: 20,
+    })
+
+    return gallery.docs
+  } catch (error) {
+    console.error('Error fetching vertical gallery from Payload:', error);
+    return [];
+  }
+});
+
+// Fetch general gallery
+export const getGeneralGallery = cache(async () => {
+  try {
+    const payload = await getPayload({ config: configPromise })
+
+    const gallery = await payload.find({
+      collection: 'general-gallery',
+      where: {
+        isActive: {
+          equals: true
+        }
+      },
+      sort: 'displayOrder',
+      limit: 50,
+    })
+
+    return gallery.docs
+  } catch (error) {
+    console.error('Error fetching general gallery from Payload:', error);
+    return [];
+  }
+});
+
+// Fetch our journey milestones
+export const getOurJourney = cache(async () => {
+  try {
+    const payload = await getPayload({ config: configPromise })
+
+    const journey = await payload.find({
+      collection: 'our-journey',
+      where: {
+        isActive: {
+          equals: true
+        }
+      },
+      sort: 'displayOrder',
+      limit: 20,
+    })
+
+    return journey.docs
+  } catch (error) {
+    console.error('Error fetching our journey from Payload:', error);
+    return [];
+  }
+});
+
+// Fetch page images global
+export const getPageImages = cache(async () => {
+  try {
+    const payload = await getPayload({ config: configPromise })
+    return await payload.findGlobal({ slug: 'page-images' })
+  } catch (error) {
+    console.error('Error fetching page images from Payload:', error);
+    return null;
+  }
+});
+
+// Fetch page videos global
+export const getPageVideos = cache(async () => {
+  try {
+    const payload = await getPayload({ config: configPromise })
+    return await payload.findGlobal({ slug: 'page-videos' })
+  } catch (error) {
+    console.error('Error fetching page videos from Payload:', error);
+    return null;
+  }
+});
