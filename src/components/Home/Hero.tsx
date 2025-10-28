@@ -6,15 +6,62 @@ import HeroSlideshow from './HeroSlideshow';
 import HeroCarousel from './HeroCarousel';
 import SwooshButton from '@/components/ui/swoosh-button';
 import VideoLightbox from '@/components/ui/video-lightbox';
+import type { HeroCarouselImage, Media } from '@/payload-types';
 
-const HeroSectionSEO = () => {
+interface HeroVideoData {
+  videoFile?: number | Media | null;
+  videoUrl?: string | null;
+  title?: string;
+  description?: string | null;
+  thumbnail?: number | Media | null;
+}
+
+interface HeroSectionProps {
+  heroImages: HeroCarouselImage[];
+  landingVideo?: HeroVideoData;
+}
+
+const HeroSectionSEO: React.FC<HeroSectionProps> = ({ heroImages, landingVideo }) => {
   const [isVideoOpen, setIsVideoOpen] = useState(false);
-  const backgroundImages = [
+  
+  // Fallback images if no CMS data
+  const fallbackImages = [
     '/images/home0.jpg',
     '/images/home1.jpg',
     '/images/home2.jpg',
     '/images/home3.jpg',
   ];
+
+  // Extract image URLs from CMS data
+  const backgroundImages = heroImages.length > 0
+    ? heroImages.map(item => {
+        const media = item.image;
+        if (typeof media === 'object' && media !== null && 'url' in media) {
+          return media.url || '';
+        }
+        return '';
+      }).filter(url => url !== '')
+    : fallbackImages;
+
+  // Get video URL from CMS data
+  const getVideoUrl = () => {
+    if (!landingVideo) return '';
+    
+    // Prefer videoUrl (YouTube/Vimeo) over videoFile
+    if (landingVideo.videoUrl) {
+      return landingVideo.videoUrl;
+    }
+    
+    // Use videoFile if available
+    if (landingVideo.videoFile) {
+      const media = landingVideo.videoFile;
+      if (typeof media === 'object' && media !== null && 'url' in media) {
+        return media.url || '';
+      }
+    }
+    
+    return '';
+  };
 
   const carouselItems = [
     {
@@ -106,9 +153,9 @@ const HeroSectionSEO = () => {
         <VideoLightbox
           isOpen={isVideoOpen}
           onClose={() => setIsVideoOpen(false)}
-          videoUrl=""
-          title="LightLives - Empowering Young Minds"
-          description="Watch how we're transforming lives through education and mentorship"
+          videoUrl={getVideoUrl()}
+          title={landingVideo?.title || "LightLives - Empowering Young Minds"}
+          description={landingVideo?.description || "Watch how we're transforming lives through education and mentorship"}
           showNavigation={false}
         />
 

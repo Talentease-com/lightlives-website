@@ -1,15 +1,24 @@
 import React from 'react';
-import Image from 'next/image';
 import AnimatedCounter from './AnimatedCounter';
 import SwooshButton from '../ui/swoosh-button';
 import { Users, School, Award } from 'lucide-react';
-import type { Impact } from '@/payload-types';
+import type { Impact, Media } from '@/payload-types';
+import ImpactVideoPlayer from './ImpactVideoPlayer';
+
+interface ImpactVideoData {
+  videoFile?: number | Media | null;
+  videoUrl?: string | null;
+  title?: string;
+  description?: string | null;
+  thumbnail?: number | Media | null;
+}
 
 interface ImpactSectionProps {
   stats: Impact[];
+  impactVideo?: ImpactVideoData;
 }
 
-const ImpactSection: React.FC<ImpactSectionProps> = ({ stats }) => {
+const ImpactSection: React.FC<ImpactSectionProps> = ({ stats, impactVideo }) => {
   return (
     <section className="py-20 bg-white px-2 sm:px-4 relative overflow-x-clip ">
       {/* Background Design Elements */}
@@ -98,37 +107,14 @@ const ImpactSection: React.FC<ImpactSectionProps> = ({ stats }) => {
             </div>
           </div>
 
-          {/* Right Column - Image */}
-          <div className="relative animate-fade-in opacity-0 [animation-delay:600ms]">
-            {/* Main Image */}
-            <div className="relative w-full h-96 overflow-hidden shadow-2xl max-w-[600px] mx-auto">
-              <Image
-                src="https://images.pexels.com/photos/8926553/pexels-photo-8926553.jpeg"
-                alt="Students learning"
-                fill
-                className="object-cover hover:scale-110 transition-transform duration-500"
-                sizes="(max-width: 768px) 100vw, 50vw"
-              />
-
-              <svg
-                className="absolute top-50 left-1/2 transform -translate-x-1/2"
-                width="620"
-                height="400"
-                viewBox="0 0 620 400"
-              // style={{ transform: 'rotate(45deg)' }}
-              >
-                <polygon
-                  points="500,60 610,190 570,440 0,400 0,220 40,120"
-                  fill="#1c365d"
-                  strokeWidth="10"
-                />
-              </svg>
-            </div>
-            {/* SwooshButton Floating */}
-            <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 animate-fade-in-up opacity-0 [animation-delay:800ms]">
-              <SwooshButton href="/mission" className="bg-primary text-white font-bold py-8 px-8 text-lg shadow-xl" text="Our Mission" />
-            </div>
-          </div>
+          {/* Right Column - Video Player */}
+          <ImpactVideoPlayer
+            videoFile={impactVideo?.videoFile}
+            videoUrl={impactVideo?.videoUrl}
+            title={impactVideo?.title || 'Our Impact'}
+            description={impactVideo?.description}
+            thumbnail={impactVideo?.thumbnail}
+          />
         </div>
         
         {/* Fine print */}

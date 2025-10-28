@@ -6,26 +6,64 @@ import { motion } from 'framer-motion';
 import { Play } from 'lucide-react';
 import Image from 'next/image';
 import VideoLightbox from '@/components/ui/video-lightbox';
+import type { VideoGallery as VideoGalleryType } from '@/payload-types';
 
-interface Video {
-  id: number;
-  thumbnail: string;
-  title: string;
-  duration: string;
-  videoUrl: string;
-  description?: string;
+interface VideoGalleryProps {
+  videos: VideoGalleryType[];
 }
 
-const VideoGallery = () => {
+interface ProcessedVideo {
+  id: string | number;
+  thumbnail: string;
+  title: string;
+  duration?: string | null;
+  videoUrl: string;
+  description?: string | null;
+}
+
+const VideoGallery: React.FC<VideoGalleryProps> = ({ videos }) => {
   const [selectedVideoIndex, setSelectedVideoIndex] = useState<number | null>(null);
 
-  const videos: Video[] = [
+  // Process CMS data into format needed for display
+  const processedVideos: ProcessedVideo[] = videos.map(video => {
+    // Get thumbnail URL
+    let thumbnailUrl = 'https://images.pexels.com/photos/8926547/pexels-photo-8926547.jpeg';
+    if (video.thumbnail) {
+      const media = video.thumbnail;
+      if (typeof media === 'object' && media !== null && 'url' in media) {
+        thumbnailUrl = media.url || thumbnailUrl;
+      }
+    }
+
+    // Get video URL (prefer videoUrl over videoFile)
+    let videoUrl = '';
+    if (video.videoUrl) {
+      videoUrl = video.videoUrl;
+    } else if (video.videoFile) {
+      const media = video.videoFile;
+      if (typeof media === 'object' && media !== null && 'url' in media) {
+        videoUrl = media.url || '';
+      }
+    }
+
+    return {
+      id: video.id,
+      thumbnail: thumbnailUrl,
+      title: video.title,
+      duration: video.duration,
+      videoUrl,
+      description: video.description,
+    };
+  });
+
+  // Fallback videos if no CMS data
+  const fallbackVideos: ProcessedVideo[] = [
     {
       id: 1,
       thumbnail: 'https://images.pexels.com/photos/8926547/pexels-photo-8926547.jpeg',
       title: 'Life Skills Workshop',
       duration: '3:45',
-      videoUrl: '', // Placeholder for future implementation
+      videoUrl: '',
       description: 'Watch how we teach essential life skills through interactive activities',
     },
     {
@@ -44,43 +82,21 @@ const VideoGallery = () => {
       videoUrl: '',
       description: 'See how children connect with their communities',
     },
-    {
-      id: 4,
-      thumbnail: 'https://images.pexels.com/photos/5905509/pexels-photo-5905509.jpeg',
-      title: 'Mentorship Sessions',
-      duration: '6:30',
-      videoUrl: '',
-      description: 'Experience the power of one-on-one mentorship',
-    },
-    {
-      id: 5,
-      thumbnail: 'https://images.pexels.com/photos/8364026/pexels-photo-8364026.jpeg',
-      title: 'Creative Expression',
-      duration: '4:50',
-      videoUrl: '',
-      description: 'Explore how we nurture creativity and self-expression',
-    },
-    {
-      id: 6,
-      thumbnail: 'https://images.pexels.com/photos/8613089/pexels-photo-8613089.jpeg',
-      title: 'Team Building Activities',
-      duration: '5:15',
-      videoUrl: '',
-      description: 'Learn about our collaborative learning approach',
-    },
   ];
+
+  const displayVideos = processedVideos.length > 0 ? processedVideos : fallbackVideos;
 
   const handlePrevious = useCallback(() => {
     if (selectedVideoIndex === null) return;
-    setSelectedVideoIndex((selectedVideoIndex - 1 + videos.length) % videos.length);
-  }, [selectedVideoIndex, videos.length]);
+    setSelectedVideoIndex((selectedVideoIndex - 1 + displayVideos.length) % displayVideos.length);
+  }, [selectedVideoIndex, displayVideos.length]);
 
   const handleNext = useCallback(() => {
     if (selectedVideoIndex === null) return;
-    setSelectedVideoIndex((selectedVideoIndex + 1) % videos.length);
-  }, [selectedVideoIndex, videos.length]);
+    setSelectedVideoIndex((selectedVideoIndex + 1) % displayVideos.length);
+  }, [selectedVideoIndex, displayVideos.length]);
 
-  const selectedVideo = selectedVideoIndex !== null ? videos[selectedVideoIndex] : null;
+  const selectedVideo = selectedVideoIndex !== null ? displayVideos[selectedVideoIndex] : null;
 
   return (
     <section className="py-20">
@@ -104,7 +120,7 @@ const VideoGallery = () => {
 
         {/* Video Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {videos.map((video, index) => (
+          {displayVideos.map((video, index) => (
             <motion.div
               key={video.id}
               initial={{ opacity: 0, y: 50 }}
@@ -139,7 +155,7 @@ const VideoGallery = () => {
                 {/* Video Info */}
                 <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent text-white">
                   <h3 className="font-semibold mb-1 text-lg">{video.title}</h3>
-                  <p className="text-sm opacity-90">{video.duration}</p>
+                  {video.duration && <p className="text-sm opacity-90">{video.duration}</p>}
                 </div>
               </div>
             </motion.div>
@@ -150,11 +166,11 @@ const VideoGallery = () => {
         <VideoLightbox
           isOpen={selectedVideoIndex !== null}
           onClose={() => setSelectedVideoIndex(null)}
-          videoUrl={selectedVideo?.videoUrl}
+          videoUrl={selectedVideo?.videoUrl || ''}
           title={selectedVideo?.title || ''}
-          description={selectedVideo?.description}
+          description={selectedVideo?.description || undefined}
           currentIndex={selectedVideoIndex ?? undefined}
-          totalVideos={videos.length}
+          totalVideos={displayVideos.length}
           onPrevious={handlePrevious}
           onNext={handleNext}
           showNavigation={true}

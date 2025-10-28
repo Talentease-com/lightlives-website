@@ -5,7 +5,7 @@ export const HeroCarouselImages: CollectionConfig = {
   admin: {
     useAsTitle: 'alt',
     defaultColumns: ['alt', 'displayOrder', 'isActive'],
-    group: 'Homepage Content',
+    group: 'Content',
   },
   access: {
     read: () => true,

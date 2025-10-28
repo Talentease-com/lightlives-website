@@ -5,7 +5,7 @@ export const VideoGallery: CollectionConfig = {
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'category', 'displayOrder', 'isActive'],
-    group: 'Homepage Content',
+    group: 'Content',
   },
   access: {
     read: () => true,

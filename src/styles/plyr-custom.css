@@ -2,13 +2,13 @@
 
 /* Override Plyr default styles to match brand */
 :root {
-  --plyr-color-main: hsl(var(--primary));
+  --plyr-color-main: #ff801e;
   --plyr-video-background: #000;
   --plyr-menu-background: rgba(0, 0, 0, 0.9);
   --plyr-menu-color: #fff;
-  --plyr-badge-background: hsl(var(--primary));
+  --plyr-badge-background: #ff801e;
   --plyr-badge-text-color: #fff;
-  --plyr-tab-focus-color: hsl(var(--secondary));
+  --plyr-tab-focus-color: #ffd966;
   --plyr-font-family: inherit;
   --plyr-font-size-base: 16px;
   --plyr-font-size-small: 14px;
@@ -16,16 +16,16 @@
   --plyr-font-weight-regular: 400;
   --plyr-font-weight-bold: 600;
   --plyr-line-height: 1.7;
-  --plyr-audio-controls-background: hsl(var(--tertiary));
+  --plyr-audio-controls-background: #1c365d;
   --plyr-audio-control-color: #fff;
-  --plyr-audio-control-color-hover: hsl(var(--primary));
+  --plyr-audio-control-color-hover: #ff801e;
   --plyr-video-controls-background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.7));
   --plyr-video-control-color: #fff;
-  --plyr-video-control-color-hover: hsl(var(--primary));
+  --plyr-video-control-color-hover: #ff801e;
   --plyr-video-control-background-hover: rgba(255, 255, 255, 0.1);
-  --plyr-range-fill-background: hsl(var(--primary));
+  --plyr-range-fill-background: #ff801e;
   --plyr-range-thumb-height: 18px;
-  --plyr-range-thumb-background: hsl(var(--primary));
+  --plyr-range-thumb-background: #ff801e;
   --plyr-range-thumb-shadow: 0 1px 4px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(35, 41, 47, 0.2);
   --plyr-range-thumb-active-shadow-width: 4px;
   --plyr-range-track-height: 6px;
@@ -56,18 +56,27 @@
 .plyr__control--overlaid {
   background: rgba(255, 255, 255, 0.1) !important;
   backdrop-filter: blur(10px);
-  border: 2px solid hsl(var(--primary));
-  border-radius: 0 !important;
+  border: 2px solid #ff801e;
+  border-radius: 50% !important;
   transition: all 0.3s ease;
+  width: 80px !important;
+  height: 80px !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 .plyr__control--overlaid:hover {
-  background: hsl(var(--primary)) !important;
-  transform: scale(1.1);
+  background: #ff801e !important;
+  border-color: #ff801e;
 }
 
 .plyr__control--overlaid svg {
-  fill: hsl(var(--primary));
+  fill: #ff801e;
+  transition: fill 0.3s ease;
+  margin: 0 !important;
+  position: static !important;
 }
 
 .plyr__control--overlaid:hover svg {
@@ -87,22 +96,34 @@
 }
 
 .plyr__progress input[type='range'] {
-  color: hsl(var(--primary));
+  color: #ff801e;
 }
 
 .plyr__progress input[type='range']::-webkit-slider-thumb {
-  background: hsl(var(--primary));
+  background: #ff801e;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  border-radius: 50%;
 }
 
 .plyr__progress input[type='range']::-moz-range-thumb {
-  background: hsl(var(--primary));
+  background: #ff801e;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  border-radius: 50%;
 }
 
 /* Volume slider */
 .plyr__volume input[type='range'] {
-  color: hsl(var(--primary));
+  color: #ff801e;
+}
+
+.plyr__volume input[type='range']::-webkit-slider-thumb {
+  background: #ff801e;
+  border-radius: 50%;
+}
+
+.plyr__volume input[type='range']::-moz-range-thumb {
+  background: #ff801e;
+  border-radius: 50%;
 }
 
 /* Control buttons hover */
@@ -115,7 +136,7 @@
 }
 
 .plyr__control:hover svg {
-  fill: hsl(var(--primary));
+  fill: #ff801e;
 }
 
 /* Menu styling */
@@ -136,16 +157,20 @@
 }
 
 .plyr__menu__container [role='menuitem']:hover {
-  background: rgba(255, 255, 255, 0.1) !important;
+  background: rgba(255, 128, 30, 0.2) !important;
 }
 
 .plyr__menu__container [role='menuitem'][aria-checked='true']::before {
-  background: hsl(var(--primary));
+  background: #ff801e;
+}
+
+.plyr__menu__container [role='menuitem'][aria-checked='true'] {
+  color: #ff801e;
 }
 
 /* Settings button badge */
 .plyr__menu__container .plyr__control[data-plyr='settings'] span {
-  background: hsl(var(--primary));
+  background: #ff801e;
   color: white;
 }
 
@@ -202,15 +227,36 @@
 
 /* Focus states for accessibility */
 .plyr__control:focus-visible {
-  outline: 2px solid hsl(var(--primary));
+  outline: 2px solid #ff801e;
   outline-offset: 2px;
 }
 
 /* Quality badge */
 .plyr__menu__container .plyr__control--forward {
-  background: hsl(var(--tertiary));
+  background: #1c365d;
 }
 
 .plyr__menu__container .plyr__control--backward {
-  background: hsl(var(--secondary));
+  background: #ffd966;
+}
+
+/* Ensure video fills container properly */
+.plyr {
+  width: 100%;
+  height: 100%;
+}
+
+.plyr video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Fix for embedded videos (YouTube/Vimeo) */
+.plyr__video-wrapper {
+  background: #000;
+}
+
+.plyr iframe {
+  border: none;
 }
