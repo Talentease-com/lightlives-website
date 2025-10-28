@@ -6,6 +6,7 @@ export const Impacts: CollectionConfig = {
   admin: {
     useAsTitle: 'desc',
     defaultColumns: ['desc', 'val', 'val2', 'isActive'],
+    group: 'Content',
   },
   access: {
     read: () => true, // Public read access for frontend display

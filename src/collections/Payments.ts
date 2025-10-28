@@ -6,7 +6,7 @@ export const Payments: CollectionConfig = {
   admin: {
     useAsTitle: 'receiptNumber',
     defaultColumns: ['receiptNumber', 'email', 'amount', 'paymentStatus', 'createdAt'],
-    group: 'Donations',
+    group: 'Logs',
   },
   access: {
     // Only admins can read/create/update payments

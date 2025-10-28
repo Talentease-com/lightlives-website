@@ -5,7 +5,7 @@ export const Partners: CollectionConfig = {
   admin: {
     useAsTitle: 'name',
     defaultColumns: ['name', 'industry', 'isActive', 'displayOrder'],
-    group: 'CSR',
+    group: 'Content',
   },
   access: {
     read: () => true, // Public can view active partners

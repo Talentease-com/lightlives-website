@@ -5,11 +5,7 @@ import type { Metadata } from "next";
 import { CareersApplicationForm } from "@/components/Support/CareersApplicationForm";
 
 const heroHighlights = [
-  {
-    title: "Money",
-    description:
-      "Over 50% of professionals are ready to explore opportunities that help them earn what they truly deserve. Our compensation packages are on par with the industry and include a comprehensive medical cover.",
-  },
+  
   {
     title: "Meaning",
     description:
@@ -25,6 +21,11 @@ const heroHighlights = [
     description:
       "Learning is one of the top reasons professionals value their workplace. At Light Lives you learn from hands-on projects, passionate colleagues, leadership mentorship, travel, on-field assignments, and experimental initiatives like our UK-India student exchange programs.",
   },
+  {
+    title: "Rewards",
+    description:
+      "Over 50% of professionals are ready to explore opportunities that help them earn what they truly deserve. Our compensation packages are on par with the industry and include a comprehensive medical cover.",
+  },
 ];
 
 const jobOpenings = [
@@ -34,7 +35,7 @@ const jobOpenings = [
     type: "Full-time",
     description:
       "Lead immersive learning experiences for students and coordinate with partner schools to deliver impactful sessions.",
-    location: "Bengaluru (Hybrid)",
+    location: "Pan-India (in-person)",
     experience: "3+ years in facilitation or teaching",
     posted: "2 weeks ago",
     requirements: [
@@ -44,38 +45,38 @@ const jobOpenings = [
       "Ability to adapt content for diverse learner needs",
     ],
   },
-  {
-    title: "Impact Analyst",
-    department: "Impact & Research",
-    type: "Full-time",
-    description:
-      "Measure program outcomes, analyse data trends, and surface insights that sharpen our learning interventions.",
-    location: "Remote-first",
-    experience: "4+ years in impact measurement",
-    posted: "1 month ago",
-    requirements: [
-      "Experience with mixed-method research and reporting",
-      "Proficiency with data visualisation tools",
-      "Familiarity with education or social impact programs",
-      "Comfortable partnering with cross-functional teams",
-    ],
-  },
-  {
-    title: "Partnerships Manager",
-    department: "Growth",
-    type: "Contract",
-    description:
-      "Build and nurture relationships with corporates, schools, and foundations to expand Light Lives initiatives.",
-    location: "Mumbai",
-    experience: "5+ years in business development",
-    posted: "3 days ago",
-    requirements: [
-      "Track record closing partnerships in the social sector",
-      "Comfortable with stakeholder presentations",
-      "Ability to translate program impact into compelling pitches",
-      "Strong negotiation and relationship-building skills",
-    ],
-  },
+  // {
+  //   title: "Impact Analyst",
+  //   department: "Impact & Research",
+  //   type: "Full-time",
+  //   description:
+  //     "Measure program outcomes, analyse data trends, and surface insights that sharpen our learning interventions.",
+  //   location: "Remote-first",
+  //   experience: "4+ years in impact measurement",
+  //   posted: "1 month ago",
+  //   requirements: [
+  //     "Experience with mixed-method research and reporting",
+  //     "Proficiency with data visualisation tools",
+  //     "Familiarity with education or social impact programs",
+  //     "Comfortable partnering with cross-functional teams",
+  //   ],
+  // },
+  // {
+  //   title: "Partnerships Manager",
+  //   department: "Growth",
+  //   type: "Contract",
+  //   description:
+  //     "Build and nurture relationships with corporates, schools, and foundations to expand Light Lives initiatives.",
+  //   location: "Mumbai",
+  //   experience: "5+ years in business development",
+  //   posted: "3 days ago",
+  //   requirements: [
+  //     "Track record closing partnerships in the social sector",
+  //     "Comfortable with stakeholder presentations",
+  //     "Ability to translate program impact into compelling pitches",
+  //     "Strong negotiation and relationship-building skills",
+  //   ],
+  // },
 ];
 
 const processSteps = [
@@ -131,10 +132,10 @@ export default function CareersJoinPage() {
                 Careers at Light Lives
               </p>
               <h1 className="text-4xl md:text-5xl font-bold text-white/80 leading-tight text-balance">
-                Choose purpose, growth, and community in the work you do every day.
+                Choose purpose, growth, and community
               </h1>
               <p className="text-lg md:text-xl text-white/70 text-pretty">
-                Money + Meaning + Wellbeing + Learning. That sums up what the current generation seeks—and it&apos;s what we centre in every role at Light Lives.
+                Meaning + Learning + Rewards + Wellbeing. That sums up what the current generation seeks—and it&apos;s what we centre in every role at Light Lives.
               </p>
             </div>
           </div>
@@ -170,7 +171,7 @@ export default function CareersJoinPage() {
 
           <div className="mt-16 space-y-6 text-tertiary-600 text-pretty max-w-4xl">
             <p>
-              Money + Meaning + Wellbeing + Learning. That just about sums up what today’s generation of job seekers is looking for in an employer—and it’s what Light Lives brings together under one roof.
+              Meaning + Learning + Rewards + Wellbeing. That just about sums up what today’s generation of job seekers is looking for in an employer—and it’s what Light Lives brings together under one roof.
             </p>
             <p>
               Here’s what that translates to for you in daily life: a role where you make a real impact, stay financially secure, keep growing through continuous learning, and feel supported by a culture rooted in respect and trust.

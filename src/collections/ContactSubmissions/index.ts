@@ -6,7 +6,7 @@ export const ContactSubmissions: CollectionConfig = {
   admin: {
     useAsTitle: 'name',
     defaultColumns: ['name', 'email', 'subject', 'createdAt'],
-    group: 'Communications',
+    group: 'Submissions',
   },
   access: {
     // Only admins can read/update/delete contact submissions

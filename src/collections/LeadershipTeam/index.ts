@@ -5,7 +5,7 @@ export const LeadershipTeam: CollectionConfig = {
   admin: {
     useAsTitle: 'name',
     defaultColumns: ['name', 'jobRole', 'displayOrder', 'isActive'],
-    group: 'Team',
+    group: 'Content',
   },
   access: {
     read: () => true,

@@ -5,7 +5,7 @@ export const TeamCarouselImages: CollectionConfig = {
   admin: {
     useAsTitle: 'alt',
     defaultColumns: ['alt', 'displayOrder', 'isActive'],
-    group: 'Team',
+    group: 'Content',
   },
   access: {
     read: () => true,

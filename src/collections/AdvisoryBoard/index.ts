@@ -5,7 +5,7 @@ export const AdvisoryBoard: CollectionConfig = {
   admin: {
     useAsTitle: 'name',
     defaultColumns: ['name', 'displayOrder', 'isActive'],
-    group: 'Team',
+    group: 'Content',
   },
   access: {
     read: () => true,

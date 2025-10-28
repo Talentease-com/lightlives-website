@@ -7,7 +7,7 @@ export const CareerApplications: CollectionConfig = {
   admin: {
     useAsTitle: 'name',
     defaultColumns: ['name', 'email', 'mobile', 'createdAt'],
-    group: 'HR',
+    group: 'Submissions',
   },
   access: {
     // Only admins can read/update/delete career applications

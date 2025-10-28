@@ -6,7 +6,7 @@ export const NewsletterSubscribers: CollectionConfig = {
   admin: {
     useAsTitle: 'email',
     defaultColumns: ['email', 'status', 'subscribedAt'],
-    group: 'Communications',
+    group: 'Logs',
   },
   access: {
     // Only admins can read/update/delete newsletter subscribers

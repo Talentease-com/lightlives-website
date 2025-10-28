@@ -6,7 +6,7 @@ export const CSRInquiries: CollectionConfig = {
   admin: {
     useAsTitle: 'companyName',
     defaultColumns: ['companyName', 'contactName', 'email', 'status', 'createdAt'],
-    group: 'CSR',
+    group: 'Submissions',
   },
   hooks: {
     afterChange: [emailCSRAfterChange],
