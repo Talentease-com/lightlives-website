@@ -106,7 +106,7 @@ const HeroSectionSEO = () => {
         <VideoLightbox
           isOpen={isVideoOpen}
           onClose={() => setIsVideoOpen(false)}
-          videoUrl="https://cdn.lightlives.org/static-videos/LightLives_Landing_Optimized_576p25.mp4"
+          videoUrl=""
           title="LightLives - Empowering Young Minds"
           description="Watch how we're transforming lives through education and mentorship"
           showNavigation={false}
