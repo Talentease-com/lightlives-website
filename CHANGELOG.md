@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.13.1](https://github.com/Talentease-com/lightlives-website/compare/v0.13.0...v0.13.1) (2025-10-29)
+
+
+### Bug Fixes
+
+* add favicon ([b9e3a04](https://github.com/Talentease-com/lightlives-website/commit/b9e3a0440e114d7a7bd6ee708eb03f9ec6de82d3))
+
 ## [0.13.0](https://github.com/Talentease-com/lightlives-website/compare/v0.12.0...v0.13.0) (2025-10-29)
 
 
