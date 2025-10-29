@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.13.0](https://github.com/Talentease-com/lightlives-website/compare/v0.12.0...v0.13.0) (2025-10-29)
+
+
+### Features
+
+* Add Privacy Policy and Terms & Conditions pages & CSR Page changes ([c4ddd47](https://github.com/Talentease-com/lightlives-website/commit/c4ddd479b44ad136d9fde58f3b964f7be1dae004))
+* Implement auto-thumbnail extraction for YouTube and Vimeo URLs in VideoGallery ([029f6d7](https://github.com/Talentease-com/lightlives-website/commit/029f6d7c9ff78ceeb30a26132f1966450df5d0c4))
+* Update contact and sponsor pages with new links and comments; enhance careers application form with required field indicators ([c566dc6](https://github.com/Talentease-com/lightlives-website/commit/c566dc60bbd091583880d421abe504608795eb53))
+
 ## [0.12.0](https://github.com/Talentease-com/lightlives-website/compare/v0.11.0...v0.12.0) (2025-10-29)
 
 
