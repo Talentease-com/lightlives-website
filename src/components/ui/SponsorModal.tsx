@@ -33,7 +33,7 @@ export default function SponsorModal() {
         <div className="flex flex-col items-center">
           <div className="relative w-full h-64">
             <Image
-              src="https://images.pexels.com/photos/8926553/pexels-photo-8926553.jpeg"
+              src="/images/sponsor-children-hero.jpg"
               alt="Students learning"
               fill
               className="object-cover"
