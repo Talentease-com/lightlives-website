@@ -78,7 +78,7 @@ export function CareersApplicationForm() {
     <form className="space-y-6" onSubmit={onSubmit} noValidate>
       <div className="space-y-2">
         <label htmlFor="name" className="text-sm font-medium text-foreground">
-          Full name
+          Full name <span className="text-red-500">*</span>
         </label>
         <input
           id="name"
@@ -95,7 +95,7 @@ export function CareersApplicationForm() {
 
       <div className="space-y-2">
         <label htmlFor="email" className="text-sm font-medium text-foreground">
-          Email address
+          Email address <span className="text-red-500">*</span>
         </label>
         <input
           id="email"
@@ -118,7 +118,7 @@ export function CareersApplicationForm() {
 
       <div className="space-y-2">
         <label htmlFor="mobile" className="text-sm font-medium text-foreground">
-          Mobile number
+          Mobile number <span className="text-red-500">*</span>
         </label>
         <input
           id="mobile"
@@ -141,7 +141,7 @@ export function CareersApplicationForm() {
 
       <div className="space-y-2">
         <label htmlFor="resume" className="text-sm font-medium text-foreground">
-          Resume / CV
+          Resume / CV <span className="text-red-500">*</span>
         </label>
         <input
           id="resume"

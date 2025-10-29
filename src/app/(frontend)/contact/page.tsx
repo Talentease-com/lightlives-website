@@ -107,7 +107,7 @@ const ContactPage: React.FC = () => {
                   />
                   
                   <SwooshButton
-                    href="/support/join"
+                    href="/support/volunteer"
                     text="Become a Volunteer"
                     className="w-full bg-tertiary hover:bg-tertiary-700 text-white font-semibold py-3 px-6 transition-colors duration-200"
                   />
@@ -115,6 +115,7 @@ const ContactPage: React.FC = () => {
                   <Button
                     variant="outline"
                     className="w-full border-2 border-primary text-primary hover:bg-primary hover:text-white font-semibold py-3 px-6 transition-all duration-200"
+                    disabled
                   >
                     Download Our Brochure
                   </Button>
@@ -126,7 +127,7 @@ const ContactPage: React.FC = () => {
       </section>
 
       {/* Map Section */}
-      <section className="py-20 bg-secondary-50">
+      {/* <section className="py-20 bg-secondary-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 animate-[fade-in-up_0.8s_ease-out_0.2s_both]">
             <h2 className="text-3xl font-bold text-tertiary mb-4">Visit Our Office</h2>
@@ -147,7 +148,7 @@ const ContactPage: React.FC = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
     </div>
   );
 };

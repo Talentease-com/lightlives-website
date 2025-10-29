@@ -2,10 +2,10 @@ import React from 'react';
 import type { Metadata } from 'next';
 import { getImpactData } from '@/lib/payload/fetch';
 import { ImpactSection, DonationForm } from '@/components/Sponsor';
-import { CircularGallery } from '@/components/ui/circular-gallery';
+// import { CircularGallery } from '@/components/ui/circular-gallery';
 import ScrollToSponsorButton from '@/components/Sponsor/ScrollToSponsorButton';
-import { galleryData } from '@/components/Sponsor/gallery-data';
-import SwooshButton from '@/components/ui/swoosh-button';
+// import { galleryData } from '@/components/Sponsor/gallery-data';
+// import SwooshButton from '@/components/ui/swoosh-button';
 import SponsorCTA from '@/components/SponsorCTA';
 
 export const metadata: Metadata = {
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
 // Enable static generation
 export const dynamic = 'force-static'
 // export const revalidate = 3600 // Revalidate every hour
-
+// TODO: Vertical gallery
 const Sponsor = async () => {
   const impactStats = await getImpactData();
 
@@ -123,9 +123,10 @@ const Sponsor = async () => {
       </section>
 
       {/* Circular Gallery */}
-      <section className="relative w-full h-[90vh] flex flex-col items-center overflow-hidden justify-center text-foreground py-16">
+      
+      {/* <section className="relative w-full h-[90vh] flex flex-col items-center overflow-hidden justify-center text-foreground py-16">
           <CircularGallery items={galleryData} radius={700} />
-      </section>
+      </section> */}
 
       {/* Deep narrative below the CTA */}
       <section className="py-20 bg-tertiary relative overflow-clip">
