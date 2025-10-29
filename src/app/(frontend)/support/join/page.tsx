@@ -3,28 +3,30 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 import { CareersApplicationForm } from "@/components/Support/CareersApplicationForm";
+import { getFooterLinks } from "@/lib/payload/fetch";
+import { getLinkUrl, shouldOpenInNewTab } from "@/lib/utils";
 
 const heroHighlights = [
-  
+
   {
     title: "Meaning",
     description:
       "An astonishing 89% of professionals insist that meaning and purpose at work are non-negotiable. At Light Lives you see the direct outcomes of your effort as we help children and young adults build values, practical skills, and a sustained learning environment to become independent and successful.",
   },
   {
-    title: "Wellbeing",
-    description:
-      "Toxic cultures drain motivation. We resonate with Peter Drucker’s belief that culture eats strategy for breakfast—so we prioritise respect, freedom, flexibility, and trust, creating a space where you belong and can thrive.",
-  },
-  {
     title: "Learning",
     description:
-      "Learning is one of the top reasons professionals value their workplace. At Light Lives you learn from hands-on projects, passionate colleagues, leadership mentorship, travel, on-field assignments, and experimental initiatives like our UK-India student exchange programs.",
+      "Learning is one of the top reasons professionals value their workplace. At Light Lives you learn from hands-on projects, passionate colleagues, leadership mentorship, travel, on-field assignments, and adventurous initiatives like our Discover India Discover Yourself programs with UK and Singaporean students.",
   },
   {
     title: "Rewards",
     description:
       "Over 50% of professionals are ready to explore opportunities that help them earn what they truly deserve. Our compensation packages are on par with the industry and include a comprehensive medical cover.",
+  },
+  {
+    title: "Wellbeing",
+    description:
+      "Toxic cultures drain motivation. We resonate with Peter Drucker’s belief that culture eats strategy for breakfast—so we prioritise respect, freedom, flexibility, and trust, creating a space where you belong and can thrive.",
   },
 ];
 
@@ -112,7 +114,16 @@ export const metadata: Metadata = {
     "Discover careers at Light Lives, explore open roles, learn about our hiring process, and share your profile to create impact together.",
 };
 
-export default function CareersJoinPage() {
+export default async function CareersJoinPage() {
+  // Fetch footer links to get Graces Culture link
+  const footerLinks = await getFooterLinks();
+  const gracesCultureUrl = footerLinks?.gracesCultureLink 
+    ? getLinkUrl(footerLinks.gracesCultureLink)
+    : '#';
+  const gracesCultureOpenInNewTab = footerLinks?.gracesCultureLink 
+    ? shouldOpenInNewTab(footerLinks.gracesCultureLink)
+    : true;
+  
   return (
     <main className="bg-background text-tertiary pb-24">
       <section className="relative w-full h-[420px] overflow-hidden">
@@ -150,7 +161,7 @@ export default function CareersJoinPage() {
                 Why join Light Lives?
               </h2>
               <p className="text-lg text-tertiary-600 text-pretty">
-                We offer more than a job: youll make a tangible difference while growing alongside people who care deeply about impact. Heres what you can expect when you join us.
+                We offer more than a job: you&apos;ll make a tangible difference while growing alongside people who care deeply about impact. Here&apos;s what you can expect when you join us.
               </p>
             </div>
 
@@ -180,7 +191,7 @@ export default function CareersJoinPage() {
               <li>Make an impact—not just work in a job.</li>
               <li>Earn well and build a strong financial foundation.</li>
               <li>Learn rapidly and grow fast.</li>
-              <li>Thrive in a friendly, fun-filled environment based on respect, trust, and compassion.</li>
+              <li>Thrive in a friendly, fun-filled environment based on respect, trust, and compassion. <Link href={gracesCultureUrl} target={gracesCultureOpenInNewTab ? '_blank' : undefined} rel={gracesCultureOpenInNewTab ? 'noopener noreferrer' : undefined} className="underline hover:text-primary transition-colors">Read about our GRACES culture.</Link></li>
             </ul>
             <p>
               If that resonates, Light Lives may just be the space and opportunity you’ve been waiting for. Come join us. Choose to make a difference to others—and to yourself.
@@ -310,7 +321,7 @@ export default function CareersJoinPage() {
                 Share your profile with us
               </h2>
               <p className="text-lg text-tertiary-600 text-pretty">
-                Submit your details and resumewell connect with you when theres a match with current or upcoming roles. Well soon pipe this directly to RecruitCRM; for now well store it securely and follow up over email.
+                Submit your details and resume—we&apos;ll connect with you when there&apos;s a match with current or upcoming roles. We&apos;ll soon pipe this directly to RecruitCRM; for now we&apos;ll store it securely and follow up over email.
               </p>
               <div className="space-y-4 text-sm text-tertiary-600">
                 <p className="font-semibold text-tertiary">Need help?</p>

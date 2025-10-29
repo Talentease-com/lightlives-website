@@ -8,6 +8,7 @@ import {
   FrameworkImages,
   CharacterStrengths,
 } from '@/components/Programs'
+import { getPageImages } from '@/lib/payload/fetch'
 
 export const metadata: Metadata = {
   title: 'Our Programs - LEAD | Light Lives',
@@ -20,11 +21,17 @@ export const metadata: Metadata = {
 // Enable static generation
 export const dynamic = 'force-static'
 
-export default function ProgramsPage() {
+export default async function ProgramsPage() {
+  // Fetch page images
+  const pageImages = await getPageImages()
+
   return (
     <div className="">
       {/* Hero Section */}
-      <ProgramsHero />
+      <ProgramsHero 
+        image={pageImages?.programHero}
+        alt={pageImages?.programHeroAlt || 'Our Programs'}
+      />
 
       {/* Skills & Values Overview */}
       <SkillsAndValues />
@@ -33,7 +40,12 @@ export default function ProgramsPage() {
       <LEADProgram />
 
       {/* Framework Images */}
-      <FrameworkImages />
+      <FrameworkImages 
+        framework1={pageImages?.framework1}
+        framework1Alt={pageImages?.framework1Alt || 'Framework 1'}
+        framework2={pageImages?.framework2}
+        framework2Alt={pageImages?.framework2Alt || 'Framework 2'}
+      />
 
       {/* Character Strengths */}
       <CharacterStrengths />

@@ -40,7 +40,7 @@ export function NewsletterForm() {
   return (
     <div>
       <form onSubmit={handleSubmit} className="mb-6">
-        <div className="flex flex-col xl:flex-row">
+        <div className="flex flex-col">
           <input
             type="email"
             placeholder="Your email address"

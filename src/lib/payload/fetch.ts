@@ -276,3 +276,28 @@ export const getPageVideos = cache(async () => {
     return null;
   }
 });
+export const getSocialSettings = cache(async () => {
+  try {
+    const payload = await getPayload({ config: configPromise })
+    const settings = await payload.findGlobal({
+      slug: 'social-settings',
+    })
+    return settings
+  } catch (error) {
+    console.error('Error fetching social settings:', error)
+    return null
+  }
+});
+
+export const getFooterLinks = cache(async () => {``
+  try {
+    const payload = await getPayload({ config: configPromise })
+    const links = await payload.findGlobal({
+      slug: 'footer-links',
+    })
+    return links
+  } catch (error) {
+    console.error('Error fetching footer links:', error)
+    return null
+  }
+});

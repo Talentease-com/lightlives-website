@@ -1,69 +1,9 @@
 import React from 'react'
 import Link from 'next/link'
-import { Heart, Mail, Phone, MapPin, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react'
-import { getPayload } from 'payload'
-import config from '@payload-config'
+import { Heart, Mail, Phone, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react'
 import { NewsletterForm } from './NewsletterForm'
-import type { SocialSetting, FooterLink, Media } from '@/payload-types'
-
-// Type for individual footer link items
-type FooterLinkItem = {
-  label: string
-  linkType: 'page' | 'document' | 'external'
-  pagePath?: string | null
-  document?: number | Media | null
-  externalUrl?: string | null
-  openInNewTab?: boolean | null
-  id?: string | null
-}
-
-async function getSocialSettings(): Promise<SocialSetting | null> {
-  try {
-    const payload = await getPayload({ config })
-    const settings = await payload.findGlobal({
-      slug: 'social-settings',
-    })
-    return settings
-  } catch (error) {
-    console.error('Error fetching social settings:', error)
-    return null
-  }
-}
-
-async function getFooterLinks(): Promise<FooterLink | null> {
-  try {
-    const payload = await getPayload({ config })
-    const links = await payload.findGlobal({
-      slug: 'footer-links',
-    })
-    return links
-  } catch (error) {
-    console.error('Error fetching footer links:', error)
-    return null
-  }
-}
-
-// Helper function to get the URL for a link based on its type
-function getLinkUrl(link: FooterLinkItem): string {
-  if (link.linkType === 'page' && link.pagePath) {
-    return link.pagePath
-  } else if (link.linkType === 'document' && link.document) {
-    // Handle both string ID and populated Media object
-    if (typeof link.document === 'number') {
-      return `/api/media/${link.document}`
-    } else if (link.document && typeof link.document === 'object' && 'url' in link.document) {
-      return (link.document as Media).url || '#'
-    }
-  } else if (link.linkType === 'external' && link.externalUrl) {
-    return link.externalUrl
-  }
-  return '#'
-}
-
-// Helper function to determine if link should open in new tab
-function shouldOpenInNewTab(link: FooterLinkItem): boolean {
-  return link.openInNewTab === true
-}
+import { getFooterLinks, getSocialSettings } from '@/lib/payload/fetch'
+import { getLinkUrl, shouldOpenInNewTab } from '@/lib/utils'
 
 const Footer = async () => {
   const socialSettings = await getSocialSettings()
@@ -131,10 +71,10 @@ const Footer = async () => {
                   {contact.email}
                 </a>
               </div>
-              <div className="flex items-start space-x-3">
+              {/* <div className="flex items-start space-x-3">
                 <MapPin className="h-5 w-5 text-primary mt-1" />
                 <span className="text-secondary/80 whitespace-pre-line">{contact.address}</span>
-              </div>
+              </div> */}
             </div>
           </div>
 

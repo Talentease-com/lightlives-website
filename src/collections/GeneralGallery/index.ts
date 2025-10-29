@@ -6,6 +6,7 @@ export const GeneralGallery: CollectionConfig = {
     useAsTitle: 'title',
     defaultColumns: ['title', 'displayOrder', 'isActive'],
     group: 'Content',
+    description: 'Manage general gallery images.',
   },
   access: {
     read: () => true,

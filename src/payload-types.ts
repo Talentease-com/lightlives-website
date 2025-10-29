@@ -446,6 +446,8 @@ export interface NewsletterSubscriber {
   createdAt: string;
 }
 /**
+ * Manage team carousel images.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "team-carousel-images".
  */
@@ -640,6 +642,8 @@ export interface Partner {
   createdAt: string;
 }
 /**
+ * Manage hero carousel images.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "hero-carousel-images".
  */
@@ -755,6 +759,8 @@ export interface Testimonial {
   createdAt: string;
 }
 /**
+ * Manage vertical gallery images.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "vertical-gallery".
  */
@@ -785,6 +791,8 @@ export interface VerticalGallery {
   createdAt: string;
 }
 /**
+ * Manage general gallery images.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "general-gallery".
  */
@@ -1643,6 +1651,31 @@ export interface FooterLink {
       }[]
     | null;
   /**
+   * Single link for Graces Culture section
+   */
+  gracesCultureLink: {
+    /**
+     * Choose whether this links to a page, document, or external URL
+     */
+    linkType: 'page' | 'document' | 'external';
+    /**
+     * Internal page path (e.g., /about/culture)
+     */
+    pagePath?: string | null;
+    /**
+     * Upload a PDF or document file
+     */
+    document?: (number | null) | Media;
+    /**
+     * Full external URL
+     */
+    externalUrl?: string | null;
+    /**
+     * Open link in a new tab
+     */
+    openInNewTab?: boolean | null;
+  };
+  /**
    * Links displayed in the bottom copyright bar (e.g., Privacy Policy, Terms)
    */
   policyLinks?:
@@ -1943,6 +1976,15 @@ export interface FooterLinksSelect<T extends boolean = true> {
         externalUrl?: T;
         openInNewTab?: T;
         id?: T;
+      };
+  gracesCultureLink?:
+    | T
+    | {
+        linkType?: T;
+        pagePath?: T;
+        document?: T;
+        externalUrl?: T;
+        openInNewTab?: T;
       };
   policyLinks?:
     | T

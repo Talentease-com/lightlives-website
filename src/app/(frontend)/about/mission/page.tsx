@@ -1,26 +1,35 @@
 import React from 'react';
-import { Target, Lightbulb, Sparkles } from 'lucide-react';
+import { Lightbulb, Sparkles } from 'lucide-react';
 import SwooshButton from '@/components/ui/swoosh-button';
 import Image from 'next/image';
-
+import { getPageImages, getOurJourney, getGeneralGallery } from '@/lib/payload/fetch';
+import { getMediaUrl } from '@/lib/utils/getMediaUrl';
+import { getMediaAlt } from '@/lib/utils/getMediaAlt';
+// TODO - Remove placeholder fallbacks from getMediaUrl and getMediaAlt once all CMS entries are updated
 export const metadata = {
   title: "Mission & Vision - LightLives",
   description: "LightLives is focused on providing leadership and future ready skills training to children. Our mission: Create One Million Young leaders and changemakers.",
   keywords: "mission, vision, leadership training, life skills, child development, future ready skills, LightLives, changemakers, youth empowerment",
 }
-
+// 
 // Enable static generation
 export const dynamic = 'force-static'
 
-export default function MissionVisionPage() {
+export default async function MissionVisionPage() {
+  // Fetch data from CMS in parallel
+  const [pageImages, journeyMilestones, galleryImages] = await Promise.all([
+    getPageImages(),
+    getOurJourney(),
+    getGeneralGallery(),
+  ]);
   return (
     <div className="">
       {/* Hero Section with Quote */}
       <section className="relative h-[70vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
           <Image
-            src="https://images.pexels.com/photos/8613089/pexels-photo-8613089.jpeg"
-            alt="Children learning together"
+            src={getMediaUrl(pageImages?.missionHero, "https://images.pexels.com/photos/8613089/pexels-photo-8613089.jpeg")}
+            alt={pageImages?.missionHeroAlt || "Children learning together"}
             fill
             className="object-cover"
             priority
@@ -48,8 +57,8 @@ export default function MissionVisionPage() {
             <div className="order-2 lg:order-1 animate-fade-in-up opacity-0 [animation-delay:200ms] [animation-fill-mode:forwards]">
               <div className="relative h-[500px] rounded-none overflow-hidden shadow-2xl">
                 <Image
-                  src="https://images.pexels.com/photos/8617842/pexels-photo-8617842.jpeg"
-                  alt="Children in classroom"
+                  src={getMediaUrl(pageImages?.vision, "https://images.pexels.com/photos/8617842/pexels-photo-8617842.jpeg")}
+                  alt={pageImages?.visionAlt || "Children in classroom"}
                   fill
                   className="object-cover"
                 />
@@ -104,8 +113,8 @@ export default function MissionVisionPage() {
             <div className="animate-fade-in-up opacity-0 [animation-delay:400ms] [animation-fill-mode:forwards]">
               <div className="relative h-[500px] rounded-none overflow-hidden shadow-2xl">
                 <Image
-                  src="https://images.pexels.com/photos/8364026/pexels-photo-8364026.jpeg"
-                  alt="Children learning"
+                  src={getMediaUrl(pageImages?.conviction, "https://images.pexels.com/photos/8364026/pexels-photo-8364026.jpeg")}
+                  alt={pageImages?.convictionAlt || "Children learning"}
                   fill
                   className="object-cover"
                 />
@@ -227,8 +236,8 @@ export default function MissionVisionPage() {
                     className="object-cover absolute inset-0 z-10 pointer-events-none"
                   />
                   <Image
-                    src="https://images.pexels.com/photos/8471862/pexels-photo-8471862.jpeg"
-                    alt="Young leaders"
+                    src={getMediaUrl(pageImages?.missionImpact, "https://images.pexels.com/photos/8471862/pexels-photo-8471862.jpeg")}
+                    alt={pageImages?.missionImpactAlt || "Young leaders"}
                     fill
                     className="object-cover"
                   />
@@ -254,57 +263,26 @@ export default function MissionVisionPage() {
             <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-orange-200 via-teal-200 to-orange-200 hidden md:block"></div>
 
             <div className="space-y-16">
-              {[
-                {
-                  year: '2018',
-                  event: 'Light Lives founded with a vision to transform child education',
-                  image: 'https://images.pexels.com/photos/8617842/pexels-photo-8617842.jpeg'
-                },
-                {
-                  year: '2019',
-                  event: 'First program launched in schools across Mumbai',
-                  image: 'https://images.pexels.com/photos/8363028/pexels-photo-8363028.jpeg'
-                },
-                {
-                  year: '2020',
-                  event: 'Adapted to digital platforms during pandemic, reaching children across India',
-                  image: 'https://images.pexels.com/photos/4145153/pexels-photo-4145153.jpeg'
-                },
-                {
-                  year: '2021',
-                  event: 'Expanded to multiple states, impacting thousands of children annually',
-                  image: 'https://images.pexels.com/photos/8613314/pexels-photo-8613314.jpeg'
-                },
-                {
-                  year: '2022',
-                  event: 'Launched facilitator training program for sustainable impact',
-                  image: 'https://images.pexels.com/photos/8363118/pexels-photo-8363118.jpeg'
-                },
-                {
-                  year: '2023',
-                  event: 'Achieved major milestone in impact sessions and student engagement',
-                  image: 'https://images.pexels.com/photos/8923177/pexels-photo-8923177.jpeg'
-                },
-              ].map((milestone, index) => (
+              {journeyMilestones.map((milestone, index) => (
                 <div
-                  key={milestone.year}
+                  key={milestone.id}
                   className={`relative grid md:grid-cols-2 gap-8 items-center animate-fade-in-up opacity-0 [animation-fill-mode:forwards]`}
                   style={{ animationDelay: `${index * 200}ms` }}
                 >
                   <div className={`${index % 2 === 0 ? 'md:pr-16' : 'md:pl-16 md:col-start-2'}`}>
                     <div className="bg-gradient-to-br from-primary-50 to-secondary-100 p-8 rounded-none shadow-lg border border-primary-100">
                       <div className="text-5xl font-bold text-primary mb-4">
-                        {milestone.year}
+                        {milestone.title}
                       </div>
-                      <p className="text-xl text-tertiary-700 leading-relaxed">{milestone.event}</p>
+                      <p className="text-xl text-tertiary-700 leading-relaxed">{milestone.description}</p>
                     </div>
                   </div>
 
                   <div className={`${index % 2 === 0 ? 'md:pl-16' : 'md:pr-16 md:col-start-1 md:row-start-1'}`}>
-                    <div className="relative h-64 md:h-80 rounded-none overflow-hidden shadow-xl group">
+                    <div className="relative h-full min-h-96 rounded-none overflow-hidden shadow-xl group">
                       <Image
-                        src={milestone.image}
-                        alt={`Milestone ${milestone.year}`}
+                        src={getMediaUrl(milestone.image, "https://images.pexels.com/photos/8617842/pexels-photo-8617842.jpeg")}
+                        alt={getMediaAlt(milestone.image, milestone.title)}
                         fill
                         className="object-cover transition-transform duration-500 group-hover:scale-110"
                       />
@@ -323,30 +301,48 @@ export default function MissionVisionPage() {
       <section className="py-24 bg-tertiary-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-3 gap-6">
-            <div className="relative h-80 rounded-none overflow-hidden shadow-lg group animate-fade-in-up opacity-0 [animation-delay:0ms] [animation-fill-mode:forwards]">
-              <Image
-                src="https://images.pexels.com/photos/8364037/pexels-photo-8364037.jpeg"
-                alt="Children collaborating"
-                fill
-                className="object-cover transition-transform duration-500 group-hover:scale-110"
-              />
-            </div>
-            <div className="relative h-80 rounded-none overflow-hidden shadow-lg group animate-fade-in-up opacity-0 [animation-delay:200ms] [animation-fill-mode:forwards]">
-              <Image
-                src="https://images.pexels.com/photos/8613314/pexels-photo-8613314.jpeg"
-                alt="Learning activities"
-                fill
-                className="object-cover transition-transform duration-500 group-hover:scale-110"
-              />
-            </div>
-            <div className="relative h-80 rounded-none overflow-hidden shadow-lg group animate-fade-in-up opacity-0 [animation-delay:400ms] [animation-fill-mode:forwards]">
-              <Image
-                src="https://images.pexels.com/photos/8612992/pexels-photo-8612992.jpeg"
-                alt="Young changemakers"
-                fill
-                className="object-cover transition-transform duration-500 group-hover:scale-110"
-              />
-            </div>
+            {galleryImages.slice(0, 3).map((item, index) => (
+              <div 
+                key={item.id}
+                className={`relative h-80 rounded-none overflow-hidden shadow-lg group animate-fade-in-up opacity-0 [animation-fill-mode:forwards]`}
+                style={{ animationDelay: `${index * 200}ms` }}
+              >
+                <Image
+                  src={getMediaUrl(item.image, "https://images.pexels.com/photos/8364037/pexels-photo-8364037.jpeg")}
+                  alt={getMediaAlt(item.image, item.title || "Gallery image")}
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+              </div>
+            ))}
+            {galleryImages.length === 0 && (
+              <>
+                <div className="relative h-80 rounded-none overflow-hidden shadow-lg group animate-fade-in-up opacity-0 [animation-delay:0ms] [animation-fill-mode:forwards]">
+                  <Image
+                    src="https://images.pexels.com/photos/8364037/pexels-photo-8364037.jpeg"
+                    alt="Children collaborating"
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                </div>
+                <div className="relative h-80 rounded-none overflow-hidden shadow-lg group animate-fade-in-up opacity-0 [animation-delay:200ms] [animation-fill-mode:forwards]">
+                  <Image
+                    src="https://images.pexels.com/photos/8613314/pexels-photo-8613314.jpeg"
+                    alt="Learning activities"
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                </div>
+                <div className="relative h-80 rounded-none overflow-hidden shadow-lg group animate-fade-in-up opacity-0 [animation-delay:400ms] [animation-fill-mode:forwards]">
+                  <Image
+                    src="https://images.pexels.com/photos/8612992/pexels-photo-8612992.jpeg"
+                    alt="Young changemakers"
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                </div>
+              </>
+            )}
           </div>
         </div>
       </section>

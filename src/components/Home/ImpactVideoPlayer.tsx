@@ -1,13 +1,9 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import dynamic from 'next/dynamic';
+import React, { useEffect, useRef, useState } from 'react';
 import type { Media } from '@/payload-types';
 import 'plyr-react/plyr.css';
 import '@/styles/plyr-custom.css';
-
-// Dynamically import Plyr to avoid SSR issues
-const Plyr = dynamic(() => import('plyr-react'), { ssr: false });
 
 interface ImpactVideoPlayerProps {
   videoFile?: number | Media | null;
@@ -22,74 +18,149 @@ const ImpactVideoPlayer: React.FC<ImpactVideoPlayerProps> = ({
   videoUrl,
   thumbnail,
 }) => {
+  const videoRef = useRef<HTMLDivElement>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const playerRef = useRef<any>(null);
   const [isClient, setIsClient] = useState(false);
 
-  // Ensure component only renders on client
   useEffect(() => {
     setIsClient(true);
   }, []);
 
-  // Get video URL from CMS data
-  const getVideoUrl = () => {
-    // Prefer videoUrl (YouTube/Vimeo) over videoFile
-    if (videoUrl) {
-      return videoUrl;
-    }
-    
-    // Use videoFile if available
-    if (videoFile) {
-      const media = videoFile;
-      if (typeof media === 'object' && media !== null && 'url' in media) {
-        return media.url || '';
+  useEffect(() => {
+    if (!isClient || !videoRef.current) return;
+
+    let isMounted = true;
+
+    const initPlayer = async () => {
+      try {
+        const Plyr = (await import('plyr')).default;
+        
+        if (!isMounted || !videoRef.current) return;
+
+        // Get video data
+        const getVideoUrl = () => {
+          if (videoUrl) return videoUrl;
+          if (videoFile && typeof videoFile === 'object' && 'url' in videoFile) {
+            return videoFile.url || '';
+          }
+          return '';
+        };
+
+        const getVideoType = (url: string) => {
+          if (url.includes('youtube.com') || url.includes('youtu.be')) return 'youtube';
+          if (url.includes('vimeo.com')) return 'vimeo';
+          return 'video';
+        };
+
+        const getVideoId = (url: string, type: string) => {
+          if (type === 'youtube') {
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+            const match = url.match(regExp);
+            return match && match[2].length === 11 ? match[2] : '';
+          }
+          if (type === 'vimeo') {
+            const regExp = /vimeo.*\/(\d+)/i;
+            const match = url.match(regExp);
+            return match ? match[1] : '';
+          }
+          return url;
+        };
+
+        const getThumbnailUrl = () => {
+          if (thumbnail && typeof thumbnail === 'object' && 'url' in thumbnail) {
+            return thumbnail.url || '';
+          }
+          return undefined;
+        };
+
+        const videoSource = getVideoUrl();
+        const videoType = getVideoType(videoSource);
+        const videoId = getVideoId(videoSource, videoType);
+
+        let videoElement: HTMLVideoElement | HTMLDivElement;
+
+        if (videoType === 'youtube') {
+          // Create YouTube div
+          const div = document.createElement('div');
+          div.setAttribute('data-plyr-provider', 'youtube');
+          div.setAttribute('data-plyr-embed-id', videoId);
+          videoRef.current.appendChild(div);
+          videoElement = div;
+        } else if (videoType === 'vimeo') {
+          // Create Vimeo div
+          const div = document.createElement('div');
+          div.setAttribute('data-plyr-provider', 'vimeo');
+          div.setAttribute('data-plyr-embed-id', videoId);
+          videoRef.current.appendChild(div);
+          videoElement = div;
+        } else {
+          // Create HTML5 video element
+          const video = document.createElement('video');
+          video.setAttribute('playsinline', '');
+          video.setAttribute('controls', '');
+          if (getThumbnailUrl()) {
+            video.setAttribute('poster', getThumbnailUrl()!);
+          }
+          const source = document.createElement('source');
+          source.setAttribute('src', videoSource);
+          source.setAttribute('type', 'video/mp4');
+          video.appendChild(source);
+          videoRef.current.appendChild(video);
+          videoElement = video;
+        }
+
+        // Initialize Plyr
+        playerRef.current = new Plyr(videoElement, {
+          hideControls: true,
+          controls: [
+            'play-large',
+            'play',
+            'progress',
+            'current-time',
+            'mute',
+            'volume',
+            'settings',
+            'pip',
+            'fullscreen',
+          ],
+          settings: ['quality', 'speed'],
+          youtube: {
+            noCookie: true,
+            rel: 0,
+            showinfo: 0,
+            iv_load_policy: 3,
+            modestbranding: 1,
+          },
+          vimeo: {
+            byline: false,
+            portrait: false,
+            title: false,
+            speed: true,
+            transparent: false,
+          },
+        });
+      } catch (error) {
+        console.error('Error initializing Plyr:', error);
       }
-    }
-    
-    return '';
-  };
+    };
 
-  // Detect if URL is YouTube, Vimeo, or direct video
-  const getVideoType = (url: string) => {
-    if (url.includes('youtube.com') || url.includes('youtu.be')) {
-      return 'youtube';
-    }
-    if (url.includes('vimeo.com')) {
-      return 'vimeo';
-    }
-    return 'video'; // Direct video file
-  };
+    const timer = setTimeout(initPlayer, 300);
 
-  // Extract video ID for embeds
-  const getVideoId = (url: string, type: string) => {
-    if (type === 'youtube') {
-      const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
-      const match = url.match(regExp);
-      return match && match[2].length === 11 ? match[2] : '';
-    }
-    if (type === 'vimeo') {
-      const regExp = /vimeo.*\/(\d+)/i;
-      const match = url.match(regExp);
-      return match ? match[1] : '';
-    }
-    return url; // Return full URL for direct videos
-  };
-
-  // Get thumbnail URL for poster
-  const getThumbnailUrl = () => {
-    if (thumbnail) {
-      const media = thumbnail;
-      if (typeof media === 'object' && media !== null && 'url' in media) {
-        return media.url || '';
+    return () => {
+      isMounted = false;
+      clearTimeout(timer);
+      if (playerRef.current) {
+        try {
+          playerRef.current.destroy();
+        } catch {
+          // Ignore destroy errors
+        }
+        playerRef.current = null;
       }
-    }
-    return undefined;
-  };
+    };
+  }, [isClient, videoFile, videoUrl, thumbnail]);
 
-  const videoSource = getVideoUrl();
-  const videoType = getVideoType(videoSource);
-  const videoId = getVideoId(videoSource, videoType);
-  const posterUrl = getThumbnailUrl();
-
-  // Don't render Plyr until client-side
   if (!isClient) {
     return (
       <div className="relative animate-fade-in opacity-0 [animation-delay:600ms]">
@@ -102,6 +173,16 @@ const ImpactVideoPlayer: React.FC<ImpactVideoPlayerProps> = ({
     );
   }
 
+  const getVideoUrl = () => {
+    if (videoUrl) return videoUrl;
+    if (videoFile && typeof videoFile === 'object' && 'url' in videoFile) {
+      return videoFile.url || '';
+    }
+    return '';
+  };
+
+  const videoSource = getVideoUrl();
+
   return (
     <div className="relative animate-fade-in opacity-0 [animation-delay:600ms]">
       {/* Video Player Container */}
@@ -109,81 +190,7 @@ const ImpactVideoPlayer: React.FC<ImpactVideoPlayerProps> = ({
         {/* Plyr Video Player */}
         <div className="relative aspect-video bg-black">
           {videoSource ? (
-            <>
-              {videoType === 'youtube' || videoType === 'vimeo' ? (
-                // Embed player for YouTube/Vimeo
-                <div key={videoId}>
-                  <Plyr
-                    source={{
-                      type: 'video',
-                      sources: [
-                        {
-                          src: videoId,
-                          provider: videoType as 'youtube' | 'vimeo',
-                        },
-                      ],
-                    }}
-                    options={{
-                      hideControls: true,
-                      controls: [
-                        'play-large',
-                        'play',
-                        'progress',
-                        'current-time',
-                        'mute',
-                        'volume',
-                        'settings',
-                        'fullscreen',
-                      ],
-                      settings: ['quality', 'speed'],
-                      quality: {
-                        default: 720,
-                        options: [4320, 2880, 2160, 1440, 1080, 720, 576, 480, 360, 240],
-                      },
-                      youtube: {
-                        noCookie: true,
-                        rel: 0,
-                        showinfo: 0,
-                        iv_load_policy: 3,
-                        modestbranding: 1,
-                      },
-                    }}
-                  />
-                </div>
-              ) : (
-                // Direct video file (R2/CDN)
-                <div key={videoSource}>
-                  <Plyr
-                    source={{
-                      type: 'video',
-                      sources: [
-                        {
-                          src: videoSource,
-                          type: 'video/mp4',
-                        },
-                      ],
-                      poster: posterUrl,
-                    }}
-                    options={{
-                      hideControls: true,
-                      controls: [
-                        'play-large',
-                        'play',
-                        'progress',
-                        'current-time',
-                        'mute',
-                        'volume',
-                        'settings',
-                        'pip',
-                        'fullscreen',
-                      ],
-                      settings: ['speed'],
-                      speed: { selected: 1, options: [0.5, 0.75, 1, 1.25, 1.5, 2] },
-                    }}
-                  />
-                </div>
-              )}
-            </>
+            <div ref={videoRef} className="w-full h-full" />
           ) : (
             // Placeholder when no video is available
             <div className="absolute inset-0 flex items-center justify-center bg-tertiary/10">
@@ -192,15 +199,6 @@ const ImpactVideoPlayer: React.FC<ImpactVideoPlayerProps> = ({
           )}
         </div>
       </div>
-
-      {/* SwooshButton Floating */}
-      {/* <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 animate-fade-in-up opacity-0 [animation-delay:800ms] z-10">
-        <SwooshButton 
-          href="/about/mission" 
-          className="bg-primary text-white font-bold py-8 px-8 text-lg shadow-xl" 
-          text="Our Mission" 
-        />
-      </div> */}
     </div>
   );
 };

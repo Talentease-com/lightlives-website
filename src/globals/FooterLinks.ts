@@ -408,6 +408,82 @@ export const FooterLinks: GlobalConfig = {
       ],
     },
 
+    // Graces Culture Section
+    {
+      name: 'gracesCultureLink',
+      type: 'group',
+      label: 'Graces Culture',
+      admin: {
+        description: 'Single link for Graces Culture section',
+      },
+      fields: [
+        {
+          name: 'linkType',
+          type: 'radio',
+          label: 'Link Type',
+          required: true,
+          defaultValue: 'document',
+          options: [
+            {
+              label: 'Internal Page',
+              value: 'page',
+            },
+            {
+              label: 'Document/PDF',
+              value: 'document',
+            },
+            {
+              label: 'External URL',
+              value: 'external',
+            },
+          ],
+          admin: {
+            description: 'Choose whether this links to a page, document, or external URL',
+            layout: 'horizontal',
+          },
+        },
+        {
+          name: 'pagePath',
+          type: 'text',
+          label: 'Page Path',
+          admin: {
+            description: 'Internal page path (e.g., /about/culture)',
+            placeholder: '/about/culture',
+            condition: (data, siblingData) => siblingData?.linkType === 'page',
+          },
+        },
+        {
+          name: 'document',
+          type: 'upload',
+          label: 'Document',
+          relationTo: 'media',
+          admin: {
+            description: 'Upload a PDF or document file',
+            condition: (data, siblingData) => siblingData?.linkType === 'document',
+          },
+        },
+        {
+          name: 'externalUrl',
+          type: 'text',
+          label: 'External URL',
+          admin: {
+            description: 'Full external URL',
+            placeholder: 'https://example.com',
+            condition: (data, siblingData) => siblingData?.linkType === 'external',
+          },
+        },
+        {
+          name: 'openInNewTab',
+          type: 'checkbox',
+          label: 'Open in New Tab',
+          defaultValue: true,
+          admin: {
+            description: 'Open link in a new tab',
+          },
+        },
+      ],
+    },
+
     // Policy Links (Bottom Bar)
     {
       name: 'policyLinks',

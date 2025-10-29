@@ -6,6 +6,7 @@ export const VerticalGallery: CollectionConfig = {
     useAsTitle: 'title',
     defaultColumns: ['title', 'displayOrder', 'isActive'],
     group: 'Content',
+    description: 'Manage vertical gallery images.',
   },
   access: {
     read: () => true,

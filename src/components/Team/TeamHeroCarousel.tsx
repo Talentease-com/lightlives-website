@@ -62,7 +62,7 @@ const TeamHeroCarousel: React.FC<TeamHeroCarouselProps> = ({ images }) => {
             priority={currentSlide === 0}
             sizes="100vw"
           />
-          <div className="absolute inset-0 bg-black/50"></div>
+          <div className="absolute inset-0 bg-black/30"></div>
         </motion.div>
       </AnimatePresence>
 

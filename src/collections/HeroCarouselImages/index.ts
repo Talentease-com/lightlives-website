@@ -6,6 +6,7 @@ export const HeroCarouselImages: CollectionConfig = {
     useAsTitle: 'alt',
     defaultColumns: ['alt', 'displayOrder', 'isActive'],
     group: 'Content',
+    description: 'Manage hero carousel images.',
   },
   access: {
     read: () => true,

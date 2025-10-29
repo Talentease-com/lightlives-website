@@ -107,33 +107,64 @@ export default function CharacterStrengths() {
           </p>
         </motion.div>
 
-        {/* Character Strengths Grid */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mb-12"
-        >
-          {characterStrengths.map((strength) => {
-            const Icon = strength.icon
-            return (
-              <motion.div
-                key={strength.name}
-                variants={chipVariants}
-                whileHover={{ scale: 1.05, y: -4 }}
-                className={`group bg-white backdrop-blur-[5px] p-6 border-2 ${strength.borderClass} shadow-md hover:shadow-xl transition-all duration-300 cursor-default`}
-              >
-                <div className={`${strength.bgClass} ${strength.textClass} w-12 h-12 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300`}>
-                  <Icon className="h-6 w-6" />
-                </div>
-                <h3 className={`text-xl font-bold text-center text-tertiary ${strength.hoverTextClass} transition-colors duration-300`}>
-                  {strength.name}
-                </h3>
-              </motion.div>
-            )
-          })}
-        </motion.div>
+        {/* Character Strengths Grid - Symmetrical Layout */}
+        <div className="flex flex-col items-center gap-4 mb-12">
+          {/* First Row - 3 items */}
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 gap-4 w-full max-w-4xl justify-items-center"
+          >
+            {characterStrengths.slice(0, 3).map((strength) => {
+              const Icon = strength.icon
+              return (
+                <motion.div
+                  key={strength.name}
+                  variants={chipVariants}
+                  whileHover={{ scale: 1.05, y: -4 }}
+                  className={`group bg-white backdrop-blur-[5px] p-6 border-2 ${strength.borderClass} shadow-md hover:shadow-xl transition-all duration-300 cursor-default w-full max-w-xs`}
+                >
+                  <div className={`${strength.bgClass} ${strength.textClass} w-12 h-12 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                    <Icon className="h-6 w-6" />
+                  </div>
+                  <h3 className={`text-xl font-bold text-center text-tertiary ${strength.hoverTextClass} transition-colors duration-300`}>
+                    {strength.name}
+                  </h3>
+                </motion.div>
+              )
+            })}
+          </motion.div>
+
+          {/* Second Row - 4 items */}
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-4 gap-4 w-full max-w-5xl justify-items-center"
+          >
+            {characterStrengths.slice(3, 7).map((strength) => {
+              const Icon = strength.icon
+              return (
+                <motion.div
+                  key={strength.name}
+                  variants={chipVariants}
+                  whileHover={{ scale: 1.05, y: -4 }}
+                  className={`group bg-white backdrop-blur-[5px] p-6 border-2 ${strength.borderClass} shadow-md hover:shadow-xl transition-all duration-300 cursor-default w-full max-w-xs`}
+                >
+                  <div className={`${strength.bgClass} ${strength.textClass} w-12 h-12 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                    <Icon className="h-6 w-6" />
+                  </div>
+                  <h3 className={`text-xl font-bold text-center text-tertiary ${strength.hoverTextClass} transition-colors duration-300`}>
+                    {strength.name}
+                  </h3>
+                </motion.div>
+              )
+            })}
+          </motion.div>
+        </div>
 
         {/* Paul Tough Quote */}
         <motion.div

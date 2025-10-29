@@ -4,8 +4,9 @@ export const TeamCarouselImages: CollectionConfig = {
   slug: 'team-carousel-images',
   admin: {
     useAsTitle: 'alt',
-    defaultColumns: ['alt', 'displayOrder', 'isActive'],
+    defaultColumns: ['alt', 'image', 'displayOrder', 'isActive'],
     group: 'Content',
+    description: 'Manage team carousel images.',
   },
   access: {
     read: () => true,

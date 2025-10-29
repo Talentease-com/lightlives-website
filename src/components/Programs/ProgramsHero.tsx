@@ -3,14 +3,25 @@
 import React from 'react'
 import { motion } from 'motion/react'
 import Image from 'next/image'
+import type { Media } from '@/payload-types'
 
-export default function ProgramsHero() {
+interface ProgramsHeroProps {
+  image?: Media | number | null
+  alt?: string
+}
+
+export default function ProgramsHero({ image, alt = 'Our Programs' }: ProgramsHeroProps) {
+  // Get image URL from media object
+  const imageUrl = typeof image === 'object' && image?.url 
+    ? image.url 
+    : 'https://images.pexels.com/photos/8471862/pexels-photo-8471862.jpeg'
+
   return (
     <section className="relative h-[70vh] flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0">
         <Image
-          src="https://images.pexels.com/photos/8471862/pexels-photo-8471862.jpeg"
-          alt="Children learning and developing skills"
+          src={imageUrl}
+          alt={alt}
           fill
           className="object-cover"
           priority
