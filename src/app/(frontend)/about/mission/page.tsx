@@ -301,7 +301,7 @@ export default async function MissionVisionPage() {
       <section className="py-24 bg-tertiary-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-3 gap-6">
-            {galleryImages.slice(0, 3).map((item, index) => (
+            {galleryImages.map((item, index) => (
               <div 
                 key={item.id}
                 className={`relative h-80 rounded-none overflow-hidden shadow-lg group animate-fade-in-up opacity-0 [animation-fill-mode:forwards]`}

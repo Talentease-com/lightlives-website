@@ -96,12 +96,10 @@ export default buildConfig({
      s3Storage({
       collections: {
         media: {
-          prefix: '', // Organize files in /media folder
           // Generate public R2 URL using custom domain
-          generateFileURL: ({ filename, prefix }) => {
+          generateFileURL: ({ filename }) => {
             const baseUrl = process.env.R2_PUBLIC_URL || 'https://cdn.lightlives.org'
-            const path = prefix ? `${prefix}/${filename}` : filename
-            return `${baseUrl}/${path}`
+            return `${baseUrl}/${filename}`
           },
         },
       },
