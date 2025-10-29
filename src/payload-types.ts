@@ -689,9 +689,13 @@ export interface VideoGallery {
   description: string;
   category: 'education' | 'impact' | 'community' | 'events';
   /**
-   * Thumbnail image for the video (16:9 aspect ratio recommended)
+   * Thumbnail image for the video (16:9 aspect ratio recommended). Optional if using thumbnailUrl or auto-extracted from video URL.
    */
-  thumbnail: number | Media;
+  thumbnail?: (number | null) | Media;
+  /**
+   * Direct URL to thumbnail image. Auto-populated from YouTube/Vimeo URLs. You can also manually set a custom URL.
+   */
+  thumbnailUrl?: string | null;
   /**
    * Self-hosted video file (MP4 format recommended). Leave empty if using videoUrl.
    */
@@ -1213,6 +1217,7 @@ export interface VideoGallerySelect<T extends boolean = true> {
   description?: T;
   category?: T;
   thumbnail?: T;
+  thumbnailUrl?: T;
   videoFile?: T;
   videoUrl?: T;
   duration?: T;

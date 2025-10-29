@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { extractVideoThumbnail } from './hooks/extractYoutubeThumbnail'
 
 export const VideoGallery: CollectionConfig = {
   slug: 'video-gallery',
@@ -43,10 +44,18 @@ export const VideoGallery: CollectionConfig = {
       name: 'thumbnail',
       type: 'upload',
       relationTo: 'media',
-      required: true,
+      required: false,
       label: 'Video Thumbnail',
       admin: {
-        description: 'Thumbnail image for the video (16:9 aspect ratio recommended)',
+        description: 'Thumbnail image for the video (16:9 aspect ratio recommended). Optional if using thumbnailUrl or auto-extracted from video URL.',
+      },
+    },
+    {
+      name: 'thumbnailUrl',
+      type: 'text',
+      label: 'Thumbnail URL',
+      admin: {
+        description: 'Direct URL to thumbnail image. Auto-populated from YouTube/Vimeo URLs. You can also manually set a custom URL.',
       },
     },
     {
@@ -103,6 +112,7 @@ export const VideoGallery: CollectionConfig = {
     },
   ],
   hooks: {
+    beforeChange: [extractVideoThumbnail],
     beforeValidate: [
       ({ data }) => {
         // Ensure at least one video source is provided

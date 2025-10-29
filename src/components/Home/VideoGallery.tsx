@@ -26,9 +26,15 @@ const VideoGallery: React.FC<VideoGalleryProps> = ({ videos }) => {
 
   // Process CMS data into format needed for display
   const processedVideos: ProcessedVideo[] = videos.map(video => {
-    // Get thumbnail URL
+    // Get thumbnail URL - priority: thumbnailUrl > thumbnail upload > fallback
     let thumbnailUrl = 'https://images.pexels.com/photos/8926547/pexels-photo-8926547.jpeg';
-    if (video.thumbnail) {
+    
+    // First priority: direct thumbnailUrl
+    if (video.thumbnailUrl) {
+      thumbnailUrl = video.thumbnailUrl;
+    } 
+    // Second priority: uploaded thumbnail
+    else if (video.thumbnail) {
       const media = video.thumbnail;
       if (typeof media === 'object' && media !== null && 'url' in media) {
         thumbnailUrl = media.url || thumbnailUrl;
