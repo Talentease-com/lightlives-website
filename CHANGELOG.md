@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.12.0](https://github.com/Talentease-com/lightlives-website/compare/v0.11.0...v0.12.0) (2025-10-29)
+
+
+### Features
+
+* Update gallery image rendering and simplify file URL generation in payload config ([6c5520a](https://github.com/Talentease-com/lightlives-website/commit/6c5520ac32c046a513f100636896a8b68bf124d8))
+
 ## [0.11.0](https://github.com/Talentease-com/lightlives-website/compare/v0.10.0...v0.11.0) (2025-10-29)
 
 
