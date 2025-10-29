@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.11.0](https://github.com/Talentease-com/lightlives-website/compare/v0.10.0...v0.11.0) (2025-10-29)
+
+
+### Features
+
+* Add new collections and globals for content management ([904a8fe](https://github.com/Talentease-com/lightlives-website/commit/904a8fe6ac4bc1a8cfcfc0a3e631aa096416d3c3))
+* Enhance homepage with new video and image data fetching, update components for improved content display ([63e413c](https://github.com/Talentease-com/lightlives-website/commit/63e413c8602262c7ca29e6746e7a1abe30b549ed))
+* Enhance Programs and Join pages with dynamic image fetching and improved layout ([cf54841](https://github.com/Talentease-com/lightlives-website/commit/cf54841fb199037ab3fff9d499097994ce17af0b))
+
 ## [0.10.0](https://github.com/Talentease-com/lightlives-website/compare/v0.9.0...v0.10.0) (2025-10-27)
 
 
