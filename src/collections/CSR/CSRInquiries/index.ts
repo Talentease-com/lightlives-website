@@ -94,9 +94,10 @@ export const CSRInquiries: CollectionConfig = {
       type: 'select',
       hasMany: true,
       options: [
-        { label: 'Donations', value: 'donations' },
         { label: 'Sponsorships', value: 'sponsorships' },
         { label: 'Employee Volunteering', value: 'volunteering' },
+        { label: 'Content & Curriculum design', value: 'content_curriculum' },
+        { label: 'Industry coaches & mentors', value: 'industry_coaches_mentors' },
       ],
       required: true,
       admin: {

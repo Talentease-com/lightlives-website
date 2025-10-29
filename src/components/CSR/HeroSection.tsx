@@ -2,19 +2,25 @@
 
 import React from 'react';
 import { motion } from 'motion/react';
-import { Award, Users, School, Building2, Shield, CheckCircle, MessageSquareText as MessageSquare } from 'lucide-react';
+import { Award, Users, School, Building2, CheckCircle, MessageSquareText as MessageSquare } from 'lucide-react';
 import Image from 'next/image';
 import SwooshButton from '@/components/ui/swoosh-button';
 import AnimatedCounter from '@/components/Home/AnimatedCounter';
-import type { Impact } from '@/payload-types';
+import type { Impact, PageImage, Media } from '@/payload-types';
 
 interface HeroSectionProps {
   impactStats: Impact[];
+  pageImages: PageImage | null;
 }
 
-const HeroSection: React.FC<HeroSectionProps> = ({ impactStats }) => {
+const HeroSection: React.FC<HeroSectionProps> = ({ impactStats, pageImages }) => {
   // Icon mapping for impact stats
   const iconMap = [Users, School, Award, Building2];
+
+  // Get CSR hero image and alt text
+  const csrHeroImage = pageImages?.csrHero as Media | undefined;
+  const csrHeroAlt = pageImages?.csrHeroAlt || 'Corporate Social Responsibility';
+  const heroImageUrl = csrHeroImage?.url || 'https://images.pexels.com/photos/6646930/pexels-photo-6646930.jpeg';
 
   return (
     <section className="relative min-h-screen bg-gradient-to-br from-primary/5 via-background to-secondary/5 overflow-x-clip">
@@ -87,12 +93,12 @@ const HeroSection: React.FC<HeroSectionProps> = ({ impactStats }) => {
             {/* Value Propositions */}
             <div className="space-y-4">
               {[
-                "To go beyond handouts and invest in empowering beneficiaries to help themselves",
-                "To not just work on symptoms but fix root causes with long term solutions",
-                "To work with organisations that maximise the impact of your CSR money and not waste it on irrelevant stuff or frills",
-                "To invest in initiatives that create a tangible, measurable impact",
-                "To not just do 'helicopter' CSR but to make it an integral part of the company culture by giving employees an opportunity to participate and make a difference",
-                "To ensure that your CSR efforts in some way support the big goal of nation building"
+                "Go beyond handouts. Invest in empowering beneficiaries to help themselves",
+                "Work not just on symptoms, fix root causes. Long term solutions",
+                "Work with partners who maximise impact of your CSR money. No frills.",
+                "Measurable, tangible impact",
+                "Not just 'helicopter' CSR. Get your employees involved.",
+                "Support the big goal of nation building"
               ].map((proposition, index) => (
                 <motion.div
                   key={index}
@@ -110,12 +116,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({ impactStats }) => {
             {/* Trust Indicators */}
             <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-6 pt-4 border-t border-tertiary-200">
               <div className="flex items-center space-x-2">
-                <Shield className="h-5 w-5 text-primary" />
-                <span className="text-sm text-tertiary-600">ISO 9001:2015 Certified</span>
-              </div>
-              <div className="flex items-center space-x-2">
                 <CheckCircle className="h-5 w-5 text-primary" />
-                <span className="text-sm text-tertiary-600">FCRA Compliant</span>
+                <span className="text-sm text-tertiary-600">CSR Registered</span>
               </div>
             </div>
           </motion.div>
@@ -130,8 +132,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({ impactStats }) => {
             <div className="relative rounded-none shadow-2xl">
               <div className='relative overflow-hidden'>
                 <Image
-                  src="https://images.pexels.com/photos/6646930/pexels-photo-6646930.jpeg"
-                  alt="Community empowerment through skill development programs"
+                  src={heroImageUrl}
+                  alt={csrHeroAlt}
                   width={1000}
                   height={500}
                   className="w-full h-[500px] object-cover"
@@ -187,23 +189,22 @@ const HeroSection: React.FC<HeroSectionProps> = ({ impactStats }) => {
 
           <div className="grid md:grid-cols-2 gap-6">
             {[
-              "We work with children and young adults from low-income backgrounds to give them the skills and values they will need to not just be professionally successful but live meaningful personal lives",
-              "The root cause of some of our biggest problems is usually a lack of committed, value-driven leaders. We work on preparing young people to be leaders and changemakers",
-              "Your money is directed to maximising the impact to the beneficiaries - no crazy overheads or wasteful expenditure",
-              "We have a rigorous measurement process that baselines when we start our program and measures the impact of our interventions",
-              "We encourage your employees to volunteer and be part of our programs",
-              "We are running a marathon not a sprint - our typical engagements last for 5-10 years to ensure long term capability building that will support the community and the nation"
+              "Work with underprivileged children and young adults. Giving them future ready skills and values. They help themselves to succeed.",
+              "Create leaders and changemakers. They will drive change. They will solve the big problems.",
+              "Sponsorships aimed at maximising impact to beneficiaries. No wasteful expenditure. No crazy overheads.",
+              "Get your employees to volunteer and feel engaged and involved.",
+              "A marathon not a sprint. Long term engagements that build capability. For the community. For the nation."
             ].map((point, index) => (
               <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="flex items-start space-x-3 p-4 bg-white border border-tertiary-200 rounded-none hover:shadow-lg transition-all duration-300"
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              viewport={{ once: true }}
+              className="flex items-start space-x-3 p-4 bg-white border border-tertiary-200 rounded-none hover:shadow-lg transition-all duration-300"
               >
-                <CheckCircle className="h-5 w-5 text-secondary mt-0.5 flex-shrink-0" />
-                <span className="text-tertiary-600">{point}</span>
+              <CheckCircle className="h-5 w-5 text-secondary mt-0.5 flex-shrink-0" />
+              <span className="text-tertiary-600">{point}</span>
               </motion.div>
             ))}
           </div>

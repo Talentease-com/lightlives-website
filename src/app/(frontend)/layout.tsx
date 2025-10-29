@@ -31,7 +31,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       > 
-      <AdminBar />
+      {/* <AdminBar /> */}
       <Navbar />
       <main data-vaul-drawer-wrapper>
         {children}

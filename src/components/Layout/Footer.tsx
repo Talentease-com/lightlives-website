@@ -236,8 +236,7 @@ const Footer = async () => {
           <div className="flex flex-col md:flex-row justify-between items-center">
             {/* Copyright */}
             <div className="text-secondary/80 text-sm mb-4 md:mb-0">
-              © {footerContent.copyrightYear} Light Lives. All rights reserved. | Reg. No:{' '}
-              {footerContent.registrationNumber}
+              © {footerContent.copyrightYear} Light Lives. All rights reserved.
             </div>
 
             {/* Policy Links */}

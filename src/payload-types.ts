@@ -558,7 +558,7 @@ export interface CsrInquiry {
   /**
    * Partnership interests (can select multiple)
    */
-  interests: ('donations' | 'sponsorships' | 'volunteering')[];
+  interests: ('sponsorships' | 'volunteering' | 'content_curriculum' | 'industry_coaches_mentors')[];
   /**
    * Approximate CSR budget (optional)
    */

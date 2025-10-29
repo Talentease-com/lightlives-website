@@ -3,14 +3,24 @@
 import React from 'react'
 import { motion } from 'motion/react'
 import Image from 'next/image'
+import type { PageImage, Media } from '@/payload-types'
 
-export default function VolunteerHero() {
+interface VolunteerHeroProps {
+  pageImages: PageImage | null;
+}
+
+export default function VolunteerHero({ pageImages }: VolunteerHeroProps) {
+  // Get volunteer hero image and alt text
+  const volunteerHeroImage = pageImages?.volunteerHero as Media | undefined;
+  const volunteerHeroAlt = pageImages?.volunteerHeroAlt || 'Volunteer with LightLives';
+  const heroImageUrl = volunteerHeroImage?.url || 'https://images.pexels.com/photos/6646918/pexels-photo-6646918.jpeg';
+
   return (
     <section className="relative h-[70vh] flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0">
         <Image
-          src="https://images.pexels.com/photos/6646918/pexels-photo-6646918.jpeg"
-          alt="Volunteers working together"
+          src={heroImageUrl}
+          alt={volunteerHeroAlt}
           fill
           className="object-cover"
           priority

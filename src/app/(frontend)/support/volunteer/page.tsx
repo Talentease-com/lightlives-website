@@ -3,6 +3,8 @@ import { Metadata } from 'next'
 import Image from 'next/image'
 import SwooshButton from '@/components/ui/swoosh-button'
 import { VolunteerHero, VolunteerOpportunities, VolunteerFAQ } from '@/components/Volunteer'
+import { getPageImages, getGeneralGallery } from '@/lib/payload/fetch'
+import type { Media } from '@/payload-types'
 
 export const metadata: Metadata = {
   title: 'Volunteer With Us - Light Lives',
@@ -15,11 +17,16 @@ export const metadata: Metadata = {
 // Enable static generation
 export const dynamic = 'force-static'
 
-export default function VolunteerPage() {
+export default async function VolunteerPage() {
+  const [pageImages, galleryImages] = await Promise.all([
+    getPageImages(),
+    getGeneralGallery(),
+  ]);
+
   return (
     <div className="">
       {/* Hero Section */}
-      <VolunteerHero />
+      <VolunteerHero pageImages={pageImages} />
 
       {/* Volunteer Opportunities */}
       <VolunteerOpportunities />
@@ -51,30 +58,52 @@ export default function VolunteerPage() {
       <section className="py-24 bg-tertiary-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-3 gap-6">
-            <div className="relative h-80 rounded-none overflow-hidden shadow-lg group animate-fade-in-up opacity-0 [animation-delay:0ms] [animation-fill-mode:forwards]">
-              <Image
-                src="https://images.pexels.com/photos/8364037/pexels-photo-8364037.jpeg"
-                alt="Volunteers collaborating with children"
-                fill
-                className="object-cover transition-transform duration-500 group-hover:scale-110"
-              />
-            </div>
-            <div className="relative h-80 rounded-none overflow-hidden shadow-lg group animate-fade-in-up opacity-0 [animation-delay:200ms] [animation-fill-mode:forwards]">
-              <Image
-                src="https://images.pexels.com/photos/8613314/pexels-photo-8613314.jpeg"
-                alt="Volunteer facilitating learning activities"
-                fill
-                className="object-cover transition-transform duration-500 group-hover:scale-110"
-              />
-            </div>
-            <div className="relative h-80 rounded-none overflow-hidden shadow-lg group animate-fade-in-up opacity-0 [animation-delay:400ms] [animation-fill-mode:forwards]">
-              <Image
-                src="https://images.pexels.com/photos/8612992/pexels-photo-8612992.jpeg"
-                alt="Volunteers making an impact"
-                fill
-                className="object-cover transition-transform duration-500 group-hover:scale-110"
-              />
-            </div>
+            {galleryImages.length > 0 ? (
+              galleryImages.map((image, index) => {
+                const media = image.image as Media;
+                return (
+                  <div
+                    key={image.id}
+                    className="relative h-80 rounded-none overflow-hidden shadow-lg group animate-fade-in-up opacity-0 [animation-fill-mode:forwards]"
+                    style={{ animationDelay: `${index * 200}ms` }}
+                  >
+                    <Image
+                      src={media.url || ''}
+                      alt={image.title || image.description || 'Volunteer gallery image'}
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                  </div>
+                );
+              })
+            ) : (
+              <>
+                <div className="relative h-80 rounded-none overflow-hidden shadow-lg group animate-fade-in-up opacity-0 [animation-delay:0ms] [animation-fill-mode:forwards]">
+                  <Image
+                    src="https://images.pexels.com/photos/8364037/pexels-photo-8364037.jpeg"
+                    alt="Volunteers collaborating with children"
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                </div>
+                <div className="relative h-80 rounded-none overflow-hidden shadow-lg group animate-fade-in-up opacity-0 [animation-delay:200ms] [animation-fill-mode:forwards]">
+                  <Image
+                    src="https://images.pexels.com/photos/8613314/pexels-photo-8613314.jpeg"
+                    alt="Volunteer facilitating learning activities"
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                </div>
+                <div className="relative h-80 rounded-none overflow-hidden shadow-lg group animate-fade-in-up opacity-0 [animation-delay:400ms] [animation-fill-mode:forwards]">
+                  <Image
+                    src="https://images.pexels.com/photos/8612992/pexels-photo-8612992.jpeg"
+                    alt="Volunteers making an impact"
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                </div>
+              </>
+            )}
           </div>
         </div>
       </section>

@@ -9,7 +9,7 @@ interface CSRInquiryData {
   email: string;
   phone?: string;
   location?: string;
-  interests: ('donations' | 'sponsorships' | 'volunteering')[];
+  interests: ('sponsorships' | 'volunteering' | 'content_curriculum' | 'industry_coaches_mentors')[];
   budgetBand?: 'under-10l' | '10l-50l' | '50l-2cr' | 'above-2cr' | 'undisclosed';
   message: string;
 }
@@ -55,7 +55,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Interests validation
-    const validInterests = ['donations', 'sponsorships', 'volunteering'];
+  const validInterests = ['sponsorships', 'volunteering', 'content_curriculum', 'industry_coaches_mentors'];
     if (!Array.isArray(body.interests) || body.interests.length === 0 || 
         !body.interests.every(interest => validInterests.includes(interest))) {
       return NextResponse.json(

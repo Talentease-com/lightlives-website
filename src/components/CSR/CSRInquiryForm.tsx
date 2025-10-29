@@ -209,9 +209,10 @@ const CSRInquiryForm: React.FC = () => {
           </label>
           <div className="space-y-3">
             {[
-              { value: 'donations', label: 'Donations' },
               { value: 'sponsorships', label: 'Sponsorships' },
               { value: 'volunteering', label: 'Employee Volunteering Activities' },
+              { value: 'content_curriculum', label: 'Content & Curriculum design' },
+              { value: 'industry_coaches_mentors', label: 'Industry coaches & mentors' },
             ].map((interest) => (
               <div key={interest.value} className="flex items-center">
                 <input

@@ -27,19 +27,19 @@ const PartnershipFramework = () => {
     {
       id: 1,
       phase: "Discovery & Assessment",
-      duration: "Months 1-3",
+      duration: "Months 1-2",
       icon: Search,
       
       title: "Understanding Your CSR Vision",
-      description: "Comprehensive analysis of your corporate values, CSR objectives, and community impact goals.",
+      description: "Listen to and understand your corporate values, CSR objectives, and community impact goals.",
       activities: [
         "Stakeholder consultation sessions",
-        "CSR goal alignment workshops", 
-        "Community needs assessment",
+        "CSR goal alignment workshop if you want it", 
+        "Target low income school/college needs assessment",
         "Impact measurement framework design"
       ],
       deliverables: [
-        "Detailed partnership roadmap",
+        "Partnership roadmap",
         "Baseline impact metrics",
         "Customized program design",
         "Success measurement criteria"
@@ -49,20 +49,20 @@ const PartnershipFramework = () => {
     {
       id: 2,
       phase: "Program Design & Launch",
-      duration: "Months 4-8",
+      duration: "Months 3-8",
       icon: Rocket,
       
       title: "Strategic Program Implementation",
       description: "Co-creating sustainable programs that align with your brand values and community needs.",
       activities: [
         "Program curriculum development",
-        "Community partner identification",
+        "Identification of target low-income schools/colleges from shortlist",
         "Resource allocation planning",
-        "Team training and deployment"
+        "Team deployment"
       ],
       deliverables: [
         "Pilot program launch",
-        "Community engagement protocols",
+        "Engagement protocols",
         "Progress tracking systems",
         "Initial impact reports"
       ],
@@ -75,7 +75,7 @@ const PartnershipFramework = () => {
       icon: TrendingUp,
       
       title: "Expanding Impact Reach",
-      description: "Scaling successful interventions while continuously optimizing for maximum community benefit.",
+      description: "Scaling successful interventions while continuously optimizing for maximum benefit to the children and young adults we serve",
       activities: [
         "Program expansion planning",
         "Performance optimization",
@@ -85,7 +85,7 @@ const PartnershipFramework = () => {
       deliverables: [
         "Scaled program operations",
         "Enhanced impact metrics",
-        "Community success stories",
+        "Success stories",
         "ROI analysis reports"
       ],
       image: "https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg"
@@ -154,10 +154,6 @@ const PartnershipFramework = () => {
             <p className="text-xl text-tertiary-600 max-w-3xl mx-auto mb-8">
               Partner with us in building a legacy of strong, ethical leaders. Your CSR funding will not only support our Leadership Skills and Values Program but will contribute to a more resilient and empowered society.
             </p>
-            <div className="inline-flex items-center space-x-2 bg-secondary/20 text-tertiary px-6 py-3 rounded-none border-2 border-secondary">
-              <Target className="h-5 w-5 text-secondary" />
-              <span className="text-lg font-bold">Our immediate funding goal is INR 10 crore (1.25 million US dollars)</span>
-            </div>
           </motion.div>
         </div>
 

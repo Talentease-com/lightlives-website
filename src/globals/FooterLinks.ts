@@ -493,6 +493,20 @@ export const FooterLinks: GlobalConfig = {
         description: 'Links displayed in the bottom copyright bar (e.g., Privacy Policy, Terms)',
         initCollapsed: false,
       },
+      defaultValue: [
+        {
+          label: 'Privacy Policy',
+          linkType: 'page',
+          pagePath: '/privacy',
+          openInNewTab: false,
+        },
+        {
+          label: 'Terms & Conditions',
+          linkType: 'page',
+          pagePath: '/terms-conditions',
+          openInNewTab: false,
+        },
+      ],
       fields: [
         {
           name: 'label',

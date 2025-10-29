@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import { HeroSection, PartnershipFramework, PartnerLogos, CSRInquiryForm } from '@/components/CSR';
-import { getImpactData, getCSRPartners } from '@/lib/payload/fetch';
+import { getImpactData, getCSRPartners, getPageImages } from '@/lib/payload/fetch';
 
 export const metadata: Metadata = {
   title: 'CSR Partnerships for Leadership Development | Light Lives',
@@ -12,12 +12,15 @@ export const metadata: Metadata = {
 export const dynamic = 'force-static';
 
 export default async function CSRPage() {
-  const impactStats = await getImpactData();
-  const partners = await getCSRPartners();
+  const [impactStats, partners, pageImages] = await Promise.all([
+    getImpactData(),
+    getCSRPartners(),
+    getPageImages(),
+  ]);
 
   return (
     <main className="min-h-screen">
-      <HeroSection impactStats={impactStats} />
+      <HeroSection impactStats={impactStats} pageImages={pageImages} />
       <PartnerLogos partners={partners} />
       <PartnershipFramework />
       

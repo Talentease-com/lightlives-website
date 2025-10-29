@@ -52,11 +52,10 @@ const PartnerLogos: React.FC<PartnerLogosProps> = ({ partners }) => {
               Partnering with Corporate Organisations
             </h2>
             <p className="text-xl text-tertiary-600 max-w-3xl mx-auto mb-6">
-              LightLives is partnering with several corporate organisations and there are various ways in which corporate organisations can participate:
+              LightLives looks to partner with corporate organisations who are passionate about this vision. Join the movement.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               {[
-                { label: 'Donations', icon: '💰' },
                 { label: 'Sponsorships', icon: '🤝' },
                 { label: 'Employee Volunteering Activities', icon: '👥' }
               ].map((way, index) => (
