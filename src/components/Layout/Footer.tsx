@@ -18,7 +18,7 @@ const Footer = async () => {
 
   // Use social settings data or fallback defaults
   const contact = {
-    phone: socialSettings?.contact?.phone || '+91 98666 37495',
+    phone: socialSettings?.contact?.phone || '+91 9342250524',
     email: socialSettings?.contact?.email || 'info@lightlives.org',
     address: socialSettings?.contact?.address || 'Yogitha Arcade, Balaji Nagar\nKukatpally, Hyderabad, Telangana 500 072',
   }

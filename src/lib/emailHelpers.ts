@@ -10,7 +10,7 @@ export const DEFAULT_VALUES = {
   secondaryColor: '#1c365d',
   organizationName: 'Light Lives',
   organizationAddress: 'Yogitha Arcade, Balaji Nagar\nKukatpally, Hyderabad, Telangana 500 072',
-  organizationPhone: '+91 98666 37495',
+  organizationPhone: '+91 9342250524',
   organizationEmail: 'info@lightlives.org',
   websiteUrl: 'https://lightlives.org',
   footerText: 'Light Lives - Making Impact Together',

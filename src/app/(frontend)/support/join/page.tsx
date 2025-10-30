@@ -1,32 +1,36 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
+import { Target, GraduationCap, Wallet, Sparkles } from "lucide-react";
 
 import { CareersApplicationForm } from "@/components/Support/CareersApplicationForm";
 import { getFooterLinks } from "@/lib/payload/fetch";
 import { getLinkUrl, shouldOpenInNewTab } from "@/lib/utils";
 
 const heroHighlights = [
-
   {
+    icon: Target,
     title: "Meaning",
     description:
       "An astonishing 89% of professionals insist that meaning and purpose at work are non-negotiable. At Light Lives you see the direct outcomes of your effort as we help children and young adults build values, practical skills, and a sustained learning environment to become independent and successful.",
   },
   {
+    icon: GraduationCap,
     title: "Learning",
     description:
       "Learning is one of the top reasons professionals value their workplace. At Light Lives you learn from hands-on projects, passionate colleagues, leadership mentorship, travel, on-field assignments, and adventurous initiatives like our Discover India Discover Yourself programs with UK and Singaporean students.",
   },
   {
+    icon: Wallet,
     title: "Rewards",
     description:
       "Over 50% of professionals are ready to explore opportunities that help them earn what they truly deserve. Our compensation packages are on par with the industry and include a comprehensive medical cover.",
   },
   {
+    icon: Sparkles,
     title: "Wellbeing",
     description:
-      "Toxic cultures drain motivation. We resonate with Peter Drucker’s belief that culture eats strategy for breakfast—so we prioritise respect, freedom, flexibility, and trust, creating a space where you belong and can thrive.",
+      "Toxic cultures drain motivation. We resonate with Peter Drucker's belief that culture eats strategy for breakfast—so we prioritise respect, freedom, flexibility, and trust, creating a space where you belong and can thrive.",
   },
 ];
 
@@ -38,7 +42,7 @@ const jobOpenings = [
     description:
       "Lead immersive learning experiences for students and coordinate with partner schools to deliver impactful sessions.",
     location: "Pan-India (in-person)",
-    experience: "3+ years in facilitation or teaching",
+    experience: "Freshers are welcome",
     posted: "2 weeks ago",
     requirements: [
       "Demonstrated experience conducting workshops or classroom sessions",
@@ -166,17 +170,25 @@ export default async function CareersJoinPage() {
             </div>
 
             <div className="grid gap-6 sm:grid-cols-2">
-              {heroHighlights.map((item) => (
-                <article
-                  key={item.title}
-                  className="border border-tertiary/10 bg-background/80 backdrop-blur-sm p-6 flex flex-col gap-3 transition duration-300 hover:-translate-y-1 hover:border-primary/40"
-                >
-                  <h3 className="text-xl font-semibold text-tertiary">{item.title}</h3>
-                  <p className="text-sm md:text-base text-tertiary-600 text-pretty">
-                    {item.description}
-                  </p>
-                </article>
-              ))}
+              {heroHighlights.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <article
+                    key={item.title}
+                    className="border border-tertiary/10 bg-background/80 backdrop-blur-sm p-6 flex flex-col gap-3 transition duration-300 hover:-translate-y-1 hover:border-primary/40"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="bg-primary-100 text-primary p-3 rounded-none">
+                        <Icon className="h-6 w-6" />
+                      </div>
+                      <h3 className="text-xl font-semibold text-tertiary">{item.title}</h3>
+                    </div>
+                    <p className="text-sm md:text-base text-tertiary-600 text-pretty">
+                      {item.description}
+                    </p>
+                  </article>
+                );
+              })}
             </div>
           </div>
 
@@ -270,12 +282,12 @@ export default async function CareersJoinPage() {
                       >
                         Apply now
                       </Link>
-                      <Link
+                      {/* <Link
                         href="/contact"
                         className="inline-flex items-center justify-center px-5 py-3 border border-tertiary/20 text-sm font-semibold tracking-wide uppercase"
                       >
                         Learn more
-                      </Link>
+                      </Link> */}
                     </div>
                   </div>
                 </div>

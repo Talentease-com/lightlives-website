@@ -255,8 +255,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({ impactStats, pageImages }) =>
 
         {/* Disclaimer */}
         <div className="text-center pb-16 animate-fade-in-up opacity-0 [animation-delay:1200ms]">
-          <p className="text-tertiary-500 text-xs italic">
-            *Delivered in collaboration with our partner organisation TalentEase (started in 2013)
+          <p className="text-tertiary-500 text-sm italic">
+            * Delivered in collaboration with our partner organisation TalentEase. Lightlives began sessions in 2017.
           </p>
         </div>
       </div>

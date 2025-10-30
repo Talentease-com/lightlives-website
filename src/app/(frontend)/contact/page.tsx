@@ -16,7 +16,7 @@ const ContactPage: React.FC = () => {
     {
       icon: Phone,
       title: 'Phone',
-      details: '+91 98666 37495',
+      details: '+91 9342250524',
       subDetails: 'Mon-Fri 9AM-6PM IST',
     },
     {
@@ -25,12 +25,12 @@ const ContactPage: React.FC = () => {
       details: 'info@lightlives.org',
       subDetails: 'We reply within 24 hours',
     },
-    {
-      icon: MapPin,
-      title: 'Office',
-      details: 'Yogitha Arcade, Balaji Nagar',
-      subDetails: 'Kukatpally, Hyderabad, Telangana 500 072',
-    },
+    // {
+    //   icon: MapPin,
+    //   title: 'Office',
+    //   details: 'Yogitha Arcade, Balaji Nagar',
+    //   subDetails: 'Kukatpally, Hyderabad, Telangana 500 072',
+    // },
   ];
 
   return (
@@ -112,13 +112,13 @@ const ContactPage: React.FC = () => {
                     className="w-full bg-tertiary hover:bg-tertiary-700 text-white font-semibold py-3 px-6 transition-colors duration-200"
                   />
                   
-                  <Button
+                  {/* <Button
                     variant="outline"
                     className="w-full border-2 border-primary text-primary hover:bg-primary hover:text-white font-semibold py-3 px-6 transition-all duration-200"
                     disabled
                   >
                     Download Our Brochure
-                  </Button>
+                  </Button> */}
                 </div>
               </div>
             </div>

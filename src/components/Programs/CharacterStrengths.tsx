@@ -127,7 +127,7 @@ export default function CharacterStrengths() {
                   className={`group bg-white backdrop-blur-[5px] p-6 border-2 ${strength.borderClass} shadow-md hover:shadow-xl transition-all duration-300 cursor-default w-full max-w-xs`}
                 >
                   <div className={`${strength.bgClass} ${strength.textClass} w-12 h-12 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300`}>
-                    <Icon className="h-6 w-6" />
+                    <Icon className="h-24 w-24" />
                   </div>
                   <h3 className={`text-xl font-bold text-center text-tertiary ${strength.hoverTextClass} transition-colors duration-300`}>
                     {strength.name}
@@ -155,7 +155,7 @@ export default function CharacterStrengths() {
                   className={`group bg-white backdrop-blur-[5px] p-6 border-2 ${strength.borderClass} shadow-md hover:shadow-xl transition-all duration-300 cursor-default w-full max-w-xs`}
                 >
                   <div className={`${strength.bgClass} ${strength.textClass} w-12 h-12 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300`}>
-                    <Icon className="h-6 w-6" />
+                    <Icon className="h-24 w-24" />
                   </div>
                   <h3 className={`text-xl font-bold text-center text-tertiary ${strength.hoverTextClass} transition-colors duration-300`}>
                     {strength.name}

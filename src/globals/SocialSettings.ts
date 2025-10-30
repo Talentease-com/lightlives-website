@@ -24,7 +24,7 @@ export const SocialSettings: GlobalConfig = {
           name: 'phone',
           type: 'text',
           label: 'Phone Number',
-          defaultValue: '+91 98666 37495',
+          defaultValue: '+91 9342250524',
           admin: {
             description: 'Primary contact phone number',
           },

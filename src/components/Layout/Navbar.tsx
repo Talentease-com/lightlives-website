@@ -90,7 +90,8 @@ const Navbar: React.FC = () => {
 
   return (
     <header className="bg-primary sticky top-0 z-50">
-      <div className="bg-tertiary text-secondary py-2">
+      {/* TODO: CSR DASHBOARD AND NEWS BLOG */}
+      {/* <div className="bg-tertiary text-secondary py-2">
         <div className="container mx-auto px-4">
           <div className="flex flex-wrap justify-between items-center text-xl">
             <div />
@@ -105,8 +106,8 @@ const Navbar: React.FC = () => {
               </Link>
             </div>
           </div>
-        </div>
-      </div>
+        </div>             
+      </div> */}
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-[100px]">
           {/* Logo - Hidden on lg+ screens when not scrolled, always visible on mobile, always visible on non-landing pages */}

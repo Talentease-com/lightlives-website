@@ -111,8 +111,8 @@ const ImpactSection: React.FC<ImpactSectionProps> = ({ impactStats, className = 
           </div>
         </div>
 
-        <p className="text-tertiary-500 text-xs mt-4 italic">
-          *Delivered in collaboration with our partner organisation TalentEase (started in 2013)
+        <p className="text-tertiary-500 text-sm mt-4 italic">
+          * Delivered in collaboration with our partner organisation TalentEase. Lightlives began sessions in 2017.
         </p>
       </AdaptiveCard>
     </motion.div>
