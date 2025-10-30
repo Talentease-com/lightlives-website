@@ -46,7 +46,10 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
     components: {
-      actions: ['/components/Admin/GoToWebsiteButton.tsx'],
+      actions: [
+        '/components/Admin/GoToWebsiteButton.tsx',
+        '/components/Admin/RevalidateCacheButton.tsx',
+      ],
     },
   },
   collections: [

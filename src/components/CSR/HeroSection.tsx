@@ -80,25 +80,25 @@ const HeroSection: React.FC<HeroSectionProps> = ({ impactStats, pageImages }) =>
             {/* Main Headline */}
             <div className="space-y-4">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-tertiary leading-tight">
-                When you invest your
+                When you <span className="font-bold">invest</span> your
                 <span className="block text-transparent bg-primary bg-clip-text font-bold">
                   CSR money
                 </span>
               </h1>
               <p className="text-lg md:text-xl text-tertiary-600 leading-relaxed">
-                You&apos;re possibly looking for a few things:
+                You&apos;re possibly <span className="font-bold">looking for</span> a few things:
               </p>
             </div>
 
             {/* Value Propositions */}
             <div className="space-y-4">
               {[
-                "Go beyond handouts. Invest in empowering beneficiaries to help themselves",
-                "Work not just on symptoms, fix root causes. Long term solutions",
-                "Work with partners who maximise impact of your CSR money. No frills.",
-                "Measurable, tangible impact",
-                "Not just 'helicopter' CSR. Get your employees involved.",
-                "Support the big goal of nation building"
+                { text: "Go beyond handouts. ", bold: "Invest in empowering beneficiaries", rest: " to help themselves" },
+                { text: "Work not just on symptoms, ", bold: "fix root causes", rest: ". Long term solutions" },
+                { text: "Work with partners who ", bold: "maximise impact", rest: " of your CSR money. No frills." },
+                { text: "", bold: "Measurable, tangible impact", rest: "" },
+                { text: "Not just 'helicopter' CSR. Get your ", bold: "employees involved", rest: "." },
+                { text: "Support the big goal of ", bold: "nation building", rest: "" }
               ].map((proposition, index) => (
                 <motion.div
                   key={index}
@@ -108,7 +108,11 @@ const HeroSection: React.FC<HeroSectionProps> = ({ impactStats, pageImages }) =>
                   className="flex items-start space-x-3"
                 >
                   <div className="w-2 h-2 bg-secondary rounded-none mt-2 flex-shrink-0"></div>
-                  <span className="text-tertiary-600">{proposition}</span>
+                  <span className="text-tertiary-600">
+                    {proposition.text}
+                    <span className="font-bold">{proposition.bold}</span>
+                    {proposition.rest}
+                  </span>
                 </motion.div>
               ))}
             </div>
@@ -180,7 +184,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ impactStats, pageImages }) =>
         >
           <div className="text-center mb-8">
             <h2 className="text-3xl md:text-4xl font-bold text-tertiary mb-4">
-              That&apos;s why LightLives could be your
+              That&apos;s why <span className="font-bold">LightLives</span> could be your
               <span className="block text-transparent bg-primary bg-clip-text font-bold">
                 preferred CSR partner
               </span>
@@ -189,11 +193,11 @@ const HeroSection: React.FC<HeroSectionProps> = ({ impactStats, pageImages }) =>
 
           <div className="grid md:grid-cols-2 gap-6">
             {[
-              "Work with underprivileged children and young adults. Giving them future ready skills and values. They help themselves to succeed.",
-              "Create leaders and changemakers. They will drive change. They will solve the big problems.",
-              "Sponsorships aimed at maximising impact to beneficiaries. No wasteful expenditure. No crazy overheads.",
-              "Get your employees to volunteer and feel engaged and involved.",
-              "A marathon not a sprint. Long term engagements that build capability. For the community. For the nation."
+              { html: <>Work with <span className="font-bold">underprivileged children and young adults</span>. Giving them <span className="font-bold">future ready skills and values</span>. They help themselves to succeed.</> },
+              { html: <>Create <span className="font-bold">leaders and changemakers</span>. They will drive change. They will <span className="font-bold">solve the big problems</span>.</> },
+              { html: <>Sponsorships aimed at <span className="font-bold">maximising impact</span> to beneficiaries. <span className="font-bold">No wasteful expenditure. No crazy overheads</span>.</> },
+              { html: <>Get your <span className="font-bold">employees to volunteer</span> and feel engaged and involved.</> },
+              { html: <>A marathon not a sprint. <span className="font-bold">Long term engagements</span> that build capability. For the community. For the nation.</> }
             ].map((point, index) => (
               <motion.div
               key={index}
@@ -204,7 +208,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ impactStats, pageImages }) =>
               className="flex items-start space-x-3 p-4 bg-white border border-tertiary-200 rounded-none hover:shadow-lg transition-all duration-300"
               >
               <CheckCircle className="h-5 w-5 text-secondary mt-0.5 flex-shrink-0" />
-              <span className="text-tertiary-600">{point}</span>
+              <span className="text-tertiary-600">{point.html}</span>
               </motion.div>
             ))}
           </div>

@@ -2,12 +2,12 @@
 
 import React from 'react'
 import { motion } from 'motion/react'
-import { Users, BookOpen } from 'lucide-react'
+import { Users, BookOpen, Share2, Camera, Compass, Briefcase } from 'lucide-react'
 
 const opportunities = [
   {
     icon: Users,
-    title: 'Session Assistance',
+    title: 'Session Facilitator',
     description:
       "Come in to assist our Facilitator in running the sessions. We'll provide you some brief orientation and training before so you know what and how to do this.",
     gradient: 'from-primary-100 to-secondary-100',
@@ -19,6 +19,42 @@ const opportunities = [
     title: 'Content Contribution',
     description:
       "Contribute your knowledge and experience to our content and curriculum and take up the design and development of specific modules that you're passionate about and expert at.",
+    gradient: 'from-secondary-100 to-primary-100',
+    iconBg: 'bg-secondary-100',
+    iconColor: 'text-secondary-700',
+  },
+  {
+    icon: Share2,
+    title: 'Social Media',
+    description:
+      'Tell our story and showcase our work through case stories on our social media handles. Collect required media and create reels, shorts, videos and carousels and posts for our various platforms.',
+    gradient: 'from-primary-100 to-secondary-100',
+    iconBg: 'bg-primary-100',
+    iconColor: 'text-primary',
+  },
+  {
+    icon: Camera,
+    title: 'Photography',
+    description:
+      'Capture "Wow" moments during our in classroom sessions with the Facilitator and Children. Shoot high impact video testimonials about students learning journey. Freshers are welcome for this role.',
+    gradient: 'from-secondary-100 to-primary-100',
+    iconBg: 'bg-secondary-100',
+    iconColor: 'text-secondary-700',
+  },
+  {
+    icon: Compass,
+    title: 'Career Guidance',
+    description:
+      'Looking for persons with coaching experience who can guide students with a choice of Education and potential careers they can look forward to (based on a diagnostic tool). This would be especially for the higher grade school children and college students.',
+    gradient: 'from-primary-100 to-secondary-100',
+    iconBg: 'bg-primary-100',
+    iconColor: 'text-primary',
+  },
+  {
+    icon: Briefcase,
+    title: 'World@Work Mentors',
+    description:
+      'If you are someone with several years of work experience we would be happy if could speak with our students about your field and a roadmap to pave their way there. You could also share your experience and knowledge with the students which would be highly beneficial to them.',
     gradient: 'from-secondary-100 to-primary-100',
     iconBg: 'bg-secondary-100',
     iconColor: 'text-secondary-700',

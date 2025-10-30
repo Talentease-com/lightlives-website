@@ -325,6 +325,10 @@ export interface CareerApplication {
    */
   mobile: string;
   /**
+   * Why the applicant thinks they'd be a good fit for Light Lives
+   */
+  comment: string;
+  /**
    * Resume/CV file (PDF, DOC, DOCX)
    */
   resume: number | Media;
@@ -1073,6 +1077,7 @@ export interface CareerApplicationsSelect<T extends boolean = true> {
   name?: T;
   email?: T;
   mobile?: T;
+  comment?: T;
   resume?: T;
   applicationStatus?: T;
   notes?: T;

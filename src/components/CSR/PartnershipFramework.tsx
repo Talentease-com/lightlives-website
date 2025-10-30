@@ -44,7 +44,7 @@ const PartnershipFramework = () => {
         "Customized program design",
         "Success measurement criteria"
       ],
-      image: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg"
+      image: "https://images.pexels.com/photos/7413981/pexels-photo-7413981.jpeg"
     },
     {
       id: 2,
@@ -66,7 +66,7 @@ const PartnershipFramework = () => {
         "Progress tracking systems",
         "Initial impact reports"
       ],
-      image: "https://images.pexels.com/photos/6646917/pexels-photo-6646917.jpeg"
+      image: "https://images.pexels.com/photos/22616346/pexels-photo-22616346.jpeg"
     },
     {
       id: 3,
@@ -88,7 +88,7 @@ const PartnershipFramework = () => {
         "Success stories",
         "ROI analysis reports"
       ],
-      image: "https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg"
+      image: "https://images.pexels.com/photos/16323580/pexels-photo-16323580.jpeg"
     },
     {
       id: 4,
@@ -110,7 +110,7 @@ const PartnershipFramework = () => {
         "Generational impact evidence",
         "Partnership evolution roadmap"
       ],
-      image: "https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg"
+      image: "https://images.pexels.com/photos/7414284/pexels-photo-7414284.jpeg"
     }
   ];
 

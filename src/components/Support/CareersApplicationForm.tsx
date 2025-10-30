@@ -9,6 +9,7 @@ interface CareersApplicationFormValues {
   name: string;
   email: string;
   mobile: string;
+  comment: string;
   resume: FileList;
 }
 
@@ -36,6 +37,7 @@ export function CareersApplicationForm() {
       formData.append("name", values.name);
       formData.append("email", values.email);
       formData.append("mobile", values.mobile);
+      formData.append("comment", values.comment);
       const resumeFile = values.resume && values.resume[0];
       if (resumeFile) {
         formData.append("resume", resumeFile, resumeFile.name);
@@ -137,6 +139,35 @@ export function CareersApplicationForm() {
         {errors.mobile && (
           <p className="text-sm text-destructive">{errors.mobile.message}</p>
         )}
+      </div>
+
+      <div className="space-y-2">
+        <label htmlFor="comment" className="text-sm font-medium text-foreground">
+          Why do you think you&apos;d be a good fit for Light Lives? <span className="text-red-500">*</span>
+        </label>
+        <textarea
+          id="comment"
+          rows={4}
+          className={inputBaseStyles}
+          placeholder="Tell us why you'd like to join our team and what you can bring to Light Lives..."
+          {...register("comment", {
+            required: "Please share why you'd be a good fit.",
+            minLength: {
+              value: 50,
+              message: "Please provide at least 50 characters.",
+            },
+            maxLength: {
+              value: 1000,
+              message: "Please keep your response under 1000 characters.",
+            },
+          })}
+        />
+        {errors.comment && (
+          <p className="text-sm text-destructive">{errors.comment.message}</p>
+        )}
+        <p className="text-xs text-muted-foreground">
+          Minimum 50 characters, maximum 1000 characters.
+        </p>
       </div>
 
       <div className="space-y-2">

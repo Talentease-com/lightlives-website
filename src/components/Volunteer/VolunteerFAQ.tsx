@@ -13,27 +13,27 @@ const faqs = [
   {
     question: 'How much time commitment is required?',
     answer:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.',
+      'The time you can give us is what we\'ll work with. For effectiveness and engagement we look at 4-6 hours a month. But, we are flexible.',
   },
   {
     question: 'Do I need prior experience?',
     answer:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.',
+      'We are looking for volunteers with a passion to work with children and young adults. Your experience and expertise would be highly beneficial to them.',
   },
   {
     question: 'Is remote volunteering available?',
     answer:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.',
+      'Yes, absolutely. Although, we would need prior information from you to make arrangements we can definitely arrange for a remote online sessions.',
   },
   {
     question: 'How do I get started?',
     answer:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.',
+      'Please fill in your information below and we will get in touch with you.',
   },
   {
     question: 'What training is provided?',
     answer:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.',
+      'Depending on the role you are ready to take on, you will receive training (especially for facilitation for in-classroom sessions). You will also have the opportunity to observe a few sessions before getting started, should you wish to.',
   },
 ]
 

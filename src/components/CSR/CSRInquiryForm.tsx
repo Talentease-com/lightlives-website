@@ -180,7 +180,7 @@ const CSRInquiryForm: React.FC = () => {
                 }
               })}
               className="w-full px-4 py-3 border border-tertiary-300 rounded-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200"
-              placeholder="+91 98666 37495"
+              placeholder="+91 9342250524"
             />
             {errors.phone && (
               <p className="text-red-500 text-sm mt-1">{errors.phone.message}</p>

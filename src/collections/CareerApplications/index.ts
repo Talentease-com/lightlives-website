@@ -45,6 +45,16 @@ export const CareerApplications: CollectionConfig = {
       },
     },
     {
+      name: 'comment',
+      type: 'textarea',
+      required: true,
+      minLength: 50,
+      maxLength: 1000,
+      admin: {
+        description: 'Why the applicant thinks they\'d be a good fit for Light Lives',
+      },
+    },
+    {
       name: 'resume',
       type: 'upload',
       relationTo: 'media',

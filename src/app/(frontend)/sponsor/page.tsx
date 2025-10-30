@@ -5,7 +5,7 @@ import { ImpactSection, DonationForm } from '@/components/Sponsor';
 // import { CircularGallery } from '@/components/ui/circular-gallery';
 import ScrollToSponsorButton from '@/components/Sponsor/ScrollToSponsorButton';
 // import { galleryData } from '@/components/Sponsor/gallery-data';
-// import SwooshButton from '@/components/ui/swoosh-button';
+import SwooshButton from '@/components/ui/swoosh-button';
 import SponsorCTA from '@/components/SponsorCTA';
 
 export const metadata: Metadata = {
@@ -52,6 +52,20 @@ const Sponsor = async () => {
           <p className="text-xl text-tertiary-600 max-w-4xl mx-auto">
             You&apos;re here because you care. Underprivileged young people are smart, talented and passionate. All they need are the doors to the right opportunities. Doors you can open.
           </p>
+      </section>
+
+      {/* Corporate CTA Section */}
+      <section className="pb-6 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto text-center border border-tertiary-200 bg-tertiary-50/30 p-6 sm:p-8">
+          <p className="text-base text-tertiary-600 mb-4">
+            <span className="font-semibold text-tertiary">Representing a corporate?</span> Learn about our CSR partnership opportunities for long-term impact.
+          </p>
+          <SwooshButton 
+            href="/csr" 
+            text="View CSR Partnerships"
+            className="bg-tertiary text-white hover:bg-tertiary/90"
+          />
+        </div>
       </section>
 
       {/* Main Content */}
