@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/Talentease-com/lightlives-website/compare/v1.0.0...v1.1.0) (2025-10-30)
+
+
+### Features
+
+* enhance donation process by adding comment field to application and implementing email notifications for donations ([aa79647](https://github.com/Talentease-com/lightlives-website/commit/aa796473d8ff5eea4b9f8384ab1f0b9a94305328))
+
 ## [1.0.0](https://github.com/Talentease-com/lightlives-website/compare/v0.13.1...v1.0.0) (2025-10-30)
 
 
