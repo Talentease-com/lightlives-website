@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getPayload } from "payload";
 import config from "@/payload.config";
 import crypto from "crypto";
+import { sendNotificationEmails } from "@/lib/emailHelpers";
 
 export async function POST(request: NextRequest) {
   try {
@@ -71,7 +72,29 @@ export async function POST(request: NextRequest) {
       }
     });
 
-    // TODO: Send confirmation email to donor
+    // Send confirmation email to donor and notification to admin
+    try {
+      await sendNotificationEmails(payload, 'donation', {
+        firstName: firstName || undefined,
+        lastName: lastName,
+        email: email,
+        phone: phone,
+        amount: parseFloat(amount),
+        currency: currency || "INR",
+        paymentType: paymentType,
+        receiptNumber: paymentData.receiptNumber || 'N/A',
+        razorpayPaymentId: razorpay_payment_id,
+        razorpayOrderId: razorpay_order_id,
+        address: address || undefined,
+        panNumber: pan || undefined,
+        isRecurring: paymentType === "recurring",
+        id: String(paymentData.id),
+      });
+    } catch (emailError) {
+      // Log email error but don't fail the payment verification
+      console.error("Failed to send donation emails:", emailError);
+    }
+
     // TODO: Generate 80G certificate if applicable
 
     return NextResponse.json({

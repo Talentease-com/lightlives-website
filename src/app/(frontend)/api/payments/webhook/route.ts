@@ -3,6 +3,7 @@ import { getPayload } from "payload";
 import config from "@/payload.config";
 import type { Payload } from "payload";
 import crypto from "crypto";
+import { sendNotificationEmails } from "@/lib/emailHelpers";
 
 interface RazorpayPayment {
   id: string;
@@ -103,9 +104,11 @@ async function handlePaymentCaptured(payload: Payload, payment: RazorpayPayment)
     });
 
     if (payments.docs.length > 0) {
+      const paymentDoc = payments.docs[0];
+      
       await payload.update({
         collection: 'payments',
-        id: payments.docs[0].id,
+        id: paymentDoc.id,
         data: {
           paymentStatus: "completed",
           razorpayPaymentId: payment.id,
@@ -113,7 +116,30 @@ async function handlePaymentCaptured(payload: Payload, payment: RazorpayPayment)
       });
       
       console.log(`Payment captured for order: ${payment.order_id}`);
-      // TODO: Send confirmation email
+      
+      // Send confirmation email to donor and notification to admin
+      try {
+        await sendNotificationEmails(payload, 'donation', {
+          firstName: paymentDoc.firstName || undefined,
+          lastName: paymentDoc.lastName,
+          email: paymentDoc.email,
+          phone: paymentDoc.phone,
+          amount: paymentDoc.amount,
+          currency: paymentDoc.currency,
+          paymentType: paymentDoc.paymentType,
+          receiptNumber: paymentDoc.receiptNumber || 'N/A',
+          razorpayPaymentId: payment.id,
+          razorpayOrderId: payment.order_id,
+          address: paymentDoc.address || undefined,
+          panNumber: paymentDoc.panNumber || undefined,
+          isRecurring: paymentDoc.isRecurring || false,
+          id: String(paymentDoc.id),
+        });
+        console.log(`Donation emails sent for payment: ${payment.order_id}`);
+      } catch (emailError) {
+        console.error("Failed to send donation emails:", emailError);
+      }
+      
       // TODO: Generate 80G certificate
     } else {
       console.error(`Payment record not found for order: ${payment.order_id}`);

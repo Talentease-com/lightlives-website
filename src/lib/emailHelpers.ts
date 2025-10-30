@@ -20,6 +20,8 @@ export const DEFAULT_VALUES = {
   careerResponseTime: '5-7 business days',
   adminEmail: 'info@lightlives.org',
   hrEmail: 'careers@lightlives.org',
+  donationSubject: 'Thank you for your generous donation!',
+  donationAdminSubject: 'New Donation Received',
 } as const
 
 export async function getEmailSettings(payload: Payload): Promise<EmailSetting> {
@@ -102,6 +104,24 @@ interface CSRInquiryNotificationData {
   id: string
 }
 
+// Interface for donation/payment notification data
+interface DonationNotificationData {
+  firstName?: string
+  lastName: string
+  email: string
+  phone: string
+  amount: number
+  currency: string
+  paymentType: string
+  receiptNumber: string
+  razorpayPaymentId: string
+  razorpayOrderId: string
+  address?: string
+  panNumber?: string
+  isRecurring: boolean
+  id: string
+}
+
 // Helper function to build email recipients list
 export function buildRecipientsList(primaryEmail: string, ccEmails?: Array<{ email: string; id?: string | null }> | null) {
   const recipients = [primaryEmail]
@@ -117,8 +137,8 @@ export function buildRecipientsList(primaryEmail: string, ccEmails?: Array<{ ema
 // Main function to send notification emails
 export async function sendNotificationEmails(
   payload: Payload,
-  type: 'contact' | 'career' | 'csr',
-  data: ContactNotificationData | CareerNotificationData | CSRInquiryNotificationData,
+  type: 'contact' | 'career' | 'csr' | 'donation',
+  data: ContactNotificationData | CareerNotificationData | CSRInquiryNotificationData | DonationNotificationData,
 ): Promise<void> {
   try {
     const settings = await getEmailSettings(payload)
@@ -736,6 +756,281 @@ export async function sendNotificationEmails(
       }
 
       console.log(`CSR inquiry notification emails sent for ${csrData.companyName} - ${csrData.contactFirstName} ${csrData.contactLastName} (${csrData.email})`)
+    
+    } else if (type === 'donation') {
+      const donationData = data as DonationNotificationData
+      const contactSettings = settings.contactEmails // Use contact settings for donations
+      
+      if (!contactSettings?.enabled) {
+        console.log('Donation emails disabled in settings')
+        return
+      }
+
+      const primaryColor = settings.styling?.primaryColor || DEFAULT_VALUES.primaryColor
+      const secondaryColor = settings.styling?.secondaryColor || DEFAULT_VALUES.secondaryColor
+      const orgName = settings.organization?.name || DEFAULT_VALUES.organizationName
+      const orgAddress = settings.organization?.address || DEFAULT_VALUES.organizationAddress
+      const orgPhone = settings.organization?.phone || DEFAULT_VALUES.organizationPhone
+      const orgEmail = settings.organization?.replyToEmail || DEFAULT_VALUES.organizationEmail
+      const websiteUrl = settings.organization?.websiteUrl || DEFAULT_VALUES.websiteUrl
+      const adminUrl = process.env.PAYLOAD_PUBLIC_SERVER_URL || 'https://lightlives.org'
+
+      // Format amount
+      const formattedAmount = new Intl.NumberFormat('en-IN', {
+        style: 'currency',
+        currency: donationData.currency,
+      }).format(donationData.amount)
+
+      const donorName = donationData.firstName 
+        ? `${donationData.firstName} ${donationData.lastName}` 
+        : donationData.lastName
+
+      // Send admin notification
+      const adminEmail = contactSettings.adminEmail || DEFAULT_VALUES.adminEmail
+      const recipients = buildRecipientsList(adminEmail, contactSettings.ccEmails)
+
+      await payload.sendEmail({
+        to: recipients,
+        subject: `${DEFAULT_VALUES.donationAdminSubject}: ${formattedAmount}`,
+        text: `
+          A new donation has been received on ${orgName} website.
+          
+          Donation Details:
+          Amount: ${formattedAmount}
+          Payment Type: ${donationData.paymentType}
+          Receipt Number: ${donationData.receiptNumber}
+          Payment ID: ${donationData.razorpayPaymentId}
+          Order ID: ${donationData.razorpayOrderId}
+          
+          Donor Information:
+          Name: ${donorName}
+          Email: ${donationData.email}
+          Phone: ${donationData.phone}
+          Address: ${donationData.address || 'Not provided'}
+          PAN Number: ${donationData.panNumber || 'Not provided'}
+          Recurring: ${donationData.isRecurring ? 'Yes' : 'No'}
+          
+          Payment ID: ${donationData.id}
+          Submitted: ${new Date().toLocaleString()}
+          
+          Please log in to the admin panel to view the payment details.
+          Admin Panel: ${adminUrl}/admin
+        `,
+        html: `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            <h2 style="color: ${primaryColor};">New Donation Received! 🎉</h2>
+            
+            <p>A new donation has been received on ${orgName} website.</p>
+            
+            <div style="background-color: #f5f5f5; padding: 20px; border-left: 4px solid ${primaryColor}; margin: 20px 0;">
+              <h3 style="margin-top: 0; color: ${secondaryColor};">Donation Details</h3>
+              <table style="width: 100%; border-collapse: collapse;">
+                <tr>
+                  <td style="padding: 8px 0; font-weight: bold; width: 150px;">Amount:</td>
+                  <td style="padding: 8px 0; font-size: 18px; color: ${primaryColor}; font-weight: bold;">${formattedAmount}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px 0; font-weight: bold;">Payment Type:</td>
+                  <td style="padding: 8px 0;">${donationData.paymentType}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px 0; font-weight: bold;">Receipt Number:</td>
+                  <td style="padding: 8px 0;">${donationData.receiptNumber}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px 0; font-weight: bold;">Payment ID:</td>
+                  <td style="padding: 8px 0; font-size: 11px;">${donationData.razorpayPaymentId}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px 0; font-weight: bold;">Order ID:</td>
+                  <td style="padding: 8px 0; font-size: 11px;">${donationData.razorpayOrderId}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px 0; font-weight: bold;">Recurring:</td>
+                  <td style="padding: 8px 0;">${donationData.isRecurring ? '✅ Yes' : 'No'}</td>
+                </tr>
+              </table>
+            </div>
+            
+            <div style="background-color: #fff; padding: 15px; border: 1px solid #ddd; margin: 20px 0;">
+              <h3 style="margin-top: 0; color: ${secondaryColor};">Donor Information</h3>
+              <table style="width: 100%; border-collapse: collapse;">
+                <tr>
+                  <td style="padding: 5px 0; font-weight: bold; width: 120px;">Name:</td>
+                  <td style="padding: 5px 0;">${donorName}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 5px 0; font-weight: bold;">Email:</td>
+                  <td style="padding: 5px 0;"><a href="mailto:${donationData.email}" style="color: ${primaryColor};">${donationData.email}</a></td>
+                </tr>
+                <tr>
+                  <td style="padding: 5px 0; font-weight: bold;">Phone:</td>
+                  <td style="padding: 5px 0;">${donationData.phone}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 5px 0; font-weight: bold;">Address:</td>
+                  <td style="padding: 5px 0;">${donationData.address || 'Not provided'}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 5px 0; font-weight: bold;">PAN Number:</td>
+                  <td style="padding: 5px 0;">${donationData.panNumber || 'Not provided'}</td>
+                </tr>
+              </table>
+            </div>
+            
+            <div style="text-align: center; margin: 30px 0;">
+              <a href="${adminUrl}/admin/collections/payments/${donationData.id}" 
+                 style="background-color: ${primaryColor}; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; display: inline-block;">
+                View Payment in Admin Panel
+              </a>
+            </div>
+            
+            <hr style="border: none; border-top: 1px solid #eee; margin: 30px 0;">
+            <p style="font-size: 12px; color: #666; text-align: center;">
+              Payment ID: ${donationData.id}<br>
+              Receipt: ${donationData.receiptNumber}<br>
+              Submitted: ${new Date().toLocaleString()}<br>
+              ${orgName} - Donation System
+            </p>
+          </div>
+        `,
+      })
+
+      // Send donor thank you email
+      await payload.sendEmail({
+        to: donationData.email,
+        subject: DEFAULT_VALUES.donationSubject,
+        text: `
+          Dear ${donorName},
+          
+          Thank you for your generous donation of ${formattedAmount} to ${orgName}! Your support makes a real difference in the lives of those we serve.
+          
+          Payment Details:
+          Amount: ${formattedAmount}
+          Receipt Number: ${donationData.receiptNumber}
+          Payment ID: ${donationData.razorpayPaymentId}
+          Date: ${new Date().toLocaleString()}
+          Payment Type: ${donationData.paymentType}
+          ${donationData.isRecurring ? 'Recurring: Yes (Monthly contribution)' : ''}
+          
+          ${donationData.panNumber ? '80G Tax Exemption Certificate:\nWe will process your 80G tax exemption certificate and send it to you within 7 business days. This certificate will help you claim tax deductions under Section 80G of the Income Tax Act.\n\n' : ''}Your contribution helps us:
+          - Provide education and healthcare to underprivileged children
+          - Support community development programs
+          - Create sustainable livelihoods for families in need
+          - Make a lasting impact on communities
+          
+          We will keep you updated on how your donation is making a difference. You can track our impact and programs on our website: ${websiteUrl}
+          
+          If you have any questions about your donation or our programs, please don't hesitate to contact us at ${orgEmail} or call us at ${orgPhone}.
+          
+          Once again, thank you for your kindness and generosity!
+          
+          With gratitude,
+          The Light Lives Team
+          
+          ---
+          ${orgName}
+          ${orgAddress}
+          Email: ${orgEmail}
+          Phone: ${orgPhone}
+          Website: ${websiteUrl}
+          
+          This is an automated receipt. Please save this email for your records.
+        `,
+        html: `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            <div style="background: linear-gradient(135deg, ${primaryColor} 0%, ${secondaryColor} 100%); padding: 30px; text-align: center;">
+              <h1 style="color: white; margin: 0; font-size: 28px;">Thank You! 🙏</h1>
+              <p style="color: white; margin: 10px 0 0 0; font-size: 16px;">Your generosity makes a difference</p>
+            </div>
+            
+            <div style="padding: 30px 20px;">
+              <p style="font-size: 16px;">Dear <strong>${donorName}</strong>,</p>
+              
+              <p style="font-size: 16px;">Thank you for your generous donation of <strong style="color: ${primaryColor}; font-size: 20px;">${formattedAmount}</strong> to <strong>${orgName}</strong>! Your support makes a real difference in the lives of those we serve.</p>
+              
+              <div style="background-color: #f8f9fc; padding: 20px; border-left: 4px solid ${primaryColor}; margin: 25px 0;">
+                <h3 style="margin-top: 0; color: ${secondaryColor};">Payment Receipt</h3>
+                <table style="width: 100%; border-collapse: collapse;">
+                  <tr>
+                    <td style="padding: 8px 0; font-weight: bold; width: 150px;">Amount:</td>
+                    <td style="padding: 8px 0; color: ${primaryColor}; font-size: 18px; font-weight: bold;">${formattedAmount}</td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 8px 0; font-weight: bold;">Receipt Number:</td>
+                    <td style="padding: 8px 0;">${donationData.receiptNumber}</td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 8px 0; font-weight: bold;">Payment ID:</td>
+                    <td style="padding: 8px 0; font-size: 11px;">${donationData.razorpayPaymentId}</td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 8px 0; font-weight: bold;">Date:</td>
+                    <td style="padding: 8px 0;">${new Date().toLocaleString()}</td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 8px 0; font-weight: bold;">Payment Type:</td>
+                    <td style="padding: 8px 0;">${donationData.paymentType}</td>
+                  </tr>
+                  ${donationData.isRecurring ? `
+                  <tr>
+                    <td style="padding: 8px 0; font-weight: bold;">Recurring:</td>
+                    <td style="padding: 8px 0;">✅ Yes (Monthly contribution)</td>
+                  </tr>
+                  ` : ''}
+                </table>
+              </div>
+              
+              ${donationData.panNumber ? `
+              <div style="background-color: #fff3cd; border: 2px solid #ffc107; border-radius: 8px; padding: 15px; margin: 20px 0;">
+                <h4 style="margin-top: 0; color: #856404;">📋 80G Tax Exemption Certificate</h4>
+                <p style="margin: 0; color: #856404;">We will process your 80G tax exemption certificate and send it to you within <strong>7 business days</strong>. This certificate will help you claim tax deductions under Section 80G of the Income Tax Act.</p>
+              </div>
+              ` : ''}
+              
+              <div style="background-color: #fff; border: 2px solid ${primaryColor}; border-radius: 8px; padding: 20px; margin: 25px 0;">
+                <h3 style="margin-top: 0; color: ${secondaryColor}; text-align: center;">Your Impact 🌟</h3>
+                <p style="margin: 10px 0; color: ${secondaryColor};">Your contribution helps us:</p>
+                <ul style="color: ${secondaryColor}; line-height: 1.8; margin: 10px 0;">
+                  <li>Provide education and healthcare to underprivileged children</li>
+                  <li>Support community development programs</li>
+                  <li>Create sustainable livelihoods for families in need</li>
+                  <li>Make a lasting impact on communities</li>
+                </ul>
+              </div>
+              
+              <p>We will keep you updated on how your donation is making a difference. You can track our impact and programs on our website: <a href="${websiteUrl}" style="color: ${primaryColor};">${websiteUrl.replace('https://', '')}</a></p>
+              
+              <p>If you have any questions about your donation or our programs, please don't hesitate to contact us at <a href="mailto:${orgEmail}" style="color: ${primaryColor};">${orgEmail}</a> or call us at <a href="tel:${orgPhone.replace(/\s/g, '')}" style="color: ${primaryColor};">${orgPhone}</a>.</p>
+              
+              <p style="margin-top: 30px; font-size: 16px;">
+                Once again, <strong>thank you for your kindness and generosity!</strong>
+              </p>
+              
+              <p style="margin-top: 20px;">
+                With gratitude,<br>
+                <strong style="color: ${primaryColor};">The Light Lives Team</strong>
+              </p>
+            </div>
+            
+            <div style="background-color: ${secondaryColor}; color: white; padding: 20px; text-align: center; font-size: 14px;">
+              <p style="margin: 0; font-weight: bold;">${orgName}</p>
+              <p style="margin: 5px 0; white-space: pre-line;">${orgAddress}</p>
+              <p style="margin: 5px 0;">
+                Email: <a href="mailto:${orgEmail}" style="color: ${primaryColor};">${orgEmail}</a> | 
+                Phone: <a href="tel:${orgPhone.replace(/\s/g, '')}" style="color: ${primaryColor};">${orgPhone}</a>
+              </p>
+              <p style="margin: 5px 0;">
+                Website: <a href="${websiteUrl}" style="color: ${primaryColor};">${websiteUrl.replace('https://', '')}</a>
+              </p>
+              <p style="margin-top: 15px; font-style: italic; font-size: 12px;">${settings.styling?.footerText || DEFAULT_VALUES.footerText}</p>
+              <p style="margin-top: 10px; font-size: 11px; opacity: 0.8;">This is an automated receipt. Please save this email for your records.</p>
+            </div>
+          </div>
+        `,
+      })
+
+      console.log(`Donation notification emails sent for ${donorName} (${donationData.email}) - ${formattedAmount}`)
     }
   } catch (error) {
     console.error(`Error sending ${type} notification emails:`, error)

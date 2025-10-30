@@ -200,7 +200,7 @@ const DonationForm: React.FC<DonationFormProps> = ({ className = '' }) => {
           style={{ borderRadius: 0, border: 'none', boxShadow: 'none' }}
         >
           <Smartphone className="h-4 w-4" />
-          <span>UPI</span>
+          <span>Scan & Pay</span>
         </button>
       </div>
 

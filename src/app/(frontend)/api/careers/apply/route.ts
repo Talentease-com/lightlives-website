@@ -12,10 +12,11 @@ export async function POST(request: NextRequest) {
     const name = formData.get('name') as string
     const email = formData.get('email') as string
     const mobile = formData.get('mobile') as string
+    const comment = formData.get('comment') as string
     const resumeFile = formData.get('resume') as File
 
     // Validate required fields
-    if (!name || !email || !mobile || !resumeFile) {
+    if (!name || !email || !mobile || !comment || !resumeFile) {
       return NextResponse.json(
         { 
           error: 'Missing required fields',
@@ -23,6 +24,7 @@ export async function POST(request: NextRequest) {
             name: !name ? 'Name is required' : null,
             email: !email ? 'Email is required' : null,
             mobile: !mobile ? 'Mobile is required' : null,
+            comment: !comment ? 'Comment is required' : null,
             resume: !resumeFile ? 'Resume is required' : null,
           }
         },
@@ -87,6 +89,7 @@ export async function POST(request: NextRequest) {
           name,
           email,
           mobile,
+          comment,
           resume: mediaResult.id,
           applicationStatus: 'new',
           ipAddress,
