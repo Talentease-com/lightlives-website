@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.0.0](https://github.com/Talentease-com/lightlives-website/compare/v0.13.1...v1.0.0) (2025-10-30)
+
+
+### ⚠ BREAKING CHANGES
+
+* Site goes Live
+
+### Features
+
+* add cache revalidation functionality and enhance sponsor page with new CTA; update career application form to include comment field ([bc1f7a3](https://github.com/Talentease-com/lightlives-website/commit/bc1f7a386758975807048ad1482720efbb984168))
+* Site goes Live ([0b8ef2a](https://github.com/Talentease-com/lightlives-website/commit/0b8ef2ac4306eec649b9dd97f62124e41040a0aa))
+
+
+### Bug Fixes
+
+* update contact information and improve UI elements across multiple components ([5ea7f89](https://github.com/Talentease-com/lightlives-website/commit/5ea7f89e4966a9cebce64a4558c8789b6b9cc239))
+
 ## [0.13.1](https://github.com/Talentease-com/lightlives-website/compare/v0.13.0...v0.13.1) (2025-10-29)
 
 
