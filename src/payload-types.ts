@@ -260,7 +260,10 @@ export interface Impact {
  */
 export interface Payment {
   id: number;
-  razorpayOrderId: string;
+  /**
+   * Order ID for one-time/UPI payments (not used for subscriptions)
+   */
+  razorpayOrderId?: string | null;
   razorpayPaymentId?: string | null;
   razorpaySignature?: string | null;
   /**
@@ -284,6 +287,44 @@ export interface Payment {
   panNumber?: string | null;
   isRecurring?: boolean | null;
   monthlyContributionAgreed?: boolean | null;
+  /**
+   * Razorpay subscription ID for recurring payments
+   */
+  razorpaySubscriptionId?: string | null;
+  /**
+   * Razorpay plan ID used for subscription
+   */
+  planId?: string | null;
+  /**
+   * Quantity of the plan (amount in ₹ for ₹1 plan)
+   */
+  subscriptionQuantity?: number | null;
+  /**
+   * Current status of the subscription
+   */
+  subscriptionStatus?:
+    | ('created' | 'authenticated' | 'active' | 'pending' | 'halted' | 'cancelled' | 'completed' | 'expired')
+    | null;
+  /**
+   * Subscription start date
+   */
+  subscriptionStartDate?: string | null;
+  /**
+   * Subscription end date
+   */
+  subscriptionEndDate?: string | null;
+  /**
+   * Total number of billing cycles
+   */
+  totalSubscriptionCount?: number | null;
+  /**
+   * Number of billing cycles completed
+   */
+  paidSubscriptionCount?: number | null;
+  /**
+   * Remaining billing cycles
+   */
+  remainingSubscriptionCount?: number | null;
   privacyPolicyAgreed: boolean;
   /**
    * Auto-generated receipt number
@@ -1059,6 +1100,15 @@ export interface PaymentsSelect<T extends boolean = true> {
   panNumber?: T;
   isRecurring?: T;
   monthlyContributionAgreed?: T;
+  razorpaySubscriptionId?: T;
+  planId?: T;
+  subscriptionQuantity?: T;
+  subscriptionStatus?: T;
+  subscriptionStartDate?: T;
+  subscriptionEndDate?: T;
+  totalSubscriptionCount?: T;
+  paidSubscriptionCount?: T;
+  remainingSubscriptionCount?: T;
   privacyPolicyAgreed?: T;
   receiptNumber?: T;
   ipAddress?: T;

@@ -15,6 +15,7 @@ export async function POST(request: NextRequest) {
       razorpay_order_id,
       razorpay_payment_id,
       razorpay_signature,
+      razorpay_subscription_id,
       amount,
       currency,
       paymentType,
@@ -25,13 +26,28 @@ export async function POST(request: NextRequest) {
       address,
       pan,
       monthlyContribution,
-      privacyPolicy
+      privacyPolicy,
+      // Subscription-specific fields
+      planId,
+      subscriptionQuantity,
+      subscriptionStatus,
+      totalCount,
+      paidCount,
+      remainingCount,
+      startAt,
+      endAt,
     } = body;
 
     // Verify the payment signature
+    // For subscriptions, signature is razorpay_payment_id|razorpay_subscription_id
+    // For regular payments, signature is razorpay_order_id|razorpay_payment_id
+    const signaturePayload = razorpay_subscription_id 
+      ? `${razorpay_payment_id}|${razorpay_subscription_id}`
+      : `${razorpay_order_id}|${razorpay_payment_id}`;
+    
     const generatedSignature = crypto
       .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET!)
-      .update(`${razorpay_order_id}|${razorpay_payment_id}`)
+      .update(signaturePayload)
       .digest("hex");
 
     if (generatedSignature !== razorpay_signature) {
@@ -51,7 +67,7 @@ export async function POST(request: NextRequest) {
     const paymentData = await payload.create({
       collection: 'payments',
       data: {
-        razorpayOrderId: razorpay_order_id,
+        razorpayOrderId: razorpay_order_id || null,
         razorpayPaymentId: razorpay_payment_id,
         razorpaySignature: razorpay_signature,
         amount: parseFloat(amount),
@@ -68,7 +84,19 @@ export async function POST(request: NextRequest) {
         monthlyContributionAgreed: monthlyContribution || false,
         privacyPolicyAgreed: privacyPolicy || false,
         ipAddress: ip,
-        userAgent: userAgent
+        userAgent: userAgent,
+        // Subscription-specific fields (only if subscription)
+        ...(razorpay_subscription_id && {
+          razorpaySubscriptionId: razorpay_subscription_id,
+          planId: planId,
+          subscriptionQuantity: subscriptionQuantity,
+          subscriptionStatus: subscriptionStatus || "created",
+          totalSubscriptionCount: totalCount,
+          paidSubscriptionCount: paidCount || 0,
+          remainingSubscriptionCount: remainingCount,
+          subscriptionStartDate: startAt ? new Date(startAt * 1000).toISOString() : null,
+          subscriptionEndDate: endAt ? new Date(endAt * 1000).toISOString() : null,
+        }),
       }
     });
 

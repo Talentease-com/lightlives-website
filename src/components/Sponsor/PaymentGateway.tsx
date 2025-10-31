@@ -10,11 +10,12 @@ declare global {
 
 interface RazorpayOptions {
   key: string;
-  amount: number;
-  currency: string;
+  amount?: number;
+  currency?: string;
   name: string;
   description: string;
-  order_id: string;
+  order_id?: string;
+  subscription_id?: string;
   handler: (response: RazorpayResponse) => void;
   prefill: {
     name: string;
@@ -45,9 +46,10 @@ interface DonorInfo {
 }
 
 interface RazorpayResponse {
-  razorpay_order_id: string;
+  razorpay_order_id?: string;
   razorpay_payment_id: string;
   razorpay_signature: string;
+  razorpay_subscription_id?: string;
 }
 
 interface VerificationResult {
@@ -150,7 +152,35 @@ const usePaymentGateway = ({
     }
   };
 
-  const verifyPayment = async (paymentResponse: RazorpayResponse) => {
+  const createSubscription = async () => {
+    try {
+      const response = await fetch("/api/payments/create-subscription", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ 
+          amount,
+          customerName: `${donorInfo.firstName || ''} ${donorInfo.lastName}`.trim(),
+          customerEmail: donorInfo.email,
+          customerPhone: donorInfo.phone,
+          notify: 1,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to create subscription");
+      }
+
+      return await response.json();
+    }
+    catch (error) {
+      throw error;
+    }
+  };
+
+  const verifyPayment = async (paymentResponse: RazorpayResponse, subscriptionData?: Record<string, unknown>) => {
     try {
       const response = await fetch("/api/payments/verify", {
         method: "POST",
@@ -161,6 +191,7 @@ const usePaymentGateway = ({
           razorpay_order_id: paymentResponse.razorpay_order_id,
           razorpay_payment_id: paymentResponse.razorpay_payment_id,
           razorpay_signature: paymentResponse.razorpay_signature,
+          razorpay_subscription_id: paymentResponse.razorpay_subscription_id,
           amount,
           currency,
           paymentType,
@@ -172,6 +203,17 @@ const usePaymentGateway = ({
           pan: donorInfo.pan,
           monthlyContribution,
           privacyPolicy,
+          // Include subscription data if available
+          ...(subscriptionData && {
+            planId: subscriptionData.plan_id,
+            subscriptionQuantity: subscriptionData.quantity,
+            subscriptionStatus: subscriptionData.status,
+            totalCount: subscriptionData.total_count,
+            paidCount: subscriptionData.paid_count,
+            remainingCount: subscriptionData.remaining_count,
+            startAt: subscriptionData.start_at,
+            endAt: subscriptionData.end_at,
+          }),
         }),
       });
 
@@ -200,59 +242,116 @@ const usePaymentGateway = ({
         await loadRazorpayScript();
       }
 
-      const order = await createOrder();
+      // For recurring payments, create subscription instead of order
+      if (paymentType === 'recurring') {
+        const subscription = await createSubscription();
 
-      const options = {
-        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID!,
-        amount: order.amount,
-        currency: order.currency,
-        name: "Light Lives",
-        description: paymentType === 'recurring' ? "Monthly Donation" : "One-time Donation",
-        order_id: order.id,
-        handler: async function (response: RazorpayResponse) {
-          try {
-            const verificationResult = await verifyPayment(response);
-            onSuccess({
-              ...response,
-              verificationResult,
-              donorInfo,
-              amount,
-              paymentType
-            });
-          } catch (error) {
-            onError(error as Error);
-          } finally {
-            setIsProcessing(false);
+        const options = {
+          key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID!,
+          subscription_id: subscription.id,
+          name: "Light Lives",
+          description: `Monthly Donation - ₹${amount}/month`,
+          handler: async function (response: RazorpayResponse) {
+            try {
+              const verificationResult = await verifyPayment(response, subscription);
+              onSuccess({
+                ...response,
+                verificationResult,
+                donorInfo,
+                amount,
+                paymentType
+              });
+            } catch (error) {
+              onError(error as Error);
+            } finally {
+              setIsProcessing(false);
+            }
+          },
+          prefill: {
+            name: `${donorInfo.firstName || ''} ${donorInfo.lastName}`.trim(),
+            email: donorInfo.email,
+            contact: donorInfo.phone,
+          },
+          notes: {
+            payment_type: paymentType,
+            donor_email: donorInfo.email,
+            monthly_contribution: monthlyContribution?.toString() || 'false',
+            subscription_amount: amount.toString(),
+          },
+          theme: {
+            color: "#3399cc",
+          },
+          modal: {
+            ondismiss: function() {
+              setIsProcessing(false);
+            }
           }
-        },
-        prefill: {
-          name: `${donorInfo.firstName || ''} ${donorInfo.lastName}`.trim(),
-          email: donorInfo.email,
-          contact: donorInfo.phone,
-        },
-        notes: {
-          payment_type: paymentType,
-          donor_email: donorInfo.email,
-          monthly_contribution: monthlyContribution?.toString() || 'false',
-        },
-        theme: {
-          color: "#3399cc",
-        },
-        modal: {
-          ondismiss: function() {
-            setIsProcessing(false);
+        };
+
+        const razorpay = new window.Razorpay(options);
+        
+        razorpay.on('payment.failed', function (response: PaymentError) {
+          onError(new Error(`Payment failed: ${response.error.description}`));
+          setIsProcessing(false);
+        });
+
+        razorpay.open();
+      } else {
+        // For one-time and UPI payments, create order as before
+        const order = await createOrder();
+
+        const options = {
+          key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID!,
+          amount: order.amount,
+          currency: order.currency,
+          name: "Light Lives",
+          description: paymentType === 'upi' ? "UPI Donation" : "One-time Donation",
+          order_id: order.id,
+          handler: async function (response: RazorpayResponse) {
+            try {
+              const verificationResult = await verifyPayment(response);
+              onSuccess({
+                ...response,
+                verificationResult,
+                donorInfo,
+                amount,
+                paymentType
+              });
+            } catch (error) {
+              onError(error as Error);
+            } finally {
+              setIsProcessing(false);
+            }
+          },
+          prefill: {
+            name: `${donorInfo.firstName || ''} ${donorInfo.lastName}`.trim(),
+            email: donorInfo.email,
+            contact: donorInfo.phone,
+          },
+          notes: {
+            payment_type: paymentType,
+            donor_email: donorInfo.email,
+            monthly_contribution: monthlyContribution?.toString() || 'false',
+          },
+          theme: {
+            color: "#3399cc",
+          },
+          modal: {
+            ondismiss: function() {
+              setIsProcessing(false);
+            }
           }
-        }
-      };
+        };
 
-      const razorpay = new window.Razorpay(options);
-      
-      razorpay.on('payment.failed', function (response: PaymentError) {
-        onError(new Error(`Payment failed: ${response.error.description}`));
-        setIsProcessing(false);
-      });
+        const razorpay = new window.Razorpay(options);
+        
+        razorpay.on('payment.failed', function (response: PaymentError) {
+          onError(new Error(`Payment failed: ${response.error.description}`));
+          setIsProcessing(false);
+        });
 
-      razorpay.open();
+        razorpay.open();
+      }
     } catch (error) {
       onError(error as Error);
       setIsProcessing(false);

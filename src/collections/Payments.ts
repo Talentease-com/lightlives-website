@@ -31,10 +31,10 @@ export const Payments: CollectionConfig = {
     {
       name: 'razorpayOrderId',
       type: 'text',
-      required: true,
-      unique: true,
+      required: false, // Not required for subscriptions (they use subscription ID)
       admin: {
         readOnly: true,
+        description: 'Order ID for one-time/UPI payments (not used for subscriptions)',
       },
     },
     {
@@ -169,6 +169,101 @@ export const Payments: CollectionConfig = {
       name: 'monthlyContributionAgreed',
       type: 'checkbox',
       defaultValue: false,
+    },
+    // Subscription details (for recurring payments)
+    {
+      name: 'razorpaySubscriptionId',
+      type: 'text',
+      admin: {
+        readOnly: true,
+        description: 'Razorpay subscription ID for recurring payments',
+        condition: (data) => data.isRecurring === true,
+      },
+    },
+    {
+      name: 'planId',
+      type: 'text',
+      admin: {
+        readOnly: true,
+        description: 'Razorpay plan ID used for subscription',
+        condition: (data) => data.isRecurring === true,
+      },
+    },
+    {
+      name: 'subscriptionQuantity',
+      type: 'number',
+      admin: {
+        readOnly: true,
+        description: 'Quantity of the plan (amount in ₹ for ₹1 plan)',
+        condition: (data) => data.isRecurring === true,
+      },
+    },
+    {
+      name: 'subscriptionStatus',
+      type: 'select',
+      options: [
+        { label: 'Created', value: 'created' },
+        { label: 'Authenticated', value: 'authenticated' },
+        { label: 'Active', value: 'active' },
+        { label: 'Pending', value: 'pending' },
+        { label: 'Halted', value: 'halted' },
+        { label: 'Cancelled', value: 'cancelled' },
+        { label: 'Completed', value: 'completed' },
+        { label: 'Expired', value: 'expired' },
+      ],
+      admin: {
+        description: 'Current status of the subscription',
+        condition: (data) => data.isRecurring === true,
+      },
+    },
+    {
+      name: 'subscriptionStartDate',
+      type: 'date',
+      admin: {
+        condition: (data) => data.isRecurring === true,
+        date: {
+          pickerAppearance: 'dayAndTime',
+        },
+        description: 'Subscription start date',
+      },
+    },
+    {
+      name: 'subscriptionEndDate',
+      type: 'date',
+      admin: {
+        condition: (data) => data.isRecurring === true,
+        date: {
+          pickerAppearance: 'dayAndTime',
+        },
+        description: 'Subscription end date',
+      },
+    },
+    {
+      name: 'totalSubscriptionCount',
+      type: 'number',
+      admin: {
+        readOnly: true,
+        description: 'Total number of billing cycles',
+        condition: (data) => data.isRecurring === true,
+      },
+    },
+    {
+      name: 'paidSubscriptionCount',
+      type: 'number',
+      admin: {
+        readOnly: true,
+        description: 'Number of billing cycles completed',
+        condition: (data) => data.isRecurring === true,
+      },
+    },
+    {
+      name: 'remainingSubscriptionCount',
+      type: 'number',
+      admin: {
+        readOnly: true,
+        description: 'Remaining billing cycles',
+        condition: (data) => data.isRecurring === true,
+      },
     },
     // Terms and conditions
     {
