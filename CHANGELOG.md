@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/Talentease-com/lightlives-website/compare/v1.1.0...v1.2.0) (2025-10-31)
+
+
+### Features
+
+* Implement subscription creation and management with Razorpay ([f588657](https://github.com/Talentease-com/lightlives-website/commit/f58865760a2e8a6ba12d4e2edc5f7151b1192d1a))
+
 ## [1.1.0](https://github.com/Talentease-com/lightlives-website/compare/v1.0.0...v1.1.0) (2025-10-30)
 
 
