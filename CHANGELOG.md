@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/Talentease-com/lightlives-website/compare/v1.2.0...v1.3.0) (2025-11-03)
+
+
+### Features
+
+* Update metadata titles and descriptions across multiple pages for improved SEO and user experience ([d368061](https://github.com/Talentease-com/lightlives-website/commit/d36806117bd8a6d6472828900651543b1c57c775))
+
 ## [1.2.0](https://github.com/Talentease-com/lightlives-website/compare/v1.1.0...v1.2.0) (2025-10-31)
 
 
