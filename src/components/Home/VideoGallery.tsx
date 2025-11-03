@@ -143,6 +143,7 @@ const VideoGallery: React.FC<VideoGalleryProps> = ({ videos }) => {
                   width={600}
                   height={400}
                   className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
+                  unoptimized
                 />
                 {/* Overlay */}
                 <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-300"></div>

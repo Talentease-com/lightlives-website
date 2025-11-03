@@ -6,8 +6,8 @@ import SwooshButton from '@/components/ui/swoosh-button';
 import ContactForm from '@/components/Contact/ContactForm';
 
 export const metadata: Metadata = {
-  title: 'Contact Us - Light Lives Charitable Trust',
-  description: 'Get in touch with Light Lives Charitable Trust. Contact us for child sponsorship, partnerships, volunteer opportunities, and program information.',
+  title: 'Contact Us | Light Lives',
+  description: 'Get in touch with Light Lives. Contact us for child sponsorship, partnerships, volunteer opportunities, and program information.',
   keywords: 'contact, light lives, charitable trust, child sponsorship, partnerships, volunteer, hyderabad',
 };
 

@@ -7,7 +7,7 @@ import { getMediaUrl } from '@/lib/utils/getMediaUrl';
 import { getMediaAlt } from '@/lib/utils/getMediaAlt';
 // TODO - Remove placeholder fallbacks from getMediaUrl and getMediaAlt once all CMS entries are updated
 export const metadata = {
-  title: "Mission & Vision - LightLives",
+  title: "Mission & Vision | LightLives",
   description: "LightLives is focused on providing leadership and future ready skills training to children. Our mission: Create One Million Young leaders and changemakers.",
   keywords: "mission, vision, leadership training, life skills, child development, future ready skills, LightLives, changemakers, youth empowerment",
 }

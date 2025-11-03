@@ -2,7 +2,7 @@ import React from 'react';
 import { Shield, Cookie, Lock, FileText, Users, Eye } from 'lucide-react';
 
 export const metadata = {
-  title: "Privacy Policy - Light Lives Charitable Trust",
+  title: "Privacy Policy | Light Lives",
   description: "Learn how Light Lives Charitable Trust protects your privacy and handles your personal information.",
   keywords: "privacy policy, data protection, personal information, Light Lives, privacy, security",
 }

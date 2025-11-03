@@ -7,7 +7,7 @@ import { getPageImages, getGeneralGallery } from '@/lib/payload/fetch'
 import type { Media } from '@/payload-types'
 
 export const metadata: Metadata = {
-  title: 'Volunteer With Us - Light Lives',
+  title: 'Volunteer With Us | Light Lives',
   description:
     'Join our volunteer team at Light Lives. Help facilitate sessions or contribute to curriculum development. Make a lasting impact on young lives through volunteering.',
   keywords:

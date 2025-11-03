@@ -113,9 +113,21 @@ const processSteps = [
 ];
 
 export const metadata: Metadata = {
-  title: "Join Light Lives",
+  title: "Careers at Light Lives | Join Our Team & Make an Impact",
   description:
-    "Discover careers at Light Lives, explore open roles, learn about our hiring process, and share your profile to create impact together.",
+    "Discover meaningful careers at Light Lives. Explore open positions in education and social impact, learn about our culture of respect and growth, and join a team creating lasting change in children's lives across India.",
+  keywords: [
+    "Light Lives careers",
+    "social impact jobs",
+    "education NGO jobs India",
+    "nonprofit careers",
+    "program facilitator jobs",
+    "impact analyst careers",
+    "education jobs India",
+    "meaningful work",
+    "purpose-driven careers",
+    "charity jobs India",
+  ],
 };
 
 export default async function CareersJoinPage() {
