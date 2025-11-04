@@ -70,6 +70,11 @@ const Navbar: React.FC = () => {
     };
   }, []);
 
+  // Close dropdown when pathname changes (on any navigation)
+  useEffect(() => {
+    setActiveDropdown(null);
+  }, [pathname]);
+
   // Handle scroll detection
   useEffect(() => {
     const handleScroll = () => {
@@ -86,6 +91,10 @@ const Navbar: React.FC = () => {
 
   const handleDropdownToggle = (label: string) => {
     setActiveDropdown(activeDropdown === label ? null : label);
+  };
+
+  const handleLinkClick = () => {
+    setActiveDropdown(null);
   };
 
   return (
@@ -164,6 +173,7 @@ const Navbar: React.FC = () => {
                             <Link
                               key={subItem.path}
                               href={subItem.path}
+                              onClick={handleLinkClick}
                               className={`block px-4 py-3 text-base font-bold transition-colors duration-200 ${
                                 isActive(subItem.path)
                                   ? 'text-primary bg-primary-50 border-r-4 border-primary'
@@ -180,6 +190,7 @@ const Navbar: React.FC = () => {
                 ) : (
                   <Link
                     href={item.path}
+                    onClick={handleLinkClick}
                     className={`relative px-4 py-2 text-white font-bold text-base transition-colors duration-200 group ${
                       isActive(item.path)
                         ? 'text-white'
