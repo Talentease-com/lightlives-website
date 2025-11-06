@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.4.0](https://github.com/Talentease-com/lightlives-website/compare/v1.3.0...v1.4.0) (2025-11-06)
+
+
+### Features
+
+* Enhance sponsor page with video integration and add Graces culture page ([40e2500](https://github.com/Talentease-com/lightlives-website/commit/40e25006a11c4039ab8cf2be07880714323e2bbd))
+
+
+### Bug Fixes
+
+* dropdowns not closing on navbar navigation ([c7a2a33](https://github.com/Talentease-com/lightlives-website/commit/c7a2a33ba344a76d763f99289ea9d96db19f389c))
+
 ## [1.3.0](https://github.com/Talentease-com/lightlives-website/compare/v1.2.0...v1.3.0) (2025-11-03)
 
 
