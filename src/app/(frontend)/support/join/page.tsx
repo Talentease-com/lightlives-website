@@ -4,8 +4,6 @@ import type { Metadata } from "next";
 import { Target, GraduationCap, Wallet, Sparkles } from "lucide-react";
 
 import { CareersApplicationForm } from "@/components/Support/CareersApplicationForm";
-import { getFooterLinks } from "@/lib/payload/fetch";
-import { getLinkUrl, shouldOpenInNewTab } from "@/lib/utils";
 
 const heroHighlights = [
   {
@@ -130,16 +128,7 @@ export const metadata: Metadata = {
   ],
 };
 
-export default async function CareersJoinPage() {
-  // Fetch footer links to get Graces Culture link
-  const footerLinks = await getFooterLinks();
-  const gracesCultureUrl = footerLinks?.gracesCultureLink 
-    ? getLinkUrl(footerLinks.gracesCultureLink)
-    : '#';
-  const gracesCultureOpenInNewTab = footerLinks?.gracesCultureLink 
-    ? shouldOpenInNewTab(footerLinks.gracesCultureLink)
-    : true;
-  
+export default function CareersJoinPage() {
   return (
     <main className="bg-background text-tertiary pb-24">
       <section className="relative w-full h-[420px] overflow-hidden">
@@ -215,7 +204,7 @@ export default async function CareersJoinPage() {
               <li>Make an impact—not just work in a job.</li>
               <li>Earn well and build a strong financial foundation.</li>
               <li>Learn rapidly and grow fast.</li>
-              <li>Thrive in a friendly, fun-filled environment based on respect, trust, and compassion. <Link href={gracesCultureUrl} target={gracesCultureOpenInNewTab ? '_blank' : undefined} rel={gracesCultureOpenInNewTab ? 'noopener noreferrer' : undefined} className="underline hover:text-primary transition-colors">Read about our GRACES culture.</Link></li>
+              <li>Thrive in a friendly, fun-filled environment based on respect, trust, and compassion. <Link href="/support/graces" className="underline hover:text-primary transition-colors">Read about our GRACES culture.</Link></li>
             </ul>
             <p>
               If that resonates, Light Lives may just be the space and opportunity you’ve been waiting for. Come join us. Choose to make a difference to others—and to yourself.
@@ -345,7 +334,7 @@ export default async function CareersJoinPage() {
                 Share your profile with us
               </h2>
               <p className="text-lg text-tertiary-600 text-pretty">
-                Submit your details and resume—we&apos;ll connect with you when there&apos;s a match with current or upcoming roles. We&apos;ll soon pipe this directly to RecruitCRM; for now we&apos;ll store it securely and follow up over email.
+                Submit your details and resume—we&apos;ll connect with you when there&apos;s a match with current or upcoming roles.
               </p>
               <div className="space-y-4 text-sm text-tertiary-600">
                 <p className="font-semibold text-tertiary">Need help?</p>

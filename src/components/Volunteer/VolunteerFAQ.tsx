@@ -23,7 +23,7 @@ const faqs = [
   {
     question: 'Is remote volunteering available?',
     answer:
-      'Yes, absolutely. Although, we would need prior information from you to make arrangements we can definitely arrange for a remote online sessions.',
+      'We can definitely organise remote online sessions for you to handle although, we would need prior information from you to make the necessary scheduling arrangements.',
   },
   {
     question: 'How do I get started?',

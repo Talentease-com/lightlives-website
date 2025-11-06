@@ -27,12 +27,12 @@ const About = () => {
               <span className="text-primary">
                 .{' '}
               </span>
-              <span>
+              {/* <span>
                 Light Lives
               </span>
               <span className="text-primary">
                 .{' '}
-              </span>
+              </span> */}
 
             </h2>
           </div>

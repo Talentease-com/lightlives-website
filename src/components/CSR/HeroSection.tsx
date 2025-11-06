@@ -97,7 +97,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ impactStats, pageImages }) =>
                 { text: "Work not just on symptoms, ", bold: "fix root causes", rest: ". Long term solutions" },
                 { text: "Work with partners who ", bold: "maximise impact", rest: " of your CSR money. No frills." },
                 { text: "", bold: "Measurable, tangible impact", rest: "" },
-                { text: "Not just 'helicopter' CSR. Get your ", bold: "employees involved", rest: "." },
+                { text: "Not just 'hands-off' CSR. Get your ", bold: "employees involved", rest: "." },
                 { text: "Support the big goal of ", bold: "nation building", rest: "" }
               ].map((proposition, index) => (
                 <motion.div
@@ -193,7 +193,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ impactStats, pageImages }) =>
 
           <div className="grid md:grid-cols-2 gap-6">
             {[
-              { html: <>Work with <span className="font-bold">underprivileged children and young adults</span>. Giving them <span className="font-bold">future ready skills and values</span>. They help themselves to succeed.</> },
+              { html: <>Work with <span className="font-bold">underprivileged children and young adults</span>. Giving them <span className="font-bold">future ready skills and values</span>. They help themselves succeed.</> },
               { html: <>Create <span className="font-bold">leaders and changemakers</span>. They will drive change. They will <span className="font-bold">solve the big problems</span>.</> },
               { html: <>Sponsorships aimed at <span className="font-bold">maximising impact</span> to beneficiaries. <span className="font-bold">No wasteful expenditure. No crazy overheads</span>.</> },
               { html: <>Get your <span className="font-bold">employees to volunteer</span> and feel engaged and involved.</> },

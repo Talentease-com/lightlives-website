@@ -1,12 +1,13 @@
 import React from 'react';
 import type { Metadata } from 'next';
-import { getImpactData } from '@/lib/payload/fetch';
+import { getImpactData, getPageVideos } from '@/lib/payload/fetch';
 import { ImpactSection, DonationForm } from '@/components/Sponsor';
 // import { CircularGallery } from '@/components/ui/circular-gallery';
 import ScrollToSponsorButton from '@/components/Sponsor/ScrollToSponsorButton';
 // import { galleryData } from '@/components/Sponsor/gallery-data';
 import SwooshButton from '@/components/ui/swoosh-button';
 import SponsorCTA from '@/components/SponsorCTA';
+import SponsorVideo from '@/components/Sponsor/SponsorVideo';
 
 export const metadata: Metadata = {
   title: 'Sponsor a Child’s Future | Light Lives',
@@ -41,7 +42,10 @@ export const dynamic = 'force-static'
 // export const revalidate = 3600 // Revalidate every hour
 // TODO: Vertical gallery
 const Sponsor = async () => {
-  const impactStats = await getImpactData();
+  const [impactStats, pageVideos] = await Promise.all([
+    getImpactData(),
+    getPageVideos(),
+  ]);
 
   return (
     <div className="min-h-screen bg-secondary-50">
@@ -196,25 +200,15 @@ const Sponsor = async () => {
       </section>
 
       {/* Video Explainer */}
-      <section className="py-10">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-semibold text-tertiary mb-4">Watch how Light Lives works</h2>
-          <figure className="border border-tertiary-200">
-            <video
-              className="w-full h-auto"
-              controls
-              preload="metadata"
-              poster="https://images.pexels.com/photos/4145190/pexels-photo-4145190.jpeg?auto=compress&cs=tinysrgb&w=1200"
-            >
-              <source src="https://player.vimeo.com/external/374131650.sd.mp4?s=4a1fbe3a3d1c8cb30b1f0c341f45b0f2b4e59cf4&profile_id=139&oauth2_token_id=57447761" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-            <figcaption className="text-sm text-tertiary-600 p-3">
-              A short explainer about our programs, impact, and governance (placeholder video).
-            </figcaption>
-          </figure>
-        </div>
-      </section>
+      <SponsorVideo 
+        videoData={pageVideos ? {
+          videoFile: pageVideos.sponsorVideoFile,
+          videoUrl: pageVideos.sponsorVideoUrl,
+          title: pageVideos.sponsorVideoTitle || 'Watch how Light Lives works',
+          description: pageVideos.sponsorVideoDescription,
+          thumbnail: pageVideos.sponsorVideoThumbnail,
+        } : undefined}
+      />
 
       {/* Back to Top CTA */}
       <SponsorCTA>

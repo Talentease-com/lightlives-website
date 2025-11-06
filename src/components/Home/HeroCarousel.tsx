@@ -18,7 +18,7 @@ const HeroCarousel: React.FC<HeroCarouselProps> = ({ items }) => {
   useEffect(() => {
     const carouselTimer = setInterval(() => {
       setCurrentCarousel((prev) => (prev + 1) % items.length);
-    }, 9000);
+    }, 11000);
 
     return () => {
       clearInterval(carouselTimer);

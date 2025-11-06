@@ -9,7 +9,7 @@ const opportunities = [
     icon: Users,
     title: 'Session Facilitator',
     description:
-      "Come in to assist our Facilitator in running the sessions. We'll provide you some brief orientation and training before so you know what and how to do this.",
+      "Come in to assist our Facilitator in running the sessions. We'll provide you a brief orientation and some training before you start.",
     gradient: 'from-primary-100 to-secondary-100',
     iconBg: 'bg-primary-100',
     iconColor: 'text-primary',

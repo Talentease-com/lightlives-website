@@ -69,7 +69,7 @@ const HeroSectionSEO: React.FC<HeroSectionProps> = ({ heroImages, landingVideo }
       description: 'Our work with children and young adults means a \'prepare\' job now rather than a \'repair\' job later',
     },
     {
-      title: 'Empower rather than handouts',
+      title: 'Empowering rather than handouts',
       description: 'With skills and values we give underprivileged young people the power to help themselves and become leaders for change',
     },
     {
