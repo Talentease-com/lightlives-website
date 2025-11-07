@@ -197,7 +197,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({ impactStats, pageImages }) =>
               { html: <>Create <span className="font-bold">leaders and changemakers</span>. They will drive change. They will <span className="font-bold">solve the big problems</span>.</> },
               { html: <>Sponsorships aimed at <span className="font-bold">maximising impact</span> to beneficiaries. <span className="font-bold">No wasteful expenditure. No crazy overheads</span>.</> },
               { html: <>Get your <span className="font-bold">employees to volunteer</span> and feel engaged and involved.</> },
-              { html: <>A marathon not a sprint. <span className="font-bold">Long term engagements</span> that build capability. For the community. For the nation.</> }
+              { html: <>A marathon not a sprint. <span className="font-bold">Long term engagements</span> that build capability. For the community. For the nation.</> },
+              { html: <>Rigorous measurement to gauge the &apos;before&apos; and &apos;after&apos; impact of our programs.</> }
             ].map((point, index) => (
               <motion.div
               key={index}
@@ -244,8 +245,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({ impactStats, pageImages }) =>
                   />
                 </div>
                 <h3 className="font-semibold text-tertiary mb-1">{stat.desc}</h3>
-                <p className="text-sm text-tertiary-500">
-                  <span className="font-medium">
+                <p className="text-tertiary-500 text-sm">
+                  <span className="font-semibold text-base">
                     {stat.val2.toLocaleString('en-IN', {
                       minimumFractionDigits: stat.decimals2 || 0,
                       maximumFractionDigits: stat.decimals2 || 0

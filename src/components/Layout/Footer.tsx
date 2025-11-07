@@ -233,14 +233,19 @@ const Footer = async () => {
       {/* Bottom Bar */}
       <div className="border-t border-white/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            {/* Copyright */}
-            <div className="text-secondary/80 text-sm mb-4 md:mb-0">
-              © {footerContent.copyrightYear} Light Lives. All rights reserved.
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            {/* Copyright & Disclaimer */}
+            <div className="text-secondary/80 text-sm text-center md:text-left">
+              <div className="mb-1">
+                © {footerContent.copyrightYear} Light Lives. All rights reserved.
+              </div>
+              <div className="text-xs text-secondary/60">
+                All Light Lives programs are powered by TalentEase content
+              </div>
             </div>
 
             {/* Policy Links */}
-            <div className="flex space-x-6">
+            <div className="flex flex-wrap gap-4 md:gap-6 justify-center md:justify-end">
               {policyLinks.map((link, index) => {
                 const url = getLinkUrl(link)
                 const openInNewTab = shouldOpenInNewTab(link)

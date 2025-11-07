@@ -162,24 +162,31 @@ export default async function MissionVisionPage() {
                     <div className="w-1 h-8 bg-secondary-400 mr-3"></div>
                     Essential Skills We Teach
                   </h3>
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    <div className="bg-secondary/10 backdrop-blur-sm border-2 border-secondary-400/30 p-5 rounded-none hover:bg-secondary/20 hover:border-secondary-400/50 transition-all duration-300 group">
-                      <div className="text-2xl font-bold text-secondary-400 mb-2 group-hover:text-secondary-300 transition-colors">Communicative English</div>
-                      <p className="text-secondary-100 text-sm">Fluent expression for career success</p>
+                    <div className="grid sm:grid-cols-2 gap-4">
+                    {[
+                      {
+                      title: "Self Management",
+                      description: "Build confidence and winning attitudes to face any challenges"
+                      },
+                      {
+                      title: "Communication",
+                      description: "From communicative English to high impact presentation skills"
+                      },
+                      {
+                      title: "Digital Literacy & AI",
+                      description: "Future-ready tech competencies"
+                      },
+                      {
+                      title: "Career Success Skills",
+                      description: "From placement preparation to workplace success skills"
+                      }
+                    ].map((skill) => (
+                      <div key={skill.title} className="bg-secondary/10 backdrop-blur-sm border-2 border-secondary-400/30 p-5 rounded-none hover:bg-secondary/20 hover:border-secondary-400/50 transition-all duration-300 group">
+                      <div className="text-2xl font-bold text-secondary-400 mb-2 group-hover:text-secondary-300 transition-colors">{skill.title}</div>
+                      <p className="text-secondary-100 text-sm">{skill.description}</p>
+                      </div>
+                    ))}
                     </div>
-                    <div className="bg-secondary/10 backdrop-blur-sm border-2 border-secondary-400/30 p-5 rounded-none hover:bg-secondary/20 hover:border-secondary-400/50 transition-all duration-300 group">
-                      <div className="text-2xl font-bold text-secondary-400 mb-2 group-hover:text-secondary-300 transition-colors">Building Confidence</div>
-                      <p className="text-secondary-100 text-sm">Self-belief to face any challenge</p>
-                    </div>
-                    <div className="bg-secondary/10 backdrop-blur-sm border-2 border-secondary-400/30 p-5 rounded-none hover:bg-secondary/20 hover:border-secondary-400/50 transition-all duration-300 group">
-                      <div className="text-2xl font-bold text-secondary-400 mb-2 group-hover:text-secondary-300 transition-colors">Digital Literacy & AI</div>
-                      <p className="text-secondary-100 text-sm">Future-ready tech competencies</p>
-                    </div>
-                    <div className="bg-secondary/10 backdrop-blur-sm border-2 border-secondary-400/30 p-5 rounded-none hover:bg-secondary/20 hover:border-secondary-400/50 transition-all duration-300 group">
-                      <div className="text-2xl font-bold text-secondary-400 mb-2 group-hover:text-secondary-300 transition-colors">Interview Skills</div>
-                      <p className="text-secondary-100 text-sm">Professional presentation mastery</p>
-                    </div>
-                  </div>
                 </div>
 
                 {/* Values Section */}
@@ -189,24 +196,11 @@ export default async function MissionVisionPage() {
                     Core Values We Instill
                   </h3>
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                    <div className="bg-primary/10 backdrop-blur-sm border-2 border-primary/30 p-4 rounded-none hover:bg-primary/20 hover:border-primary/50 transition-all duration-300 group text-center">
-                      <div className="text-xl font-bold text-primary mb-1 group-hover:text-primary-400 transition-colors">Patience</div>
-                    </div>
-                    <div className="bg-primary/10 backdrop-blur-sm border-2 border-primary/30 p-4 rounded-none hover:bg-primary/20 hover:border-primary/50 transition-all duration-300 group text-center">
-                      <div className="text-xl font-bold text-primary mb-1 group-hover:text-primary-400 transition-colors">Gratitude</div>
-                    </div>
-                    <div className="bg-primary/10 backdrop-blur-sm border-2 border-primary/30 p-4 rounded-none hover:bg-primary/20 hover:border-primary/50 transition-all duration-300 group text-center">
-                      <div className="text-xl font-bold text-primary mb-1 group-hover:text-primary-400 transition-colors">Kindness</div>
-                    </div>
-                    <div className="bg-primary/10 backdrop-blur-sm border-2 border-primary/30 p-4 rounded-none hover:bg-primary/20 hover:border-primary/50 transition-all duration-300 group text-center">
-                      <div className="text-xl font-bold text-primary mb-1 group-hover:text-primary-400 transition-colors">Respect</div>
-                    </div>
-                    <div className="bg-primary/10 backdrop-blur-sm border-2 border-primary/30 p-4 rounded-none hover:bg-primary/20 hover:border-primary/50 transition-all duration-300 group text-center">
-                      <div className="text-xl font-bold text-primary mb-1 group-hover:text-primary-400 transition-colors">Resilience</div>
-                    </div>
-                    <div className="bg-primary/10 backdrop-blur-sm border-2 border-primary/30 p-4 rounded-none hover:bg-primary/20 hover:border-primary/50 transition-all duration-300 group text-center">
-                      <div className="text-xl font-bold text-primary mb-1 group-hover:text-primary-400 transition-colors">Leadership</div>
-                    </div>
+                    {["Gratitude", "Respect", "Kindness", "Sustainability", "Resilience", "Integrity"].map((value) => (
+                      <div key={value} className="bg-primary/10 backdrop-blur-sm border-2 border-primary/30 p-4 rounded-none hover:bg-primary/20 hover:border-primary/50 transition-all duration-300 group text-center">
+                        <div className="text-xl font-bold text-primary mb-1 group-hover:text-primary-400 transition-colors">{value}</div>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>

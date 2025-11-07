@@ -53,11 +53,11 @@ const About = () => {
                 <h3 className="text-4xl font-bold text-primary mb-4 border-b-2 border-primary pb-2">
                   Why
                 </h3>
-                <div className="flex-1">
+                <div className="flex-1 space-y-1">
                   <ul className="text-tertiary-700 space-y-3">
                     <li className="flex items-start">
                       <span className="text-tertiary-500 mr-2">•</span>
-                      Shocking stat that drives home the lifeskills necessity &mdash; the soft stuff is the hard stuff.
+                      “Will you hire an employee who has good domain knowledge but lacks soft skills?”  90% employers say NO* &mdash; the soft stuff is the hard stuff.
                     </li>
                     <li className="flex items-start">
                       <span className="text-tertiary-500 mr-2">•</span>
@@ -68,6 +68,7 @@ const About = () => {
                       Developing youth for strong nation-building.
                     </li>
                   </ul>
+                  <p className="text-tertiary-500 text-sm">*Source: timesjobs.com</p>
                 </div>
               </div>
             </AdaptiveCard>

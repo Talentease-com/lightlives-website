@@ -24,7 +24,7 @@ const ImpactSection: React.FC<ImpactSectionProps> = ({ stats, impactVideo }) => 
       {/* Background Design Elements */}
       {/* Outlined Hexagon Top Right */}
       <svg
-        className="absolute top-0 right-0 -translate-y-40 translate-x-40"
+        className="absolute top-0 right-0 -translate-y-40 translate-x-60"
         width="560"
         height="720"
         viewBox="0 0 560 720"
@@ -59,7 +59,7 @@ const ImpactSection: React.FC<ImpactSectionProps> = ({ stats, impactVideo }) => 
           {/* Left Column - Statistics */}
           <div className='flex flex-col justify-center'>
             <div className="mb-12 animate-fade-in-up opacity-0 [animation-delay:200ms]">
-              <h2 className="text-4xl md:text-5xl font-bold text-tertiary mb-6">
+              <h2 className="bg-white text-4xl md:text-5xl font-bold text-tertiary mb-6">
                 Our <span className="text-primary">Impact</span> So Far
               </h2>
               <p className="text-xl text-tertiary-600">

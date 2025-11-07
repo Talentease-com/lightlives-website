@@ -19,7 +19,7 @@ interface TestimonialSliderProps {
 export default function TestimonialSlider({ testimonials }: TestimonialSliderProps) {
   return (
     <>
-      <section className="w-full py-4">
+      <section className="w-full mx-auto py-4">
         <div className="mx-auto lg:max-w-6xl px-3">
           <Carousel
             opts={{
@@ -63,8 +63,8 @@ export default function TestimonialSlider({ testimonials }: TestimonialSliderPro
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious className="absolute left-[-50px] top-1/2 -translate-y-1/2 fill-black" />
-            <CarouselNext className="absolute right-[-50px] top-1/2 -translate-y-1/2 fill-black" />
+            <CarouselPrevious className="absolute left-5 sm:left-[-50px] top-1/2 -translate-y-1/2 fill-black" />
+            <CarouselNext className="absolute right-5 sm:right-[-50px] top-1/2 -translate-y-1/2 fill-black" />
           </Carousel>
         </div>
       </section>
