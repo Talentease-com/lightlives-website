@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.5.0](https://github.com/Talentease-com/lightlives-website/compare/v1.4.0...v1.5.0) (2025-11-11)
+
+
+### Features
+
+* Implement cancellation and refund policy page with detailed guidelines and contact information ([729e64d](https://github.com/Talentease-com/lightlives-website/commit/729e64d40705e761abff25451a1900b2d0958c55))
+* Revamp mission page skills section and update values display for clarity ([e4f02b4](https://github.com/Talentease-com/lightlives-website/commit/e4f02b4be2c877ce2465cefbedc90eda82c94966))
+
 ## [1.4.0](https://github.com/Talentease-com/lightlives-website/compare/v1.3.0...v1.4.0) (2025-11-06)
 
 
