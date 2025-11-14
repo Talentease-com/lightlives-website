@@ -38,7 +38,7 @@ export default function RootLayout({
       > 
       <UseMsClarity />
       {/* <AdminBar /> */}
-      {/* <Navbar /> */}
+      <Navbar />
       <main data-vaul-drawer-wrapper>
         {children}
         <SpeedInsights />
