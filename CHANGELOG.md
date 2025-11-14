@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.1](https://github.com/Talentease-com/lightlives-website/compare/v1.6.0...v1.6.1) (2025-11-14)
+
+
+### Bug Fixes
+
+* restore Navbar component in RootLayout for proper navigation ([3b69095](https://github.com/Talentease-com/lightlives-website/commit/3b69095781a98bd03f59282537c3fcfb326a8783))
+
 ## [1.6.0](https://github.com/Talentease-com/lightlives-website/compare/v1.5.0...v1.6.0) (2025-11-14)
 
 
