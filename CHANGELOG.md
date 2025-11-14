@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.6.0](https://github.com/Talentease-com/lightlives-website/compare/v1.5.0...v1.6.0) (2025-11-14)
+
+
+### Features
+
+* Integrate Microsoft Clarity for enhanced user insights and tracking ([8ad1ded](https://github.com/Talentease-com/lightlives-website/commit/8ad1dedf175f100d2fa8c4a51c6d375c140fea4e))
+
+
+### Bug Fixes
+
+* validation for Razorpay receipt length and enhance subscription payment logic ([8aab927](https://github.com/Talentease-com/lightlives-website/commit/8aab927535f4a24dd1568e9dcf55d317eeefc1ad))
+
 ## [1.5.0](https://github.com/Talentease-com/lightlives-website/compare/v1.4.0...v1.5.0) (2025-11-11)
 
 
