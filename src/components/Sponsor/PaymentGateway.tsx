@@ -128,6 +128,12 @@ const usePaymentGateway = ({
 
   const createOrder = async () => {
     try {
+      // Generate receipt ID (max 40 chars per Razorpay requirement)
+      // Format: DN_<base36_timestamp>_<email_prefix>
+      const timestamp = Date.now().toString(36).toUpperCase();
+      const emailPrefix = donorInfo.email.split('@')[0].substring(0, 15).toUpperCase();
+      const receiptId = `DN_${timestamp}_${emailPrefix}`;
+      
       const response = await fetch("/api/payments/create-order", {
         method: "POST",
         headers: {
@@ -136,7 +142,7 @@ const usePaymentGateway = ({
         body: JSON.stringify({ 
           amount, 
           currency,
-          receipt: `donation_${Date.now()}_${donorInfo.email.split('@')[0]}`
+          receipt: receiptId
         }),
       });
 

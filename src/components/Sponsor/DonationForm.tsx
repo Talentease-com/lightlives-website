@@ -38,7 +38,7 @@ const DonationForm: React.FC<DonationFormProps> = ({ className = '' }) => {
   const { register, handleSubmit, formState: { errors }, watch } = useForm<FormData>();
 
   const oneTimeAmounts = [2000, 5000, 10000, 20000, 40000];
-  const monthlyAmounts = [500, 1000, 1200, 1500, 2000];
+  const monthlyAmounts = [300, 500, 1000, 1500, 2000, 5000, 10000, 20000, 50000];
 
   // Watch form values for payment gateway
   const formValues = watch();
@@ -213,35 +213,38 @@ const DonationForm: React.FC<DonationFormProps> = ({ className = '' }) => {
             </label>
             {renderAmountButtons(paymentType === 'onetime' ? oneTimeAmounts : monthlyAmounts)}
             
-            <div className="mt-3">
-              <input
-                type="number"
-                min="1"
-                max="1000000"
-                step="1"
-                placeholder="Enter custom amount (₹1 - ₹10,00,000)"
-                value={customAmount}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  setCustomAmount(value);
-                  setSelectedAmount(null);
-                  
-                  // Validate amount in real-time
-                  if (value) {
-                    const numValue = parseFloat(value);
-                    const validation = validateAmount(numValue);
-                    if (validation !== true) {
-                      setPaymentStatus('error');
-                      setStatusMessage(validation);
-                    } else {
-                      setPaymentStatus('idle');
-                      setStatusMessage('');
+            {/* Custom amount only for one-time payments */}
+            {paymentType === 'onetime' && (
+              <div className="mt-3">
+                <input
+                  type="number"
+                  min="1"
+                  max="1000000"
+                  step="1"
+                  placeholder="Enter custom amount (₹1 - ₹10,00,000)"
+                  value={customAmount}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    setCustomAmount(value);
+                    setSelectedAmount(null);
+                    
+                    // Validate amount in real-time
+                    if (value) {
+                      const numValue = parseFloat(value);
+                      const validation = validateAmount(numValue);
+                      if (validation !== true) {
+                        setPaymentStatus('error');
+                        setStatusMessage(validation);
+                      } else {
+                        setPaymentStatus('idle');
+                        setStatusMessage('');
+                      }
                     }
-                  }
-                }}
-                className="w-full px-4 py-3 border border-tertiary-300 focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-[5px]"
-              />
-            </div>
+                  }}
+                  className="w-full px-4 py-3 border border-tertiary-300 focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-[5px]"
+                />
+              </div>
+            )}
           </div>
         )}
 

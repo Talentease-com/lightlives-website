@@ -6,8 +6,15 @@ const razorpay = new Razorpay({
   key_secret: process.env.RAZORPAY_KEY_SECRET!,
 });
 
-// Your plan ID for ₹1/month
-const MONTHLY_PLAN_ID = "plan_Ra3JkZ2WZM7KRt";
+// Your plan ID for ₹100/month
+const MONTHLY_PLAN_ID = "plan_RfafdSHmGikUtb";
+
+// Base plan amount (₹100 per unit)
+const PLAN_UNIT_AMOUNT = 100;
+
+// Razorpay allows max 500 units per subscription
+const MAX_QUANTITY = 500;
+const MAX_AMOUNT = MAX_QUANTITY * PLAN_UNIT_AMOUNT; // ₹50,000
 
 export async function POST(request: NextRequest) {
   try {
@@ -21,6 +28,14 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Validate maximum amount (Razorpay limit: 500 units max)
+    if (amount > MAX_AMOUNT) {
+      return NextResponse.json(
+        { error: `Amount cannot exceed ₹${MAX_AMOUNT.toLocaleString()} for monthly subscriptions (Razorpay limit: ${MAX_QUANTITY} units)` },
+        { status: 400 }
+      );
+    }
+
     if (!customerEmail) {
       return NextResponse.json(
         { error: "Customer email is required" },
@@ -28,8 +43,16 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Calculate quantity (amount in INR = quantity of ₹1 plan)
-    const quantity = Math.round(amount);
+    // Validate that amount is a multiple of ₹100
+    if (amount % PLAN_UNIT_AMOUNT !== 0) {
+      return NextResponse.json(
+        { error: `Amount must be a multiple of ₹${PLAN_UNIT_AMOUNT}` },
+        { status: 400 }
+      );
+    }
+
+    // Calculate quantity (amount / ₹100 = quantity of ₹100 plan)
+    const quantity = Math.round(amount / PLAN_UNIT_AMOUNT);
 
     const subscriptionOptions = {
       plan_id: MONTHLY_PLAN_ID,

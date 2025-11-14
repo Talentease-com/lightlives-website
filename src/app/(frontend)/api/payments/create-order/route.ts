@@ -25,6 +25,14 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Razorpay receipt limit is 40 characters
+    if (receipt.length > 40) {
+      return NextResponse.json(
+        { error: "Receipt ID too long (max 40 characters)" },
+        { status: 400 }
+      );
+    }
+
     // Convert amount to smallest currency unit (paise for INR)
     const amountInPaise = Math.round(amount * 100);
 
