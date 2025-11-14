@@ -5,6 +5,7 @@ import Navbar from "@/components/Layout/Navbar";
 import Footer from "@/components/Layout/Footer";
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { AdminBar } from '@/components/Layout/AdminBar'
+import UseMsClarity from "@/components/Layout/UseMsClarity";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,8 +36,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       > 
+      <UseMsClarity />
       {/* <AdminBar /> */}
-      <Navbar />
+      {/* <Navbar /> */}
       <main data-vaul-drawer-wrapper>
         {children}
         <SpeedInsights />

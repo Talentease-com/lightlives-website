@@ -15,6 +15,7 @@
     "verify:r2": "node scripts/verify-r2-setup.js"
   },
   "dependencies": {
+    "@microsoft/clarity": "^1.0.0",
     "@monaco-editor/react": "^4.7.0",
     "@payloadcms/admin-bar": "^3.59.1",
     "@payloadcms/db-vercel-postgres": "^3.59.1",
