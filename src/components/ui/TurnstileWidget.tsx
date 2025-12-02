@@ -1,7 +1,7 @@
 'use client';
 
 import React, { forwardRef } from 'react';
-import { Turnstile, TurnstileProps } from '@marsidev/react-turnstile';
+import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
 
 interface TurnstileWidgetProps {
   onSuccess: (token: string) => void;
@@ -27,7 +27,7 @@ interface TurnstileWidgetProps {
  * />
  * ```
  */
-export const TurnstileWidget = forwardRef<any, TurnstileWidgetProps>(
+export const TurnstileWidget = forwardRef<TurnstileInstance, TurnstileWidgetProps>(
   ({ onSuccess, onError, onExpire, action = 'form-submit', theme = 'light', size = 'normal' }, ref) => {
     const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!;
 

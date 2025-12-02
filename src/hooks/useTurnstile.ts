@@ -1,8 +1,7 @@
 'use client';
 
 import { useState, useRef, useCallback } from 'react';
-
-type SubmissionStatus = 'idle' | 'processing' | 'success' | 'error';
+import type { TurnstileInstance } from '@marsidev/react-turnstile';
 
 interface UseTurnstileOptions {
   onError?: (message: string) => void;
@@ -39,7 +38,7 @@ interface UseTurnstileOptions {
  */
 export function useTurnstile(options?: UseTurnstileOptions) {
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
-  const turnstileRef = useRef<any>(null);
+  const turnstileRef = useRef<TurnstileInstance | null>(null);
 
   const handleTurnstileSuccess = useCallback((token: string) => {
     setTurnstileToken(token);
