@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.0](https://github.com/Talentease-com/lightlives-website/compare/v1.6.1...v1.7.0) (2025-12-02)
+
+
+### Features
+
+* integrate Cloudflare Turnstile for enhanced security verification ([fd61b95](https://github.com/Talentease-com/lightlives-website/commit/fd61b954b72a4894502982d93269fbe67cda3eb2))
+
 ## [1.6.1](https://github.com/Talentease-com/lightlives-website/compare/v1.6.0...v1.6.1) (2025-11-14)
 
 
