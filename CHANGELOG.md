@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.1](https://github.com/Talentease-com/lightlives-website/compare/v1.7.0...v1.7.1) (2025-12-02)
+
+
+### Bug Fixes
+
+* update TurnstileWidget and useTurnstile to use TurnstileInstance type for better type safety ([19ce3d1](https://github.com/Talentease-com/lightlives-website/commit/19ce3d19a95258d970982ee66e9113a1dda22503))
+
 ## [1.7.0](https://github.com/Talentease-com/lightlives-website/compare/v1.6.1...v1.7.0) (2025-12-02)
 
 
