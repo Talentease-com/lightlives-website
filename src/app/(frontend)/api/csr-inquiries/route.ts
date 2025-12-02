@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getPayload } from 'payload';
 import config from '@/payload.config';
+import { validateTurnstileToken } from '@/lib/turnstile';
+import { getClientIP } from '@/lib/getClientIP';
 
 interface CSRInquiryData {
   companyName: string;
@@ -12,25 +14,7 @@ interface CSRInquiryData {
   interests: ('sponsorships' | 'volunteering' | 'content_curriculum' | 'industry_coaches_mentors')[];
   budgetBand?: 'under-10l' | '10l-50l' | '50l-2cr' | 'above-2cr' | 'undisclosed';
   message: string;
-}
-
-// Helper function to get client IP address
-function getClientIP(request: NextRequest): string {
-  const forwarded = request.headers.get('x-forwarded-for');
-  const real = request.headers.get('x-real-ip');
-  const cf = request.headers.get('cf-connecting-ip');
-  
-  if (forwarded) {
-    return forwarded.split(',')[0].trim();
-  }
-  if (real) {
-    return real;
-  }
-  if (cf) {
-    return cf;
-  }
-  
-  return 'unknown';
+  turnstileToken: string;
 }
 
 export async function POST(request: NextRequest) {
@@ -42,6 +26,28 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { error: 'Missing required fields' },
         { status: 400 }
+      );
+    }
+
+    // Turnstile validation
+    if (!body.turnstileToken) {
+      return NextResponse.json(
+        { error: 'Security verification is required' },
+        { status: 400 }
+      );
+    }
+
+    const clientIP = getClientIP(request);
+    const turnstileValidation = await validateTurnstileToken(body.turnstileToken, clientIP);
+
+    if (!turnstileValidation.success) {
+      console.warn('Turnstile validation failed:', {
+        ip: clientIP,
+        errors: turnstileValidation['error-codes'],
+      });
+      return NextResponse.json(
+        { error: 'Security verification failed. Please try again.' },
+        { status: 403 }
       );
     }
 
@@ -72,8 +78,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Get client information for audit trail
-    const clientIP = getClientIP(request);
+    // Get user agent for audit trail
     const userAgent = request.headers.get('user-agent') || 'unknown';
 
     // Get Payload instance

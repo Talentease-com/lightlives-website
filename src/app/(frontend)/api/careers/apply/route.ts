@@ -1,24 +1,27 @@
 import { NextRequest, NextResponse } from 'next/server'
 import config from '@payload-config'
 import { getPayload } from 'payload'
+import { validateTurnstileToken } from '@/lib/turnstile'
+import { getClientIP } from '@/lib/getClientIP'
 
 export async function POST(request: NextRequest) {
   try {
     const payload = await getPayload({ config })
-    
+
     // Parse form data
     const formData = await request.formData()
-    
+
     const name = formData.get('name') as string
     const email = formData.get('email') as string
     const mobile = formData.get('mobile') as string
     const comment = formData.get('comment') as string
     const resumeFile = formData.get('resume') as File
+    const turnstileToken = formData.get('turnstileToken') as string
 
     // Validate required fields
     if (!name || !email || !mobile || !comment || !resumeFile) {
       return NextResponse.json(
-        { 
+        {
           error: 'Missing required fields',
           details: {
             name: !name ? 'Name is required' : null,
@@ -30,6 +33,28 @@ export async function POST(request: NextRequest) {
         },
         { status: 400 }
       )
+    }
+
+    // Turnstile validation
+    if (!turnstileToken) {
+      return NextResponse.json(
+        { error: 'Security verification is required' },
+        { status: 400 }
+      )
+    }
+
+    const clientIP = getClientIP(request);
+    const turnstileValidation = await validateTurnstileToken(turnstileToken, clientIP);
+
+    if (!turnstileValidation.success) {
+      console.warn('Turnstile validation failed:', {
+        ip: clientIP,
+        errors: turnstileValidation['error-codes'],
+      });
+      return NextResponse.json(
+        { error: 'Security verification failed. Please try again.' },
+        { status: 403 }
+      );
     }
 
     // Validate email format
@@ -59,10 +84,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Get client IP and User Agent for audit
-    const forwardedFor = request.headers.get('x-forwarded-for')
-    const realIp = request.headers.get('x-real-ip')
-    const ipAddress = forwardedFor?.split(',')[0] || realIp || 'unknown'
+    // Get User Agent for audit
     const userAgent = request.headers.get('user-agent') || 'unknown'
 
     try {
@@ -92,7 +114,7 @@ export async function POST(request: NextRequest) {
           comment,
           resume: mediaResult.id,
           applicationStatus: 'new',
-          ipAddress,
+          ipAddress: clientIP,
           userAgent,
         },
       })

@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
+import { TurnstileWidget } from "@/components/ui/TurnstileWidget";
+import { useTurnstile } from "@/hooks/useTurnstile";
 import { cn } from "@/lib/utils";
 
 interface CareersApplicationFormValues {
@@ -28,7 +30,28 @@ export function CareersApplicationForm() {
   const [submissionState, setSubmissionState] = useState<SubmissionState>("idle");
   const [message, setMessage] = useState<string>("");
 
+  const {
+    turnstileToken,
+    turnstileRef,
+    handleTurnstileSuccess,
+    handleTurnstileError,
+    handleTurnstileExpire,
+    resetTurnstile,
+    isTurnstileValid,
+  } = useTurnstile({
+    onError: (errorMessage) => {
+      setSubmissionState("error");
+      setMessage(errorMessage);
+    },
+  });
+
   const onSubmit = handleSubmit(async (values) => {
+    if (!isTurnstileValid()) {
+      setSubmissionState("error");
+      setMessage("Please complete the security verification.");
+      return;
+    }
+
     try {
       setSubmissionState("submitting");
       setMessage("");
@@ -38,6 +61,7 @@ export function CareersApplicationForm() {
       formData.append("email", values.email);
       formData.append("mobile", values.mobile);
       formData.append("comment", values.comment);
+      formData.append("turnstileToken", turnstileToken!);
       const resumeFile = values.resume && values.resume[0];
       if (resumeFile) {
         formData.append("resume", resumeFile, resumeFile.name);
@@ -58,15 +82,17 @@ export function CareersApplicationForm() {
       setSubmissionState("success");
       setMessage(result.message || "Thanks! We've received your application and will be in touch within 5-7 business days.");
       reset();
+      resetTurnstile();
     } catch (error) {
       console.error("Career application submission failed", error);
       setSubmissionState("error");
-      
+
       if (error instanceof Error) {
         setMessage(error.message);
       } else {
         setMessage("Something went wrong while submitting. Please try again.");
       }
+      resetTurnstile();
     } finally {
       setTimeout(() => {
         setSubmissionState("idle");
@@ -203,6 +229,15 @@ export function CareersApplicationForm() {
         </p>
       </div>
 
+      {/* Turnstile Widget */}
+      <TurnstileWidget
+        ref={turnstileRef}
+        action="career-application"
+        onSuccess={handleTurnstileSuccess}
+        onError={handleTurnstileError}
+        onExpire={handleTurnstileExpire}
+      />
+
       {message && (
         <div
           className={cn(
@@ -220,8 +255,8 @@ export function CareersApplicationForm() {
 
       <Button
         type="submit"
-        className="w-full uppercase tracking-wide"
-        disabled={isSubmitting}
+        className="w-full uppercase tracking-wide disabled:opacity-50 disabled:cursor-not-allowed"
+        disabled={isSubmitting || !isTurnstileValid()}
       >
         {isSubmitting ? "Submitting..." : "Submit Application"}
       </Button>

@@ -5,6 +5,8 @@ import { motion } from 'motion/react';
 import { useForm } from 'react-hook-form';
 import { Heart, CreditCard, Calendar, Smartphone, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { TurnstileWidget } from '@/components/ui/TurnstileWidget';
+import { useTurnstile } from '@/hooks/useTurnstile';
 import usePaymentGateway, { type PaymentGatewayHook } from './PaymentGateway';
 import { validatePhone, validateEmail, validateName, validatePAN, validateAmount, validateAddress } from '@/lib/validationUtils';
 
@@ -34,6 +36,21 @@ const DonationForm: React.FC<DonationFormProps> = ({ className = '' }) => {
   const [paymentStatus, setPaymentStatus] = useState<PaymentStatus>('idle');
   const [statusMessage, setStatusMessage] = useState('');
   const [receiptNumber, setReceiptNumber] = useState('');
+
+  const {
+    turnstileToken,
+    turnstileRef,
+    handleTurnstileSuccess,
+    handleTurnstileError,
+    handleTurnstileExpire,
+    resetTurnstile,
+    isTurnstileValid,
+  } = useTurnstile({
+    onError: (message) => {
+      setPaymentStatus('error');
+      setStatusMessage(message);
+    },
+  });
 
   const { register, handleSubmit, formState: { errors }, watch } = useForm<FormData>();
 
@@ -85,7 +102,14 @@ const DonationForm: React.FC<DonationFormProps> = ({ className = '' }) => {
 
   const onSubmit = async (data: FormData) => {
     console.log('Form submitted:', { ...data, paymentType, amount: getFinalAmount() });
-    
+
+    // Validate Turnstile first
+    if (!isTurnstileValid()) {
+      setPaymentStatus('error');
+      setStatusMessage('Please complete the security verification.');
+      return;
+    }
+
     if (paymentType === 'upi') {
       setShowQR(true);
       return;
@@ -126,6 +150,7 @@ const DonationForm: React.FC<DonationFormProps> = ({ className = '' }) => {
     } catch {
       setPaymentStatus('error');
       setStatusMessage('Failed to initiate payment. Please try again.');
+      resetTurnstile();
     }
   };
 
@@ -487,11 +512,20 @@ const DonationForm: React.FC<DonationFormProps> = ({ className = '' }) => {
           </div>
         )}
 
+        {/* Turnstile Widget */}
+        <TurnstileWidget
+          ref={turnstileRef}
+          action="donation"
+          onSuccess={handleTurnstileSuccess}
+          onError={handleTurnstileError}
+          onExpire={handleTurnstileExpire}
+        />
+
         {/* Submit Button */}
         <Button
           type="submit"
-          disabled={paymentGateway.isProcessing || paymentStatus === 'processing'}
-          className="w-full bg-primary text-white font-bold py-8 px-6 text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg flex items-center justify-center space-x-2"
+          disabled={paymentGateway.isProcessing || paymentStatus === 'processing' || !isTurnstileValid()}
+          className="w-full bg-primary text-white font-bold py-8 px-6 text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
           size="xl"
         >
           {paymentGateway.isProcessing || paymentStatus === 'processing' ? (

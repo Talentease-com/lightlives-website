@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Send, Loader2, CheckCircle, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { TurnstileWidget } from '@/components/ui/TurnstileWidget';
+import { useTurnstile } from '@/hooks/useTurnstile';
 import { validateEmail, validateName, validatePhone } from '@/lib/validationUtils';
 
 interface CSRInquiryFormData {
@@ -24,6 +26,21 @@ const CSRInquiryForm: React.FC = () => {
   const [submissionStatus, setSubmissionStatus] = useState<SubmissionStatus>('idle');
   const [statusMessage, setStatusMessage] = useState('');
 
+  const {
+    turnstileToken,
+    turnstileRef,
+    handleTurnstileSuccess,
+    handleTurnstileError,
+    handleTurnstileExpire,
+    resetTurnstile,
+    isTurnstileValid,
+  } = useTurnstile({
+    onError: (message) => {
+      setSubmissionStatus('error');
+      setStatusMessage(message);
+    },
+  });
+
   const { register, handleSubmit, reset, formState: { errors } } = useForm<CSRInquiryFormData>({
     defaultValues: {
       interests: [],
@@ -31,16 +48,25 @@ const CSRInquiryForm: React.FC = () => {
   });
 
   const onSubmit = async (data: CSRInquiryFormData) => {
+    if (!isTurnstileValid()) {
+      setSubmissionStatus('error');
+      setStatusMessage('Please complete the security verification.');
+      return;
+    }
+
     setSubmissionStatus('processing');
     setStatusMessage('Sending your inquiry...');
-    
+
     try {
       const response = await fetch('/api/csr-inquiries', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          ...data,
+          turnstileToken,
+        }),
       });
 
       if (response.ok) {
@@ -48,6 +74,7 @@ const CSRInquiryForm: React.FC = () => {
         setSubmissionStatus('success');
         setStatusMessage(result.message || 'Thank you for your interest! We&apos;ll get back to you within 24-48 hours.');
         reset();
+        resetTurnstile();
       } else {
         const errorResult = await response.json();
         throw new Error(errorResult.error || 'Failed to send inquiry');
@@ -56,6 +83,7 @@ const CSRInquiryForm: React.FC = () => {
       console.error('CSR inquiry form error:', error);
       setSubmissionStatus('error');
       setStatusMessage('Sorry, there was an error sending your inquiry. Please try again or contact us directly.');
+      resetTurnstile();
     }
   };
 
@@ -277,6 +305,15 @@ const CSRInquiryForm: React.FC = () => {
           )}
         </div>
 
+        {/* Turnstile Widget */}
+        <TurnstileWidget
+          ref={turnstileRef}
+          action="csr-inquiry"
+          onSuccess={handleTurnstileSuccess}
+          onError={handleTurnstileError}
+          onExpire={handleTurnstileExpire}
+        />
+
         {/* Status Display */}
         {submissionStatus !== 'idle' && (
           <div className={`p-4 border rounded-none ${
@@ -301,8 +338,8 @@ const CSRInquiryForm: React.FC = () => {
 
         <Button
           type="submit"
-          disabled={submissionStatus === 'processing'}
-          className="w-full bg-primary hover:bg-primary-600 text-white font-bold py-4 px-6 rounded-none text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg flex items-center justify-center space-x-2"
+          disabled={submissionStatus === 'processing' || !isTurnstileValid()}
+          className="w-full bg-primary hover:bg-primary-600 text-white font-bold py-4 px-6 rounded-none text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
         >
           {submissionStatus === 'processing' ? (
             <>

@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getPayload } from 'payload';
 import config from '@/payload.config';
+import { validateTurnstileToken } from '@/lib/turnstile';
+import { getClientIP } from '@/lib/getClientIP';
 
 interface ContactFormData {
   firstName: string;
@@ -9,25 +11,7 @@ interface ContactFormData {
   phone?: string;
   subject: 'sponsorship' | 'partnership' | 'volunteer' | 'programs' | 'csr' | 'other';
   message: string;
-}
-
-// Helper function to get client IP address
-function getClientIP(request: NextRequest): string {
-  const forwarded = request.headers.get('x-forwarded-for');
-  const real = request.headers.get('x-real-ip');
-  const cf = request.headers.get('cf-connecting-ip');
-  
-  if (forwarded) {
-    return forwarded.split(',')[0].trim();
-  }
-  if (real) {
-    return real;
-  }
-  if (cf) {
-    return cf;
-  }
-  
-  return 'unknown';
+  turnstileToken: string;
 }
 
 export async function POST(request: NextRequest) {
@@ -41,6 +25,34 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
+
+    // Turnstile validation
+    if (!body.turnstileToken) {
+      return NextResponse.json(
+        { error: 'Security verification is required' },
+        { status: 400 }
+      );
+    }
+
+    const clientIP = getClientIP(request);
+    const turnstileValidation = await validateTurnstileToken(body.turnstileToken, clientIP);
+
+    if (!turnstileValidation.success) {
+      console.warn('Turnstile validation failed:', {
+        ip: clientIP,
+        errors: turnstileValidation['error-codes'],
+      });
+      return NextResponse.json(
+        { error: 'Security verification failed. Please try again.' },
+        { status: 403 }
+      );
+    }
+
+    console.log('Turnstile validation successful:', {
+      action: turnstileValidation.action,
+      hostname: turnstileValidation.hostname,
+      challenge_ts: turnstileValidation.challenge_ts,
+    });
 
     // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -68,8 +80,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Get client information for audit trail
-    const clientIP = getClientIP(request);
+    // Get user agent for audit trail
     const userAgent = request.headers.get('user-agent') || 'unknown';
 
     // Get Payload instance
