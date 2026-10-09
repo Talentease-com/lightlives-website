@@ -39,7 +39,7 @@ const jobOpenings = [
     type: "Full-time",
     description:
       "Lead immersive learning experiences for students and coordinate with partner schools to deliver impactful sessions.",
-    location: "Pan-India (in-person)",
+    location: "Goa (in-person)",
     experience: "Freshers are welcome",
     posted: "2 weeks ago",
     requirements: [
