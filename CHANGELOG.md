@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.2](https://github.com/Talentease-com/lightlives-website/compare/v1.7.1...v1.7.2) (2026-10-09)
+
+
+### Bug Fixes
+
+* update job opening location from Pan-India to Goa for clarity ([aef7bc8](https://github.com/Talentease-com/lightlives-website/commit/aef7bc8f7d654c54b0a0252740a380ddad668ffc))
+
 ## [1.7.1](https://github.com/Talentease-com/lightlives-website/compare/v1.7.0...v1.7.1) (2025-12-02)
 
 
