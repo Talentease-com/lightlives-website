@@ -141,7 +141,7 @@ export default async function MissionVisionPage() {
                   <div className="flex items-center mb-6">
                     {/* <div className="w-3 h-20 bg-white shadow-lg mr-4 rounded-none"></div> */}
                     <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-none drop-shadow-lg">
-                      1 Million
+                      10 Million
                     </h2>
                   </div>
                   <p className="text-3xl md:text-4xl font-bold text-white leading-tight mb-2 drop-shadow-md">
